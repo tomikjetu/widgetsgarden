@@ -1,0 +1,14 @@
+.widgetsgarden {
+  display: block;
+  width: fit-content;
+  pointer-events: none;
+}
+
+.widgetsgarden iframe {
+  pointer-events: all;
+  border: none;
+  display: block;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}

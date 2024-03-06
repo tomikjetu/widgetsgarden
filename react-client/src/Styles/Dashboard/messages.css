@@ -1,0 +1,88 @@
+.messages {
+  background-color: #514c39 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem !important;
+
+  cursor: pointer;
+  transition: height 400ms ease-in-out;
+
+  & .filters {
+    margin-bottom: 1rem;
+  }
+
+  & .filter{
+    color: white;
+    width: calc(100% - 1rem);
+    text-align: center;
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.5rem;
+
+    border: 1px solid rgb(113, 113, 113);
+    background-color: rgba(255, 255, 255, 0.05);
+
+    &.selected{
+        border: 1px solid white;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    
+  }
+}
+
+.message {
+  color: white;
+  width: calc(100% - 1rem);
+  text-align: left;
+  padding: 0.5rem 0.5rem;
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  height: 100%;
+  max-height: 1.3rem;
+
+  transition: max-height 400ms ease-in-out;
+
+  border: 1px solid white;
+  border-radius: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+
+
+  &.reading {
+    max-height: 100%;
+  }
+
+
+  &.read {
+    border: 1px solid rgb(113, 113, 113);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  & .titlewrapper {
+    display: flex;
+    margin-bottom: 1rem;
+  }
+
+  & .title {
+    cursor: pointer;
+  }
+
+  & .actions {
+    margin-right: 1rem;
+    margin-left: auto;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+
+    & .large svg {
+      width: 1.2rem;
+    }
+
+    & svg {
+      width: 1rem;
+      cursor: pointer;
+    }
+  }
+}

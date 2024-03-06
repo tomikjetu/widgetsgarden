@@ -1,0 +1,156 @@
+.login-page * {
+  font-weight: 500 !important;
+  color: black;
+}
+
+.bold {
+  font-weight: 700 !important;
+}
+
+.login-page a {
+  color: black;
+}
+
+.login-wrapper > * {
+  width: 30em;
+  min-width: 300px;
+  height: 30em;
+}
+
+.login-design {
+  background-color: #4285f4;
+  /* background: url("/images/login-background.jpg"); */
+  background-size: cover;
+  border-radius: 10px 0px 0px 10px;
+}
+
+.login-form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: var(--login-form-background);
+  color: var(--login-form-foreground);
+  border-radius: 0px 10px 10px 0px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-form .title {
+  color: black;
+  font-size: 2.5em;
+  margin-bottom: 1em;
+}
+
+.login-error-message {
+  color: var(--login-error-message);
+  margin: auto;
+  width: fit-content;
+  margin-bottom: 0.5em;
+}
+
+input.login-control {
+  width: 15em;
+  margin-bottom: 1em;
+
+  font-size: 1.2em;
+
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--login-control-background);
+  transition: color 0.5s, border-bottom 0.5s;
+}
+
+input.login-control.white {
+  color: white;
+
+  text-shadow: var(--dashboard-shadow);
+  border-bottom: 1px solid white;
+}
+
+input.login-control.white::placeholder {
+  color: white;
+  text-shadow: var(--dashboard-shadow);
+}
+
+input.login-control:focus {
+  outline: none;
+  border-bottom: 1px solid var(--login-control-background-focus);
+}
+
+input.login-control[valid="false"] {
+  color: var(--login-control-background-invalid);
+  border-bottom: 1px solid var(--login-control-background-invalid);
+}
+
+input.login-control[valid="true"] {
+  color: var(--login-control-background-valid);
+  border-bottom: 1px solid var(--login-control-background-valid);
+}
+
+input.login-control::placeholder {
+  font-weight: 500;
+  color: black;
+}
+
+button.login-control {
+  width: 10em;
+
+  font-size: 1em;
+
+  border: 1px solid black;
+  border-radius: 10px;
+  background: var(--login-button-backgorund) !important;
+  color: var(--login-button-foreground);
+}
+
+button.login-control:hover {
+  background: var(--login-button-backgorund-hover) !important;
+}
+
+.login-options {
+  display: flex;
+  justify-content: center;
+  margin: 1.3em 0;
+}
+
+.login-options .option {
+  cursor: pointer;
+}
+
+.login-methods {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.login-method {
+  height: 2em;
+  width: 2em;
+}
+
+.password {
+  position: relative;
+}
+
+.passwordValidation {
+  position: absolute;
+  top: 1.9rem;
+
+  padding: 1em;
+  width: calc(100% - 2em);
+
+  z-index: 99;
+
+  background-color: white;
+  color: red;
+  box-shadow: rgba(0, 0, 0, 0.17) 0px 0px 12px;
+}
+
+.passwordValidation .satisfied {
+  color: green;
+}

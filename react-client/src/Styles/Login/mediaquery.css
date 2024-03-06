@@ -1,0 +1,21 @@
+@media only screen and (max-width: 900px) {
+  .login-page .center {
+    justify-content: normal;
+  }
+
+  .login-page .row {
+    flex-direction: column;
+  }
+
+  .login-wrapper {
+    padding: 10px;
+  }
+
+  .login-design {
+    border-radius: 10px 10px 0px 0px;
+  }
+
+  .login-form-wrapper {
+    border-radius: 0px 0px 10px 10px;
+  }
+}

@@ -1,0 +1,18 @@
+.landing-page {
+  font-size: 0.8em;
+}
+
+.landing-page * {
+  font-weight: 300;
+}
+
+.landing-page .btn {
+  font-weight: 300;
+  border: 1px solid white;
+  border-radius: 20px;
+}
+
+.landing-page .btn:hover {
+  background-color: white;
+  color: black;
+}

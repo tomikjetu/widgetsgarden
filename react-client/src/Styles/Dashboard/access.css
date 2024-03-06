@@ -1,0 +1,79 @@
+:root {
+  /* --domain-background: #61b368; */
+  --domain-background: #3a9842;
+  --domain-foregroud: white;
+
+  --input-background: #3a9842;
+  --input-foreground: white;
+  --input-plcaeholder: rgba(255, 255, 255, 0.6);
+  --add-button-background: #3a9842;
+}
+
+.addDomainForm {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.addDomainForm input {
+  flex: 1;
+  background-color: var(--input-background);
+  color: var(--input-foreground);
+  border: 1px solid black;
+  box-shadow: 1px 1px black;
+  padding: 0.5em 1em;
+
+  border-radius: 7px 0 0 7px;
+  border-right: none;
+}
+
+.addDomainForm input::placeholder {
+  color: var(--input-plcaeholder);
+}
+
+.addDomainForm .btn {
+  border: 1px solid black;
+  background-color: var(--add-button-background);
+  color: var(--input-foreground);
+  box-shadow: 1px 1px black;
+  font-size: 1.3em;
+  padding: 0.5rem 1.5rem;
+
+  border-radius: 0 7px 7px 0;
+}
+
+.domains {
+  padding: 0;
+  list-style: none;
+  width: 100%;
+}
+
+.domain-item {
+  margin: 1em 0 1em 0;
+  display: flex;
+  align-items: center;
+  background-color: var(--domain-background);
+  color:  var(--domain-foregroud);
+  box-shadow: 1px 1px black;
+  border-radius: 7px;
+  border: 1px solid black;
+  position: relative;
+  padding: 0.5em 1em;
+}
+
+.links-wrapper {
+  display: flex;
+  right: 0;
+  position: absolute;
+  padding-right: 1em;
+}
+
+.links-wrapper button{
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em;
+}

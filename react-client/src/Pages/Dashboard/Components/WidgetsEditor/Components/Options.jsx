@@ -1,0 +1,51 @@
+import { useEffect, useRef, useState } from "react";
+import Style from "./Styles/Options.module.css";
+
+export default function TextOptions({ id, defaultValue, options, onChange, dashboardStyle, fill }) {
+  id = `textOptions-${id == null ? Math.floor(Math.random() * 10000) : id}`;
+
+  const OptionsComponent = useRef(null);
+  const DropdownOptions = useRef(null);
+  const [open, setOpen] = useState(false);
+  const [tempValue, setTempValue] = useState(defaultValue);
+
+  useEffect(() => {
+    window.addEventListener("click", (e) => {
+      if (!OptionsComponent.current) return;
+      var outside = !OptionsComponent.current.contains(e.target);
+      if (outside) setOpen(false);
+    });
+  }, []);
+
+  function openDropdown() {
+    setOpen(!open);
+    var posY = OptionsComponent.current.getBoundingClientRect().y;
+    var height = window.innerHeight;
+    DropdownOptions.current.classList.toggle(Style.top, height - 250 < posY);
+  }
+
+  function setValue(target) {
+    let value = target.getAttribute("value");
+    setTempValue(value);
+    onChange(value);
+  }
+
+  function getText() {
+    return options.filter((val) => val.value == tempValue)[0]?.text || options[0].text;
+  }
+
+  return (
+    <div ref={OptionsComponent} onClick={openDropdown} className={`${Style.OptionsComponent} ${fill ? Style.Fill : ""} ${dashboardStyle ? Style.DashboardStyle : ""}`}>
+      <input className={Style.Input} type="text" id={id} readOnly={true} value={getText()} onChange={onChange} />
+      <div ref={DropdownOptions} style={{ display: open ? "block" : "none" }} className={Style.Options}>
+        {options.map((option) => {
+          return (
+            <div value={option.value} key={Math.random() * 999} className={Style.Option} onClick={(e) => setValue(e.target)}>
+              {option.text}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}

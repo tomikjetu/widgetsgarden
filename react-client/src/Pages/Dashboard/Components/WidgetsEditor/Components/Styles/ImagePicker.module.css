@@ -1,0 +1,93 @@
+:root {
+  --item-width: 100px;
+}
+
+.Header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+
+  & h3 {
+    margin-bottom: 10px;
+  }
+
+  & .Upload {
+    width: 24px;
+    aspect-ratio: 1/1;
+
+    & input {
+      display: none;
+    }
+  }
+}
+
+.Images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, var(--item-width));
+  margin: 1rem;
+  gap: 1rem;
+  width: 100%;
+  justify-items: center;
+}
+
+.Image {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  overflow: hidden;
+  width: var(--item-width);
+  cursor: pointer;
+
+  & img {
+    object-fit: contain;
+    width: var(--item-width);
+    aspect-ratio: 1/1;
+  }
+
+  & p {
+    font-size: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  & .Remove {
+    position: absolute;
+    width: 16px;
+    aspect-ratio: 1/1;
+    top: 5px;
+    right: 5px;
+
+    filter: drop-shadow(0px 0px 2px black);
+  }
+}
+
+.PickerPreview {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  & object,
+  & img {
+    width: 32px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+}
+
+.tab {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  background-color: var(--button-background);
+}
+
+.tab.selected {
+  background-color: var(--button-hover);
+}

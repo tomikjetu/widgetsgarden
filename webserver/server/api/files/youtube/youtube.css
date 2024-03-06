@@ -1,0 +1,74 @@
+.youtube_playlist{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  min-height: 100%;
+}
+
+.youtube_video {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.youtube_video_thumbnail_wrapper {
+  aspect-ratio: 16/9;
+  position: relative;
+  display: block;
+}
+
+.youtube_video_thumbnail_image {
+  width: 100%;
+  height: 100%;
+}
+
+.youtube_video_duration {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: 5px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 3px 4px;
+  border-radius: 4px;
+}
+
+.youtube_video_info_wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.youtube_video_info_author_thumbnail {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin: 12px 12px 0 0;
+}
+
+.youtube_video_details_wrapper {
+  margin-top: 12px;
+}
+
+.youtube_video_info_title {
+  margin-bottom: 4px;
+}
+
+.youtube_video_info_author,
+.youtube_video_info_title {
+  white-space: normal;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.youtube_video_info_author,.youtube_video_info_details{
+  font-size: .8em;
+}
+
+.youtube_video_info_separator::before {
+  content: "•";
+  margin: 0 4px;
+}

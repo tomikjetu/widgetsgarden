@@ -1,0 +1,145 @@
+.socials {
+  display: flex;
+  gap: 0.2em;
+}
+
+.social {
+  display: block;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 64px;
+  width: 64px;
+  width: 1em;
+  height: 1em;
+}
+
+/* Website */
+.website {
+  background-image: url("/api/files/social/icons/web.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Facebook */
+.facebook {
+  background-image: url("/api/files/social/icons/facebook.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Twitter */
+.twitter {
+  background-image: url("/api/files/social/icons/twitter.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Instagram */
+.instagram {
+  background-image: url("/api/files/social/icons/instagram.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* LinkedIn */
+.linkedin {
+  background-image: url("/api/files/social/icons/linkedin.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* YouTube */
+.youtube {
+  background-image: url("/api/files/social/icons/youtube.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Snapchat */
+.snapchat {
+  background-image: url("/api/files/social/icons/snapchat.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Pinterest */
+.pinterest {
+  background-image: url("/api/files/social/icons/pinterest.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Reddit */
+.reddit {
+  background-image: url("/api/files/social/icons/reddit.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* TikTok */
+.tiktok {
+  background-image: url("/api/files/social/icons/tiktok.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* WhatsApp */
+.whatsapp {
+  background-image: url("/api/files/social/icons/whatsapp.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* WeChat */
+.wechat {
+  background-image: url("/api/files/social/icons/wechat.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Telegram */
+.telegram {
+  background-image: url("/api/files/social/icons/telegram.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Discord */
+.discord {
+  background-image: url("/api/files/social/icons/discord.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Quora */
+.quora {
+  background-image: url("/api/files/social/icons/quora.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Tumblr */
+.tumblr {
+  background-image: url("/api/files/social/icons/tumblr.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Medium */
+.medium {
+  background-image: url("/api/files/social/icons/medium.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Vimeo */
+.vimeo {
+  background-image: url("/api/files/social/icons/vimeo.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Messenger */
+.messenger {
+  background-image: url("/api/files/social/icons/messenger.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Viber */
+.viber {
+  background-image: url("/api/files/social/icons/viber.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Xbox */
+.xbox {
+  background-image: url("/api/files/social/icons/xbox.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Steam */
+.steam {
+  background-image: url("/api/files/social/icons/steam.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Github */
+.github {
+  background-image: url("/api/files/social/icons/github.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Playstation */
+.playstation {
+  background-image: url("/api/files/social/icons/playstation.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Twitch */
+.twitch {
+  background-image: url("/api/files/social/icons/twitch.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}
+
+/* Ebay */
+.ebay {
+  background-image: url("/api/files/social/icons/ebay.svg?apiKey=AUTHENTICATION_PLACEHOLDER");
+}

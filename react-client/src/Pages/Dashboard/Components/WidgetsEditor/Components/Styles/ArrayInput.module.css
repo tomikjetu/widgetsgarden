@@ -1,0 +1,44 @@
+.Elements {
+  display: flex;
+  flex-direction: column;
+}
+
+.Element,
+.Button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Element {
+  margin: 1px 0;
+}
+
+.Input,
+.Button {
+  border: none;
+  padding: 0.5em 1em;
+}
+
+.Input {
+  width: clamp(150px, 50vw, 400px);
+}
+
+.Button {
+  background-color: transparent;
+  cursor: pointer;
+  & svg {
+    width: 1em;
+    aspect-ratio: 1/1;
+  }
+}
+
+.Input:focus {
+  background-color: #395144;
+  color: white;
+  outline: none;
+}
+
+.New {
+  margin-top: 1px;
+}

@@ -1,0 +1,21 @@
+.time-display{
+  display: flex;
+  flex-direction: row;
+}
+
+.time-animation-in{
+  animation-name: time-in;
+  animation-duration: .5s;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes time-in{
+  0%{
+    opacity: 0;
+    translate: 0 -30px;
+  }
+  100%{
+    opacity: 1;
+    translate: 0 0px;
+  }
+}

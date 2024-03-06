@@ -1,0 +1,39 @@
+<style>
+  p {
+    font-size: 1em;
+    text-align: center;
+  }
+
+  body {
+    height: 100vh;
+    width: 100vw;
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.5)), url("/404-background.png");
+    background-position: 0 center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 7px 4px 4px black;
+    color: white;
+  }
+    .watermark a {
+    color: white !important;
+  }
+</style>
+<p>Access Denied</p>
+<script>
+    window.parent.postMessage(
+    {
+      headers: {
+        widgetId,
+      },
+      body: {
+        event: "widgetForbidden"
+      }
+    },
+    "*"
+  );
+</script>

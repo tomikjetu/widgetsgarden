@@ -1,0 +1,366 @@
+.widgets {
+  display: grid;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 250px));
+  justify-content: center;
+}
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}
+
+.widget {
+  background-color: var(--widget-background);
+
+  transition: scale 200ms cubic-bezier(0.075, 0.82, 0.165, 1), background-color 250ms ease;
+
+  height: 150px;
+  max-height: 150px;
+  min-height: 150px;
+
+  padding: 0.5rem 1rem;
+  margin: 10px;
+  border-radius: 10px;
+  color: black;
+
+  &.skeleton {
+    background: #daad60;
+    background: linear-gradient(110deg, #daad60 8%, #e9c079 18%, #daad60 33%);
+    border-radius: 5px;
+    background-size: 200% 100%;
+    animation: 1s shine linear infinite;
+  }
+
+  &:hover {
+    scale: 1.05;
+    background-color: var(--widget-hover);
+  }
+
+  &.create {
+    height: 10em;
+  }
+
+  &.new {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: white;
+    font-size: 5em;
+    font-weight: 200;
+    padding: calc(0.5rem - 2.4px) 1rem;
+
+    cursor: pointer;
+
+    border: 3px dotted var(--widget-background);
+    background-color: rgb(218 173 96 / 30%);
+  }
+
+  & .widgetcontent {
+    position: relative;
+    min-height: calc(100% - 2rem);
+    padding-bottom: 2rem;
+  }
+
+  & .actions {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+
+    & .actionsgroup {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    & svg {
+      cursor: pointer;
+    }
+  }
+
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.widget::-webkit-scrollbar {
+  display: none;
+}
+
+/* Extra small devices (phones) */
+@media only screen and (max-width: 576px) {
+  .widget {
+    min-height: 250px;
+  }
+}
+
+.widget .widgetcontent {
+  transition: translate 500ms ease-out;
+
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+  }
+
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+  }
+
+  & p,
+  & h4,
+  & h3 {
+    font-size: 1rem;
+    color: white;
+    text-shadow: 1px 1px 4px black;
+  }
+
+  & h4 {
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin-bottom: 0.3rem;
+  }
+
+  & h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.2rem;
+  }
+
+  & svg {
+    width: 1.6rem;
+    height: 1.6rem;
+    filter: drop-shadow(1px 1px 4px black);
+  }
+}
+
+.editor-workspace {
+  overflow: hidden;
+  height: 100vh;
+}
+
+.editor-preview {
+  height: calc(100% - 3em);
+  width: 100%;
+}
+
+header.navigation {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+
+  height: 3em;
+  width: 100%;
+  background-color: var(--dashboard-navigation-background);
+  margin: 0em 0em 0em 0;
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  .edit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+}
+
+.editor-workspace .canvas-wrapper {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 3em);
+}
+
+.editor-workspace .canvas-renderer {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.editor-workspace canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.editor {
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  .edit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+}
+
+.editor header {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+
+  padding: 1em;
+  width: calc(100% - 1em * 2 - 15em);
+  background-color: var(--dashboard-navigation-background);
+  margin: 0em 10em 0em 15em;
+}
+
+@media (max-width: 991.98px) {
+  .editor header {
+    width: calc(100% - 1em * 2);
+    margin: 3em 0em 0em 0em;
+  }
+}
+
+/* There's always enough padding from children elements */
+/* .editor header ~ .dashboard-content {
+  margin-top: 1em;
+} */
+
+.editor-workspace .context-menu {
+  position: absolute;
+  background: black;
+  padding: 0.5rem 1rem;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  & p {
+    cursor: pointer;
+  }
+}
+
+.editor-workspace .editor-settings {
+  width: 3rem;
+  transition: width 200ms ease;
+  height: 100%;
+
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-color: var(--dashboard-navigation-background);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  & .icon {
+    width: 100%;
+    height: auto;
+    margin-top: 0.25rem;
+
+    display: flex;
+    justify-content: center;
+
+    cursor: pointer;
+  }
+
+  & .hidden-settings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  & .shown-settings {
+    display: none;
+    flex-direction: column;
+    margin-bottom: 2rem;
+  }
+
+  &.shown {
+    width: 15rem;
+    padding: 1rem;
+
+    & .hidden-settings {
+      display: none;
+    }
+
+    & .shown-settings {
+      display: flex;
+    }
+  }
+
+  & .settings-list {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+
+    & .setting-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    & input {
+      width: fill-available;
+      width: -moz-available;
+    }
+  }
+}
+
+.pen {
+  font-size: 1.2em;
+}
+.tick {
+  font-size: 2em;
+}
+
+.preview {
+  background-color: var(--dashboard-list-odd) !important;
+  translate: 0;
+  color: white;
+  height: 50vh;
+  & iframe {
+    border: none;
+    width: 100%;
+    height: -webkit-fill-available;
+  }
+}
+
+.color-display {
+  display: flex;
+  gap: 6px;
+
+  .value {
+    height: 1em;
+    width: 1em;
+    border: 2px solid #151515;
+  }
+}
+
+.edit-actions-wrapper,
+.create-actions-wrapper {
+  display: flex;
+  gap: 1em;
+}
+
+.element-tags {
+  display: flex;
+  gap: 1rem;
+}
+
+.element-tag {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+
+  background-color: var(--widget-background);
+  text-shadow: var(--dashboard-shadow);
+  color: white;
+
+  text-transform: capitalize;
+
+  &.gray {
+    background-color: gray;
+  }
+}

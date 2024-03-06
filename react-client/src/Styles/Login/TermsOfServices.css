@@ -1,0 +1,43 @@
+.paper {
+    background-color: white;
+    color: black;
+    max-width: 80vw;
+    margin: 5em auto;
+    padding: 1em;
+    font-size: 18px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+
+
+    .title {
+        font-weight: 900;
+        font-size: 1.4em;
+        margin-top: 40px;
+    }
+
+    .big-title {
+        font-size: 1.7em;
+        margin-top: 0;
+    }
+
+
+    .comment {
+        font-weight: 300;
+        margin-top: 10px;
+    }
+
+    & p {
+        font-weight: 400;
+        margin-top: 20px;
+    }
+
+    & a{
+        color: blue;
+        font-weight: 400;
+        text-decoration: underline;
+    }
+
+    & strong {
+        font-weight: 700;
+    }
+
+}

@@ -1,0 +1,28 @@
+<script defer src="files/age-verification/age-verification.js?apiKey={{apiKey}}"></script>
+<link rel="stylesheet" href="files/age-verification/age-verification.css?apiKey={{apiKey}}" />
+
+<div id="verification">
+  <h1 id="heading"></h1>
+  <p id="caption"></p>
+  <div id="birthday">
+    <select id="month" onchange="generateDates()">
+      <option value="0" days="31">January</option>
+      <option value="1" days="28">Febraury</option>
+      <option value="2" days="31">March</option>
+      <option value="3" days="30">April</option>
+      <option value="4" days="31">May</option>
+      <option value="5" days="30">June</option>
+      <option value="6" days="31">July</option>
+      <option value="7" days="31">August</option>
+      <option value="8" days="30">September</option>
+      <option value="9" days="31">October</option>
+      <option value="10" days="30">November</option>
+      <option value="11" days="31">December</option>
+    </select>
+    <select id="date"> </select>
+    <select id="year"> </select>
+  </div>
+  <p id="fail-message"> </p>
+  <button id="enter-button">Enter</button>
+  <button id="exit-button" class="exit">Exit</button>
+</div>

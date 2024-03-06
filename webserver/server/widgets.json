@@ -1,0 +1,523 @@
+{
+  "styles": {
+    "position": {
+      "displayName": "Position",
+      "defaultValue": "0",
+      "type": "Options",
+      "options": [
+        {
+          "key": 0,
+          "value": 0,
+          "text": "In Text"
+        },
+        {
+          "key": 1,
+          "value": 1,
+          "text": "Always on Top"
+        }
+      ]
+    },
+    "positionlock": {
+      "displayName": "Lock Position",
+      "defaultValue": "0",
+      "condition": "$position == 1",
+      "type": "Options",
+      "options": [
+        {
+          "key": 0,
+          "value": 0,
+          "text": "Top Right"
+        },
+        {
+          "key": 1,
+          "value": 1,
+          "text": "Bottom Right"
+        },
+        {
+          "key": 2,
+          "value": 2,
+          "text": "Top Left"
+        },
+        {
+          "key": 3,
+          "value": 3,
+          "text": "Bottom Left"
+        },
+        {
+          "key": 4,
+          "value": 4,
+          "text": "Center"
+        }
+      ]
+    },
+    "backdropBlur": {
+      "displayName": "Background Blur",
+      "defaultValue": false,
+      "condition": "$position == 1",
+      "type": "Switch",
+      "off": "Off",
+      "on": "On"
+    },
+    "height": {
+      "displayName": "Height",
+      "defaultValue": "300",
+      "type": "Number"
+    },
+    "width": {
+      "displayName": "Width",
+      "defaultValue": "300",
+      "type": "Number"
+    },
+    "backgroundColor": {
+      "displayName": "Background Color",
+      "defaultValue": "rgba(255, 255, 255, 1)",
+      "type": "Color"
+    },
+    "background": {
+      "displayName": "Backgroud Image",
+      "type": "Background"
+    },
+    "foregroundColor": {
+      "displayName": "Foreground Color",
+      "defaultValue": "rgba(0, 0, 0, 1)",
+      "type": "Color"
+    },
+    "fontSize": {
+      "displayName": "Font Size",
+      "defaultValue": "24",
+      "type": "Number"
+    },
+    "borderWidth": {
+      "displayName": "Border Width",
+      "defaultValue": "0",
+      "type": "Number"
+    },
+    "borderColor": {
+      "displayName": "Border Color",
+      "defaultValue": "rgba(0, 0, 0, 1)",
+      "type": "Color",
+      "condition": "$borderWidth > 0"
+    },
+    "borderRadius": {
+      "displayName": "Border Radius",
+      "defaultValue": "0",
+      "type": "Number",
+      "condition": "$borderWidth > 0"
+    }
+  },
+  "widgets": {
+    "time": {
+      "name": "time",
+      "displayName": "Time Widget",
+      "description": "Show current time",
+      "data": {
+        "timezone": {
+          "required": true,
+          "displayName": "Time Zone",
+          "description": "Timezone of the output",
+          "defaultValue": 0,
+          "type": "Options",
+          "options": [
+            {
+              "key": 0,
+              "value": -12,
+              "text": "UTC−12:00"
+            },
+            {
+              "key": 1,
+              "value": -11,
+              "text": "UTC−11:00"
+            },
+            {
+              "key": 2,
+              "value": -10,
+              "text": "UTC−10:00"
+            },
+            {
+              "key": 3,
+              "value": -9.5,
+              "text": "UTC−09:30"
+            },
+            {
+              "key": 4,
+              "value": -9,
+              "text": "UTC−09:00"
+            },
+            {
+              "key": 5,
+              "value": -8,
+              "text": "UTC−08:00"
+            },
+            {
+              "key": 6,
+              "value": -7,
+              "text": "UTC−07:00"
+            },
+            {
+              "key": 7,
+              "value": -6,
+              "text": "UTC−06:00"
+            },
+            {
+              "key": 8,
+              "value": -5,
+              "text": "UTC−05:00"
+            },
+            {
+              "key": 9,
+              "value": -5,
+              "text": "UTC−05:00"
+            },
+            {
+              "key": 10,
+              "value": -4,
+              "text": "UTC−04:00"
+            },
+            {
+              "key": 11,
+              "value": -3.5,
+              "text": "UTC−03:30"
+            },
+            {
+              "key": 12,
+              "value": -3,
+              "text": "UTC−03:00"
+            },
+            {
+              "key": 13,
+              "value": -2,
+              "text": "UTC−02:00"
+            },
+            {
+              "key": 14,
+              "value": -1,
+              "text": "UTC−01:00"
+            },
+            {
+              "key": 15,
+              "value": 0,
+              "text": "UTC+00:00"
+            },
+            {
+              "key": 16,
+              "value": 1,
+              "text": "UTC+01:00"
+            },
+            {
+              "key": 17,
+              "value": 2,
+              "text": "UTC+02:00"
+            },
+            {
+              "key": 18,
+              "value": 3,
+              "text": "UTC+03:00"
+            },
+            {
+              "key": 19,
+              "value": 4,
+              "text": "UTC+04:00"
+            },
+            {
+              "key": 20,
+              "value": 4.5,
+              "text": "UTC+04:30"
+            },
+            {
+              "key": 21,
+              "value": 5,
+              "text": "UTC+05:00"
+            },
+            {
+              "key": 22,
+              "value": 5.5,
+              "text": "UTC+05:30"
+            },
+            {
+              "key": 23,
+              "value": 5.75,
+              "text": "UTC+05:45"
+            },
+            {
+              "key": 24,
+              "value": 6,
+              "text": "UTC+06:00"
+            },
+            {
+              "key": 25,
+              "value": 6.5,
+              "text": "UTC+06:30"
+            },
+            {
+              "key": 26,
+              "value": 7,
+              "text": "UTC+07:00"
+            },
+            {
+              "key": 27,
+              "value": 8,
+              "text": "UTC+08:00"
+            },
+            {
+              "key": 28,
+              "value": 8.75,
+              "text": "UTC+08:45"
+            },
+            {
+              "key": 29,
+              "value": 9,
+              "text": "UTC+09:00"
+            },
+            {
+              "key": 30,
+              "value": 9.5,
+              "text": "UTC+09:30"
+            },
+            {
+              "key": 31,
+              "value": 10,
+              "text": "UTC+10:00"
+            },
+            {
+              "key": 32,
+              "value": 10.5,
+              "text": "UTC+10:30"
+            },
+            {
+              "key": 33,
+              "value": 11,
+              "text": "UTC+11:00"
+            },
+            {
+              "key": 34,
+              "value": 12,
+              "text": "UTC+12:00"
+            },
+            {
+              "key": 35,
+              "value": 12.75,
+              "text": "UTC+12:45"
+            },
+            {
+              "key": 36,
+              "value": 13,
+              "text": "UTC+13:00"
+            },
+            {
+              "key": 37,
+              "value": 14,
+              "text": "UTC+14:00"
+            }
+          ]
+        },
+        "mode": {
+          "required": true,
+          "displayName": "Analog/Digital",
+          "description": "Display mode of the clock",
+          "defaultValue": true,
+          "type": "Switch",
+          "off": "Analog",
+          "on": "Digital"
+        },
+        "format": {
+          "required": true,
+          "displayName": "Format",
+          "description": "<p>Set digital output, <a href='https://learn.microsoft.com/en-us/system-center/orchestrator/standard-activities/format-date-time?view=sc-orch-2022' target='_blank'>Help<a>.</p>",
+          "defaultValue": "h:mm:ssTT",
+          "type": "String",
+          "condition": "$mode == true"
+        },
+        "animations": {
+          "required": true,
+          "displayName": "Animations",
+          "description": "Allow Digital Animations",
+          "defaultValue": true,
+          "type": "Switch",
+          "condition": "$mode == true"
+        },
+        "countdown": {
+          "required": false,
+          "displayName": "Countdown",
+          "defaultValue": false,
+          "type": "Switch",
+          "off": "OFF",
+          "on": "ON",
+          "condition": "$mode == true"
+        },
+        "countdowndate": {
+          "displayName": "Countdown Date",
+          "type": "Date",
+          "condition": "$countdown == true"
+        },
+        "countdowntime": {
+          "displayName": "Countdown Time",
+          "type": "Time",
+          "condition": "$countdown == true"
+        },
+        "style": {
+          "required": true,
+          "displayName": "Style",
+          "description": "Choose the Analog Clock style",
+          "defaultValue": 0,
+          "condition": "$mode == false",
+          "type": "Options",
+          "options": [
+            {
+              "key": 0,
+              "value": 0,
+              "text": "Clean"
+            },
+            {
+              "key": 1,
+              "value": 1,
+              "text": "Laser"
+            }
+          ]
+        }
+      }
+    },
+    "social": {
+      "displayName": "Social Links",
+      "name": "social",
+      "description": "Display your social media links",
+      "data": {
+        "links": {
+          "required": true,
+          "displayName": "Links",
+          "description": "Links to platforms",
+          "type": "Array"
+        },
+        "iconpack": {
+          "required": true,
+          "displayName": "Icon Pack",
+          "defaultValue": 1,
+          "type": "Options",
+          "options": [
+            {
+              "key": 0,
+              "value": 0,
+              "text": "None"
+            },
+            {
+              "key": 1,
+              "value": 1,
+              "text": "Default"
+            }
+          ]
+        },
+        "favicon": {
+          "required": true,
+          "displayName": "Download Web Icons",
+          "defaultValue": false,
+          "type": "Switch",
+          "off": "OFF",
+          "on": "ON"
+        }
+      },
+      "styleOverride": {
+        "fontSize": "50"
+      }
+    },
+    "scroll-to-top": {
+      "scripts": ["/scripts/scroll-to-top.js"],
+      "displayName": "Scroll To Top Button",
+      "description": "A button to get to the top of the website",
+      "name": "scroll-to-top",
+      "data": {},
+      "styleOverride": {
+        "position": 1,
+        "positionlock": "1",
+        "width": "80",
+        "height": "80",
+        "fontSize": "50",
+        "backgroundColor": "rgba(255, 255, 255, 0)"
+      }
+    },
+    "cookies-popup": {
+      "scripts": ["/scripts/widgetsgarden-cookies.js", "/scripts/cookies-popup.js"],
+      "displayName": "Cookies Popup",
+      "description": "Let User know you're using cookies",
+      "name": "cookies-popup",
+      "cookies": ["widgetsgarden-cookies-accepted"],
+      "displayOnLoad": false,
+      "data": {
+        "heading": {
+          "displayName": "Heading",
+          "type": "String",
+          "defaultValue": "We Use Cookies 🍪"
+        },
+        "caption": {
+          "displayName": "Caption",
+          "type": "String",
+          "defaultValue": "This Webiste uses cookies to ensure you get the best experience."
+        },
+        "learnMoreLink": {
+          "displayName": "Learn More Link",
+          "type": "String"
+        }
+      },
+      "styleOverride": {
+        "position": 1,
+        "positionlock": "3",
+        "width": "400",
+        "height": "175",
+        "borderWidth": "1",
+        "borderRadius": "25",
+        "fontSize": "16"
+      }
+    },
+    "age-verification": {
+      "scripts": ["/scripts/widgetsgarden-cookies.js", "/scripts/age-verification.js"],
+      "displayName": "Age Verification",
+      "description": "Don't allow young users on your page",
+      "name": "age-verification",
+      "cookies": ["widgetsgarden-age-verified"],
+      "displayOnLoad": false,
+      "data": {
+        "heading": {
+          "displayName": "Header",
+          "type": "String",
+          "defaultValue": "AGE VERIFICATION"
+        },
+        "caption": {
+          "displayName": "Caption",
+          "type": "String",
+          "defaultValue": "You must be {AGE} to enter."
+        },
+        "min": {
+          "displayName": "Minimal age",
+          "defaultValue": "18",
+          "type": "Number"
+        },
+        "askForAge": {
+          "required": true,
+          "displayName": "Ask For Age",
+          "description": "Ask for Date of birth",
+          "defaultValue": false,
+          "type": "Switch",
+          "off": "No",
+          "on": "Yes"
+        },
+        "failMessage": {
+          "displayName": "Fail Message",
+          "defaultValue": "Sorry, You must be {AGE} to enter.",
+          "type": "String",
+          "condition": "$askForAge == true"
+        },
+        "redirect": {
+          "displayName": "Exit Redirect",
+          "defaultValue": "https://google.com",
+          "type": "String"
+        }
+      },
+      "styleOverride": {
+        "position": 1,
+        "positionlock": "4",
+        "width": "400",
+        "height": "250",
+        "fontSize": "16",
+        "backdropBlur": "true"
+      }
+    }
+  }
+}

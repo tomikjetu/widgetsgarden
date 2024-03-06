@@ -1,0 +1,255 @@
+:root{
+  --minimal-analog-settings: "indicators;";
+}
+
+.minimal-clock {
+  position: relative;
+  
+  width: 100%;   
+  
+  aspect-ratio: 1/1;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 100%;
+  background: transparent;
+}
+
+.minimal-minute,
+.minimal-hour,
+.minimal-second,
+.minimal-indicator {
+  position: absolute;
+  
+  height: 30%;
+  width: 6px;
+  translate: 0 -50%;
+  
+  z-index: 2;
+  border-radius: 1px;
+
+  background: #f4eed7;
+  
+  transform-origin: bottom center;
+  rotate: 0deg;
+}
+
+.minimal-minute {
+  height: 40%;
+  width: 4px;
+}
+
+.minimal-second {
+  background: #4b9aaa;
+  height: 35%;
+  width: 2px;
+  z-index: 3;
+
+  border-radius: 4px;
+}
+
+.minimal-dot {
+  background: #4b9aaa;
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 100px;
+  border-radius: 100px;
+  margin: auto;
+  z-index: 4;
+}
+
+.minimal-indicator {
+  height: calc(43% + 5px);
+  border-top: 2px solid #4b9aaa;
+  background: none;
+}
+
+.minimal-indicator:nth-of-type(5n) {
+  opacity: 1;
+  height: 43%;
+  border-top: 7px solid #f4eed7;
+}
+
+.minimal-indicator:nth-of-type(1) {
+  transform: rotateZ(calc(6deg * 1));
+}
+.minimal-indicator:nth-of-type(2) {
+  transform: rotateZ(calc(6deg * 2));
+}
+.minimal-indicator:nth-of-type(3) {
+  transform: rotateZ(calc(6deg * 3));
+}
+.minimal-indicator:nth-of-type(4) {
+  transform: rotateZ(calc(6deg * 4));
+}
+.minimal-indicator:nth-of-type(5) {
+  transform: rotateZ(calc(6deg * 5));
+}
+.minimal-indicator:nth-of-type(6) {
+  transform: rotateZ(calc(6deg * 6));
+}
+.minimal-indicator:nth-of-type(7) {
+  transform: rotateZ(calc(6deg * 7));
+}
+.minimal-indicator:nth-of-type(8) {
+  transform: rotateZ(calc(6deg * 8));
+}
+.minimal-indicator:nth-of-type(9) {
+  transform: rotateZ(calc(6deg * 9));
+}
+.minimal-indicator:nth-of-type(10) {
+  transform: rotateZ(calc(6deg * 10));
+}
+.minimal-indicator:nth-of-type(11) {
+  transform: rotateZ(calc(6deg * 11));
+}
+.minimal-indicator:nth-of-type(12) {
+  transform: rotateZ(calc(6deg * 12));
+}
+.minimal-indicator:nth-of-type(13) {
+  transform: rotateZ(calc(6deg * 13));
+}
+.minimal-indicator:nth-of-type(14) {
+  transform: rotateZ(calc(6deg * 14));
+}
+.minimal-indicator:nth-of-type(15) {
+  transform: rotateZ(calc(6deg * 15));
+}
+.minimal-indicator:nth-of-type(16) {
+  transform: rotateZ(calc(6deg * 16));
+}
+.minimal-indicator:nth-of-type(17) {
+  transform: rotateZ(calc(6deg * 17));
+}
+.minimal-indicator:nth-of-type(18) {
+  transform: rotateZ(calc(6deg * 18));
+}
+.minimal-indicator:nth-of-type(19) {
+  transform: rotateZ(calc(6deg * 19));
+}
+.minimal-indicator:nth-of-type(20) {
+  transform: rotateZ(calc(6deg * 20));
+}
+.minimal-indicator:nth-of-type(21) {
+  transform: rotateZ(calc(6deg * 21));
+}
+.minimal-indicator:nth-of-type(22) {
+  transform: rotateZ(calc(6deg * 22));
+}
+.minimal-indicator:nth-of-type(23) {
+  transform: rotateZ(calc(6deg * 23));
+}
+.minimal-indicator:nth-of-type(24) {
+  transform: rotateZ(calc(6deg * 24));
+}
+.minimal-indicator:nth-of-type(25) {
+  transform: rotateZ(calc(6deg * 25));
+}
+.minimal-indicator:nth-of-type(26) {
+  transform: rotateZ(calc(6deg * 26));
+}
+.minimal-indicator:nth-of-type(27) {
+  transform: rotateZ(calc(6deg * 27));
+}
+.minimal-indicator:nth-of-type(28) {
+  transform: rotateZ(calc(6deg * 28));
+}
+.minimal-indicator:nth-of-type(29) {
+  transform: rotateZ(calc(6deg * 29));
+}
+.minimal-indicator:nth-of-type(30) {
+  transform: rotateZ(calc(6deg * 30));
+}
+.minimal-indicator:nth-of-type(31) {
+  transform: rotateZ(calc(6deg * 31));
+}
+.minimal-indicator:nth-of-type(32) {
+  transform: rotateZ(calc(6deg * 32));
+}
+.minimal-indicator:nth-of-type(33) {
+  transform: rotateZ(calc(6deg * 33));
+}
+.minimal-indicator:nth-of-type(34) {
+  transform: rotateZ(calc(6deg * 34));
+}
+.minimal-indicator:nth-of-type(35) {
+  transform: rotateZ(calc(6deg * 35));
+}
+.minimal-indicator:nth-of-type(36) {
+  transform: rotateZ(calc(6deg * 36));
+}
+.minimal-indicator:nth-of-type(37) {
+  transform: rotateZ(calc(6deg * 37));
+}
+.minimal-indicator:nth-of-type(38) {
+  transform: rotateZ(calc(6deg * 38));
+}
+.minimal-indicator:nth-of-type(39) {
+  transform: rotateZ(calc(6deg * 39));
+}
+.minimal-indicator:nth-of-type(40) {
+  transform: rotateZ(calc(6deg * 40));
+}
+.minimal-indicator:nth-of-type(41) {
+  transform: rotateZ(calc(6deg * 41));
+}
+.minimal-indicator:nth-of-type(42) {
+  transform: rotateZ(calc(6deg * 42));
+}
+.minimal-indicator:nth-of-type(43) {
+  transform: rotateZ(calc(6deg * 43));
+}
+.minimal-indicator:nth-of-type(44) {
+  transform: rotateZ(calc(6deg * 44));
+}
+.minimal-indicator:nth-of-type(45) {
+  transform: rotateZ(calc(6deg * 45));
+}
+.minimal-indicator:nth-of-type(46) {
+  transform: rotateZ(calc(6deg * 46));
+}
+.minimal-indicator:nth-of-type(47) {
+  transform: rotateZ(calc(6deg * 47));
+}
+.minimal-indicator:nth-of-type(48) {
+  transform: rotateZ(calc(6deg * 48));
+}
+.minimal-indicator:nth-of-type(49) {
+  transform: rotateZ(calc(6deg * 49));
+}
+.minimal-indicator:nth-of-type(50) {
+  transform: rotateZ(calc(6deg * 50));
+}
+.minimal-indicator:nth-of-type(51) {
+  transform: rotateZ(calc(6deg * 51));
+}
+.minimal-indicator:nth-of-type(52) {
+  transform: rotateZ(calc(6deg * 52));
+}
+.minimal-indicator:nth-of-type(53) {
+  transform: rotateZ(calc(6deg * 53));
+}
+.minimal-indicator:nth-of-type(54) {
+  transform: rotateZ(calc(6deg * 54));
+}
+.minimal-indicator:nth-of-type(55) {
+  transform: rotateZ(calc(6deg * 55));
+}
+.minimal-indicator:nth-of-type(56) {
+  transform: rotateZ(calc(6deg * 56));
+}
+.minimal-indicator:nth-of-type(57) {
+  transform: rotateZ(calc(6deg * 57));
+}
+.minimal-indicator:nth-of-type(58) {
+  transform: rotateZ(calc(6deg * 58));
+}
+.minimal-indicator:nth-of-type(59) {
+  transform: rotateZ(calc(6deg * 59));
+}
+.minimal-indicator:nth-of-type(60) {
+  transform: rotateZ(calc(6deg * 60));
+}

@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;500;700;900&display=swap');
+
+* {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 100;
+}
+
+:root {
+  /*ROOT*/
+  --background: #04432c;
+
+  /*ELEMENTS*/
+  --divider: rgb(164, 164, 164);
+  --divider-margin: 5px;
+
+  
+  --dropdown-background: #04432c;
+  --dropdown-separator-color: white;
+  --dropdown-item-background-hover: #0a2f22;
+
+  /*LOGIN PAGE*/
+  --login-form-background: white;
+  --login-form-foreground: black;
+
+  --login-control-background: #000000;
+  --login-control-background-focus: #4e65cd;
+  --login-control-background-invalid: red;
+  --login-control-background-valid: green;
+
+  --login-error-message: red;
+
+  --login-google-background: #4285F4;
+  --login-google-background-hover: rgb(66, 133, 244, 0.8);
+
+  --login-button-backgorund: #000057a3;
+  --login-button-foreground: white;
+  --login-button-backgorund-hover: #3030eda3;
+
+  /* DASHBOARD */
+  --dashboard-background: #4E6C50;
+
+  --dashboard-navigation-background: #395144;
+  --dashboard-sidebar-background: #395144;
+
+  --dashboard-list-odd: #6a816c;
+  --dashboard-list-even: #80816a;
+
+  --sidebar-background: #0000001c;
+  --sidebar-foreground: white;
+
+  --sidebar-background-hover: rgb(194, 224, 174);
+  --sidebar-foreground-hover: black;
+
+  --sidebar-background-active: #AA8B56;
+  --sidebar-foreground-active: white;
+  
+  --dashboard-container: #daad60;
+  --dashboard-text: white;
+  --dashboard-shadow: 1px 1px 4px black;
+
+  --button-background: #395144;
+  --button-hover: #38614b;
+
+  /* WIDGETS */
+
+  --widget-background: #daad60;
+  --widget-hover: #e9c079;
+
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: white;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}

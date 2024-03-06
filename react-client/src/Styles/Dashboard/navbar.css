@@ -1,0 +1,46 @@
+.dashboard-navigation {
+  position: fixed;
+  top: 0;
+  background-color: var(--dashboard-navigation-background);
+  width: 100%;
+  /* height: 3em; */
+  z-index: 800;
+  display: none;
+  flex-direction: column;
+}
+
+.dashbord-navigtion-content {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand {
+  margin: 0.6em 1em;
+}
+
+.navbar-brand .navbar-title {
+  font-size: 1.8em;
+  width: fit-content;
+}
+
+.sidebar-toggler {
+  position: relative;
+  margin: 0em 0em 0em 1.5em;
+  display: none;
+  cursor: pointer;
+  height: 2em;
+}
+
+.sidebar-toggler .icon {
+  height: 2em;
+  width: 2em;
+}
+
+.notifications-badge {
+  position: absolute;
+  top: -5px;
+  left: 1.6em;
+  background-color: red;
+  border-radius: 1em;
+  padding: 0.05em 0.3em;
+}

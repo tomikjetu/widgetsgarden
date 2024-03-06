@@ -1,0 +1,228 @@
+@keyframes jump {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-20px);
+  }
+  20% {
+    transform: translateY(0);
+  }
+}
+
+.bouncy{
+  display: inline-block;
+  animation-name: bouncy;
+  animation-duration: 5s;
+  animation-timing-function: cubic-bezier(0.5, 1.28, 0.57, 1);
+  animation-iteration-count: infinite;
+  animation-delay: var(--delay);
+}
+
+@keyframes bouncy{
+  0%{
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-10px);
+  }
+  20% {
+    transform: translateY(0);
+  }
+}
+
+.appear-land{
+  translate: 0 -20px;
+  animation-name: appear-land;
+  animation-duration: 0.4s;
+  animation-timing-function: cubic-bezier(0.5, 1.28, 0.57, 1);
+  animation-delay: var(--delay);
+  animation-fill-mode: forwards;
+}
+
+@keyframes appear-land {
+  0% {
+    translate: 0 -20px;
+  }
+
+  100% {
+    translate: 0 0;
+  }
+}
+
+.fade-in{
+  animation-name: fade-in;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes fade-in{
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 100%;
+  }
+}
+
+
+/* LOADING ANIMATION https://loading.io/css/ */
+.lds-ellipsis-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
+
+
+.delay-01 {
+  animation-delay: 0.1s;
+}
+
+.delay-02 {
+  animation-delay: 0.2s;
+}
+
+.delay-03 {
+  animation-delay: 0.3s;
+}
+
+.delay-04 {
+  animation-delay: 0.4s;
+}
+
+.delay-05 {
+  animation-delay: 0.5s;
+}
+
+.delay-06 {
+  animation-delay: 0.6s;
+}
+
+.delay-07 {
+  animation-delay: 0.7s;
+}
+
+.delay-08 {
+  animation-delay: 0.8s;
+}
+
+.delay-09 {
+  animation-delay: 0.9s;
+}
+
+/* Delays */
+.delay-1 {
+  animation-delay: 1s;
+}
+
+.delay-2 {
+  animation-delay: 2s;
+}
+
+.delay-3 {
+  animation-delay: 3s;
+}
+
+.delay-4 {
+  animation-delay: 4s;
+}
+
+.delay-5 {
+  animation-delay: 5s;
+}
+
+.delay-6 {
+  animation-delay: 6s;
+}
+
+.delay-7 {
+  animation-delay: 7s;
+}
+
+.delay-8 {
+  animation-delay: 8s;
+}
+
+.delay-9 {
+  animation-delay: 9s;
+}
+
+.delay-10 {
+  animation-delay: 10s;
+}
+
+.delay-11 {
+  animation-delay: 11s;
+}
+
+.delay-12 {
+  animation-delay: 12s;
+}
+
+.delay-13 {
+  animation-delay: 13s;
+}
+
+.delay-14 {
+  animation-delay: 14s;
+}
+
+.delay-15 {
+  animation-delay: 15s;
+}

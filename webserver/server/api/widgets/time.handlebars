@@ -1,0 +1,30 @@
+<script defer src="files/time/time.js?apiKey={{apiKey}}"></script>
+
+{{#if data.mode.value}}
+  {{! DIGITAL }}
+  <link rel="stylesheet" href="files/time/digital.css?apiKey={{apiKey}}" />
+  <script defer src="files/time/digital.js?apiKey={{apiKey}}"></script>
+  <div id="time"></div>
+{{else}}
+  <script defer src="files/time/analog.js?apiKey={{apiKey}}"></script>
+  {{! ANALOG }}
+  {{#ifEquals data.style.value 0}}
+    <link rel="stylesheet" href="files/time/clean.css?apiKey={{apiKey}}" />
+    <div class="clock">
+      <span class="hour"></span>
+      <span class="minute"></span>
+      <span class="second"></span>
+      <span class="dot"></span>
+    </div>
+  {{/ifEquals}}
+
+  {{#ifEquals data.style.value 1}}
+    <link rel="stylesheet" href="files/time/laser.css?apiKey={{apiKey}}" />
+    <div class="clock">
+      <span class="hour"></span>
+      <span class="minute"></span>
+      <span class="second"></span>
+      <span class="dot"></span>
+    </div>
+  {{/ifEquals}}
+{{/if}}

@@ -1,0 +1,87 @@
+.dashboard * {
+  font-weight: 500;
+}
+
+.dashboard {
+  min-height: 100vh;
+  background-color: var(--dashboard-background) !important;
+  position: absolute;
+  width: 100%;
+}
+
+.dashboard-content {
+  background-color: var(--dashboard-background) !important;
+  width: calc(100vw - 18em - 3px);
+  padding-left: 16em;
+  padding-top: 1em;
+  padding-right: 2em;
+  padding-bottom: 1em;
+}
+
+.dashboard-status {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 2em;
+}
+
+.dashboard-settings {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-bottom: 1em;
+
+  & > * {
+    cursor: pointer;
+  }
+
+  & > :hover {
+    background-color: var(--widget-hover);
+  }
+}
+
+.dashboard-status > * {
+  flex: 1;
+}
+
+.dashboard-grid {
+  display: grid;
+  gap: 1em;
+}
+
+.dashboard-collumns {
+  grid-template-columns: 1fr;
+  /* grid-template-columns: repeat(auto-fit, minmax(35em, 1fr)); */
+}
+
+.dashboard-container {
+  position: relative;
+
+  width: calc(100% - 2rem - 3px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+
+  background-color: var(--dashboard-container);
+  color: var(--dashboard-text);
+  text-shadow: var(--dashboard-shadow);
+  padding: 0.5em 1em;
+  font-weight: 500;
+  border-radius: 7px;
+  min-width: 0px; /* To fix the grid overflow */
+
+  & > div {
+    width: 100%;
+  }
+
+  &.setting {
+    width: fit-content;
+    padding: 0.25em 0.5em;
+
+    &.selected {
+      background-color: var(--sidebar-background-active);
+    }
+  }
+}
