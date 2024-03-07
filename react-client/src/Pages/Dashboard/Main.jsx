@@ -115,7 +115,7 @@ export default function Main() {
         <Link to="/dashboard/access" className="dashboard-container">
           See Access dashboard
         </Link>
-        <Link to="dashboard/analytics" className="dashboard-container">
+        <Link to="/dashboard/analytics" className="dashboard-container">
           See Analytics
         </Link>
         {/* <div className="dashboard-container">

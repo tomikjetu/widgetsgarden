@@ -8,6 +8,8 @@ import { ChartOptions, getChartData } from "../../Misc/Charts";
 import { getCookie, setCookie } from "../../Misc/Cookies";
 import TextOptions from "./Components/WidgetsEditor/Components/Options";
 
+import MapChart from "../../Misc/Charts/MapChart";
+
 const defaultSettings = {
   "dashboard-collumns": 2,
   "dashboard-timespan": 30,
@@ -45,22 +47,22 @@ export default function AnalyticsPage() {
   useEffect(() => {
     setGridCollumns(getSetting("dashboard-collumns"));
     setTimespan(getSetting("dashboard-timespan"));
-    
+
     loadAnalytics();
   }, []);
-
+  
   useEffect(() => {
     if (GridCollumns == null) return;
     setCookie("dashboard-collumns", GridCollumns, null, "/dashboard");
   }, [GridCollumns]);
-
+  
   useEffect(() => {
     if (Timespan == null) return;
     setCookie("dashboard-timespan", Timespan, null, "/dashboard");
     setStartDate(new Date().setDate(new Date().getDate() - Timespan));
     setEndDate(new Date());
   }, [Timespan]);
-
+  
   function loadAnalytics() {
     axios.get(`${process.env.REACT_APP_SERVER_URL}/dashboard/analytics`).then((res) => {
       setAnalytics(res.data);
@@ -90,6 +92,7 @@ export default function AnalyticsPage() {
       </div>
     );
   }
+
 
   return (
     <div className="editor">
@@ -154,8 +157,14 @@ export default function AnalyticsPage() {
               </div>
               <div className="dashboard-container">
                 <h2 className="bold">Visits by country</h2>
-                {analytics?.overview?.user?.visit?.country && <Line style={{ maxHeight: "50vh" }} height={300} className="dashboard-overview" options={ChartOptions} data={getChartData(analytics?.overview?.user?.visit?.country, startDate, endDate)} />}
-                {!analytics?.overview?.user?.visit?.country && <p>No collected data yet</p>}
+
+                <MapChart source={analytics?.overview?.user?.visit?.country}
+                  fromColor="white" toColor={"#3654a8"}
+                  startDate = {startDate} endDate = {endDate}
+                />
+
+                {/* {analytics?.overview?.user?.visit?.country && <Line style={{ maxHeight: "50vh" }} height={300} className="dashboard-overview" options={ChartOptions} data={getChartData(analytics?.overview?.user?.visit?.country, startDate, endDate)} />}
+                {!analytics?.overview?.user?.visit?.country && <p>No collected data yet</p>} */}
               </div>
             </>
           ) : null}

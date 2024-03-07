@@ -1,10 +1,12 @@
 .env*
+private.md
+
 node_modules/
 package-lock.json
 test/
 localtools/
 nodejs-with-react-email/
 
-webserver/server/assets2/
+webserver/server/assets/
 
 logs/
