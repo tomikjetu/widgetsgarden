@@ -3,34 +3,14 @@ import Chart from "chart.js/auto"; // IMPORTANT
 import { Line } from "react-chartjs-2";
 import { ChartOptions, getChartData } from "../../Misc/Charts";
 
-import { getCookie, setCookie } from "../../Misc/Cookies";
-import TextOptions from "./Components/WidgetsEditor/Components/Options";
+import { setCookie } from "../../Misc/Cookies";
 
 import axios from "axios";
 
-import { CloseIcon, PlusIcon, DashboardCollumn, DashboardCollumnsTwo } from "../../Styles/Svg";
+import { CloseIcon, PlusIcon } from "../../Styles/Svg";
 import "../../Styles/Dashboard/access.css";
 import CodeCopy from "../../Components/CodeCopy";
-
-const defaultSettings = {
-  "dashboard-collumns": 2,
-  "dashboard-timespan": 30,
-};
-
-var timespanOptions = [
-  {
-    text: "Last 7 days",
-    value: 7,
-  },
-  {
-    text: "Last 30 days",
-    value: 30,
-  },
-  {
-    text: "Last 90 days",
-    value: 90,
-  },
-];
+import { GridSettings, TimeSettings, getDashboardSetting } from "../Dashboard";
 
 export default function Access() {
   axios.defaults.withCredentials = true;
@@ -39,17 +19,13 @@ export default function Access() {
   var [stats, setStats] = useState(null);
 
   var [GridCollumns, setGridCollumns] = useState(2);
-  var [Timespan, setTimespan] = useState(30);
+  var [timespan, setTimespan] = useState(30);
   var [startDate, setStartDate] = useState(new Date(new Date().setDate(new Date().getDate() - 14)));
   var [endDate, setEndDate] = useState(new Date());
 
-  function getSetting(name) {
-    return getCookie(name) || defaultSettings[name];
-  }
-
   useEffect(() => {
-    setGridCollumns(getSetting("dashboard-collumns"));
-    setTimespan(getSetting("dashboard-timespan"));
+    setGridCollumns(getDashboardSetting("dashboard-collumns"));
+    setTimespan(getDashboardSetting("dashboard-timespan"));
 
     getDomains();
     axios.get(`${process.env.REACT_APP_SERVER_URL}/dashboard/access/stats`).then((res) => {
@@ -67,11 +43,11 @@ export default function Access() {
   }, [GridCollumns]);
 
   useEffect(() => {
-    if (Timespan == null) return;
-    setCookie("dashboard-timespan", Timespan, null, "/dashboard");
-    setStartDate(new Date().setDate(new Date().getDate() - Timespan));
+    if (timespan == null) return;
+    setCookie("dashboard-timespan", timespan, null, "/dashboard");
+    setStartDate(new Date().setDate(new Date().getDate() - timespan));
     setEndDate(new Date());
-  }, [Timespan]);
+  }, [timespan]);
 
   var [allowedDomains, setAllowedDomains] = useState([]);
   var [restrictedDomains, setRestrictedDomains] = useState([]);
@@ -127,39 +103,8 @@ export default function Access() {
 
   return (
     <div className="dashboard-content">
-      <div className="dashboard-settings">
-        <div
-          onClick={() => {
-            setGridCollumns(1);
-          }}
-          className={`dashboard-container setting ${GridCollumns == 1 ? "selected" : ""}`}
-        >
-          <span style={{ filter: "drop-shadow(0 0 2px black)", width: "1.5rem", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <DashboardCollumn />
-          </span>
-        </div>
-        <div
-          onClick={() => {
-            setGridCollumns(2);
-          }}
-          className={`dashboard-container setting ${GridCollumns == 2 ? "selected" : ""}`}
-        >
-          <span style={{ filter: "drop-shadow(0 0 2px black)", width: "1.5rem", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <DashboardCollumnsTwo />
-          </span>
-        </div>
-      </div>
-
-      <div className="dashboard-settings">
-        <TextOptions
-          dashboardStyle
-          defaultValue={Timespan}
-          onChange={(value) => {
-            setTimespan(value);
-          }}
-          options={timespanOptions}
-        />
-      </div>
+      <GridSettings setGridCollumns={setGridCollumns} GridCollumns={GridCollumns} />
+      <TimeSettings timespan={timespan} setTimespan={setTimespan} />
 
       <div
         className="dashboard-grid"

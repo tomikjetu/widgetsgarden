@@ -7,7 +7,6 @@ import { default as connectMongoDBSession } from 'connect-mongodb-session';
 const MongoDBStore = connectMongoDBSession(session);
 
 import { default as Router } from "./server/router.js"
-import { sendEmail } from './server/email.js';
 
 const app = express();
 
@@ -33,7 +32,3 @@ const PORT = process.env.PORT;
 app.listen(process.env.PORT, function (err) {
   console.log(`Server listening on port ${PORT}.`)
 });
-
-import Test from "./emails/Test.js";
-
-sendEmail("kordo.t12@gmail.com", "First Email from the new templating service", Test, {name: "tomik"});

@@ -7,10 +7,8 @@ import Modal from "../../Components/Modal";
 import CodeCopy from "../../Components/CodeCopy";
 import TextOptions from "./Components/WidgetsEditor/Components/Options";
 import { getCookie, setCookie } from "../../Misc/Cookies";
+import { getDashboardSetting } from "../Dashboard";
 
-const defaultSettings = {
-  "dashboard-sort": "lastModified",
-};
 var sortOptions = [
   {
     text: "Last Modified",
@@ -37,11 +35,7 @@ export default function Widgets() {
   axios.defaults.withCredentials = true;
   var [widgets, setWidgets] = useState(null);
 
-  var [sort, setSort] = useState(getSetting("dashboard-sort"));
-
-  function getSetting(name) {
-    return getCookie(name) || defaultSettings[name];
-  }
+  var [sort, setSort] = useState(getDashboardSetting("dashboard-sort"));
 
   useEffect(() => {
     getWidgets();

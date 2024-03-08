@@ -1,10 +1,23 @@
 import { geoPatterson } from "d3-geo-projection";
 import { scaleLinear } from "d3-scale";
 import { useEffect, useState } from "react";
+import { Tooltip } from "react-tooltip";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+import ReactDOMServer from "react-dom/server";
+import { TimeSettings } from "../../Pages/Dashboard";
 
 const GEO_URL = "/map.json";
-export default function MapChart({ source, startDate, endDate, fromColor, toColor }) {
+
+function TooltipValue({ name, value }) {
+  return (
+    <div style={{ textAlign: "center" }}>
+      <p>{name}</p>
+      <p>{value ?? 0}</p>
+    </div>
+  );
+}
+
+export default function MapChart({ setTimespan, timespan, source, title, id, startDate, endDate, fromColor, toColor, border, borderSize, noData }) {
   const width = 800;
   const height = 420;
   const projection = geoPatterson()
@@ -16,7 +29,7 @@ export default function MapChart({ source, startDate, endDate, fromColor, toColo
   const [totalValue, setTotalValue] = useState(0);
   const colorScale = scaleLinear()
     .domain([0, maxValue])
-    .range([fromColor ?? "white", toColor ?? "blue"]);
+    .range([fromColor ?? "514c39", toColor ?? "daad60"]);
 
   useEffect(() => {
     if (!source) return;
@@ -37,8 +50,6 @@ export default function MapChart({ source, startDate, endDate, fromColor, toColo
       tempData[key] = Object.values(entries[key] ?? []).reduce((a, b) => a + b, 0);
     });
 
-    console.log(tempData);
-
     var tempMaxValue = 0;
     var tempTotalValue = 0;
     Object.keys(tempData).forEach(function (key, index) {
@@ -51,28 +62,51 @@ export default function MapChart({ source, startDate, endDate, fromColor, toColo
     setTotalValue(tempTotalValue);
   }, [startDate, endDate, source]);
 
-  if (!source) return "Loading...";
+  if (!source) return noData;
 
   return (
     <>
-      <p>{totalValue}</p>
-      <ComposableMap style={{ maxHeight: "50vh" }} width={width} height={height} projection={projection}>
+      <div className="analytics-container">
+        <div className="analytics-stats">
+          <h2 className="analytics-title">{title}</h2>
+          <p className="analytics-main-value">{totalValue}</p>
+        </div>
+        <TimeSettings setTimespan={setTimespan} timespan={timespan} transparent />
+      </div>
+      <Tooltip
+        id={id}
+        style={{
+          width: "fit-content",
+        }}
+      />
+      <ComposableMap
+        style={{ maxHeight: "50vh", margin: "auto" }}
+        width={width}
+        height={height}
+        projection={projection}
+      >
         {
           <Geographies geography={GEO_URL}>
             {({ geographies }) =>
               geographies.map((geo) => {
                 const value = data[geo.id];
                 return (
-                  <Geography
-                    style={{
-                      default: { outline: "none" },
-                      hover: { outline: "none" },
-                      pressed: { outline: "none" },
-                    }}
-                    key={geo.rsmKey}
-                    geography={geo}
-                    fill={value ? colorScale(value) : fromColor}
-                  />
+                  <>
+                    <Geography
+                      data-tooltip-id={id}
+                      data-tooltip-html={ReactDOMServer.renderToStaticMarkup(<TooltipValue name={geo.properties.name} value={value} />)}
+                      style={{
+                        default: { outline: "none" },
+                        hover: { outline: "none" },
+                        pressed: { outline: "none" },
+                        strokeWidth: borderSize,
+                      }}
+                      key={geo.rsmKey}
+                      geography={geo}
+                      fill={value ? colorScale(value) : fromColor}
+                      stroke={border}
+                    />
+                  </>
                 );
               })
             }

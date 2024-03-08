@@ -5,14 +5,14 @@ export var ChartOptions = {
   scales: {
     x: {
       ticks: {
-        color: "black",
+        color: "#eee",
       },
     },
     y: {
       beginAtZero: true,
       grace: "10",
       ticks: {
-        color: "black",
+        color: "#eee",
         stepSize: 1,
       },
     },

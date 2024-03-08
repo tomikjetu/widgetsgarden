@@ -3,32 +3,12 @@ import axios from "axios";
 import Chart from "chart.js/auto"; // IMPORTANT
 import { Line } from "react-chartjs-2";
 import { Link } from "react-router-dom";
-import { BackIcon, DashboardCollumn, DashboardCollumnsTwo } from "../../Styles/Svg";
+import { BackIcon } from "../../Styles/Svg";
 import { ChartOptions, getChartData } from "../../Misc/Charts";
 import { getCookie, setCookie } from "../../Misc/Cookies";
-import TextOptions from "./Components/WidgetsEditor/Components/Options";
 
 import MapChart from "../../Misc/Charts/MapChart";
-
-const defaultSettings = {
-  "dashboard-collumns": 2,
-  "dashboard-timespan": 30,
-};
-
-var timespanOptions = [
-  {
-    text: "Last 7 days",
-    value: 7,
-  },
-  {
-    text: "Last 30 days",
-    value: 30,
-  },
-  {
-    text: "Last 90 days",
-    value: 90,
-  },
-];
+import { GridSettings, TimeSettings, getDashboardSetting } from "../Dashboard";
 
 export default function AnalyticsPage() {
   axios.defaults.withCredentials = true;
@@ -36,33 +16,29 @@ export default function AnalyticsPage() {
   const [analytics, setAnalytics] = useState(null);
 
   var [GridCollumns, setGridCollumns] = useState(2);
-  var [Timespan, setTimespan] = useState(30);
+  var [timespan, setTimespan] = useState(30);
   var [startDate, setStartDate] = useState(new Date());
   var [endDate, setEndDate] = useState(new Date());
 
-  function getSetting(name) {
-    return getCookie(name) || defaultSettings[name];
-  }
-
   useEffect(() => {
-    setGridCollumns(getSetting("dashboard-collumns"));
-    setTimespan(getSetting("dashboard-timespan"));
+    setGridCollumns(getDashboardSetting("dashboard-collumns"));
+    setTimespan(getDashboardSetting("dashboard-timespan"));
 
     loadAnalytics();
   }, []);
-  
+
   useEffect(() => {
     if (GridCollumns == null) return;
     setCookie("dashboard-collumns", GridCollumns, null, "/dashboard");
   }, [GridCollumns]);
-  
+
   useEffect(() => {
-    if (Timespan == null) return;
-    setCookie("dashboard-timespan", Timespan, null, "/dashboard");
-    setStartDate(new Date().setDate(new Date().getDate() - Timespan));
+    if (timespan == null) return;
+    setCookie("dashboard-timespan", timespan, null, "/dashboard");
+    setStartDate(new Date().setDate(new Date().getDate() - timespan));
     setEndDate(new Date());
-  }, [Timespan]);
-  
+  }, [timespan]);
+
   function loadAnalytics() {
     axios.get(`${process.env.REACT_APP_SERVER_URL}/dashboard/analytics`).then((res) => {
       setAnalytics(res.data);
@@ -93,7 +69,6 @@ export default function AnalyticsPage() {
     );
   }
 
-
   return (
     <div className="editor">
       <header style={{ display: "flex" }}>
@@ -103,39 +78,8 @@ export default function AnalyticsPage() {
         <h1>Analytics</h1>
       </header>
       <div className="dashboard-content">
-        <div className="dashboard-settings">
-          <div
-            onClick={() => {
-              setGridCollumns(1);
-            }}
-            className={`dashboard-container setting ${GridCollumns == 1 ? "selected" : ""}`}
-          >
-            <span style={{ filter: "drop-shadow(0 0 2px black)", width: "1.5rem", display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <DashboardCollumn />
-            </span>
-          </div>
-          <div
-            onClick={() => {
-              setGridCollumns(2);
-            }}
-            className={`dashboard-container setting ${GridCollumns == 2 ? "selected" : ""}`}
-          >
-            <span style={{ filter: "drop-shadow(0 0 2px black)", width: "1.5rem", display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <DashboardCollumnsTwo />
-            </span>
-          </div>
-        </div>
-
-        <div className="dashboard-settings">
-          <TextOptions
-            dashboardStyle
-            defaultValue={Timespan}
-            onChange={(value) => {
-              setTimespan(value);
-            }}
-            options={timespanOptions}
-          />
-        </div>
+        <GridSettings setGridCollumns={setGridCollumns} GridCollumns={GridCollumns} />
+        <TimeSettings timespan={timespan} setTimespan={setTimespan} />
 
         <div
           className="dashboard-grid"
@@ -155,16 +99,8 @@ export default function AnalyticsPage() {
                 {analytics?.overview?.user?.visit?.path && <Line style={{ maxHeight: "50vh" }} height={300} className="dashboard-overview" options={ChartOptions} data={getChartData(analytics?.overview?.user?.visit?.path, startDate, endDate)} />}
                 {!analytics?.overview?.user?.visit?.path && <p>No collected data yet</p>}
               </div>
-              <div className="dashboard-container">
-                <h2 className="bold">Visits by country</h2>
-
-                <MapChart source={analytics?.overview?.user?.visit?.country}
-                  fromColor="white" toColor={"#3654a8"}
-                  startDate = {startDate} endDate = {endDate}
-                />
-
-                {/* {analytics?.overview?.user?.visit?.country && <Line style={{ maxHeight: "50vh" }} height={300} className="dashboard-overview" options={ChartOptions} data={getChartData(analytics?.overview?.user?.visit?.country, startDate, endDate)} />}
-                {!analytics?.overview?.user?.visit?.country && <p>No collected data yet</p>} */}
+              <div className="dashboard-container analytics">
+                <MapChart source={analytics?.overview?.user?.visit?.country} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"World Map"} id={"map-country-main"} fromColor={getComputedStyle(document.querySelector("*")).getPropertyValue(`--dashboard-container`)} toColor={"#daad60"} border={"#eee"} borderSize={".5px"} startDate={startDate} endDate={endDate} />
               </div>
             </>
           ) : null}
