@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Chart from "chart.js/auto"; // IMPORTANT
-import { Line } from "react-chartjs-2";
 import { Link } from "react-router-dom";
 import { BackIcon } from "../../Styles/Svg";
-import { ChartOptions, getChartData } from "../../Misc/Charts";
-import { getCookie, setCookie } from "../../Misc/Cookies";
+import { setCookie } from "../../Misc/Cookies";
 
 import MapChart from "../../Misc/Charts/MapChart";
 import { GridSettings, TimeSettings, getDashboardSetting } from "../Dashboard";
@@ -73,20 +70,23 @@ export default function AnalyticsPage() {
 
   return (
     <div className="editor">
-      <header style={{ display: "flex" }}>
+      <header>
         <Link to="/dashboard/widgets">
           <BackIcon />
         </Link>
         <h1>Analytics</h1>
+
+        <div style={{
+          marginLeft: "auto",
+          display: "flex",
+          alignItems: 'center',
+          gap: '2rem'
+        }}>
+          <GridSettings setGridCollumns={setGridCollumns} GridCollumns={GridCollumns} />
+          <TimeSettings timespan={timespan} setTimespan={setTimespan} />
+        </div>
       </header>
       <div className="dashboard-content">
-        <div style={{
-          marginBottom: '1rem'
-        }}>
-        <GridSettings setGridCollumns={setGridCollumns} GridCollumns={GridCollumns} />
-        <TimeSettings timespan={timespan} setTimespan={setTimespan} />
-        </div>
-
         <div
           className="dashboard-grid"
           style={{
@@ -95,9 +95,10 @@ export default function AnalyticsPage() {
         >
           {analytics.enabled ? (
             <>
-              <BarChart source={analytics?.overview?.user?.visit?.origin} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"Domains"} id={"visits-path-main"}  startDate={startDate} endDate={endDate}/>
-              <BarChartSeries source={analytics?.overview?.user?.visit?.path} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"Paths"} id={"visits-path-main"}  startDate={startDate} endDate={endDate}/>
+              <BarChartSeries source={analytics?.overview?.user?.visit?.path} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"Websites"} id={"visits-path-main"} startDate={startDate} endDate={endDate} />
               <MapChart source={analytics?.overview?.user?.visit?.country} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"World Map"} id={"map-country-main"} fromColor={getComputedStyle(document.querySelector("*")).getPropertyValue(`--dashboard-container`)} toColor={"#daad60"} border={"#eee"} borderSize={".5px"} startDate={startDate} endDate={endDate} />
+              {/* DON'T FORGET TO REMOVE FROM BACKEND AND DATABASE ENTRIES  */}
+              <BarChart source={analytics?.overview?.user?.visit?.origin} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"To remove"} id={"visits-path-main"} startDate={startDate} endDate={endDate} />
             </>
           ) : null}
 

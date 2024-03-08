@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { CopyIcon } from "../../Styles/Svg";
+import { BackIcon, CopyIcon } from "../../Styles/Svg";
 import { Link } from "react-router-dom";
 export default function Library() {
   axios.defaults.withCredentials = true;
@@ -18,10 +18,10 @@ export default function Library() {
   }, []);
 
   function copyWidget(widget) {
-    axios.get(`${process.env.REACT_APP_SERVER_URL}/dashboard/library/copy?id=${widget.widgetId}`).then(res=>{
-        var widgetId = res.data.success;
-        if(!widgetId) window.location.href = "/dashboard/library";
-        else window.location.href = `/dashboard/editor?id=${widgetId}`;
+    axios.get(`${process.env.REACT_APP_SERVER_URL}/dashboard/library/copy?id=${widget.widgetId}`).then((res) => {
+      var widgetId = res.data.success;
+      if (!widgetId) window.location.href = "/dashboard/library";
+      else window.location.href = `/dashboard/editor?id=${widgetId}`;
     });
   }
 
@@ -44,43 +44,45 @@ export default function Library() {
   }
 
   return (
-    <div className="dashboard-content">
-      <div className="dashboard-status">
+    <div className="editor">
+      <header style={{ display: "flex" }}>
         <Link to="/dashboard/widgets">
-          <div className="dashboard-container">My Widgets</div>
+          <BackIcon />
         </Link>
-      </div>
+        <h1>Library</h1>
+      </header>
+      <div className="dashboard-content">
+        <div className="widgets">
+          {widgets.map((widget, index) => {
+            return (
+              <div
+                className="widget"
+                key={index}
+                onMouseMove={(e) => {
+                  widgetMouseOver(e, index);
+                }}
+                onMouseLeave={(e) => {
+                  widgetMouseLeave(index);
+                }}
+              >
+                <div className="widgetcontent">
+                  <h4 onClick={() => copyWidget(widget)}>{widget.displayName}</h4>
+                  <h3>By: {widget.userName}</h3>
 
-      <div className="widgets">
-        {widgets.map((widget, index) => {
-          return (
-            <div
-              className="widget"
-              key={index}
-              onMouseMove={(e) => {
-                widgetMouseOver(e, index);
-              }}
-              onMouseLeave={(e) => {
-                widgetMouseLeave(index);
-              }}
-            >
-              <div className="widgetcontent">
-                <h4 onClick={() => copyWidget(widget)}>{widget.displayName}</h4>
-                <h3>By: {widget.userName}</h3>
+                  <p>{widget.description}</p>
 
-                <p>{widget.description}</p>
-
-                <div className="actions">
-                  <div className="actionsgroup">
-                    <span onClick={() => copyWidget(widget)}>
-                      <CopyIcon />
-                    </span>
+                  <div className="actions">
+                    <div className="actionsgroup">
+                      <span onClick={() => copyWidget(widget)}>
+                        <CopyIcon />
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ code {
 }
 
 pre {
-  width: calc(100% - 4em);
+  width: calc(100% - 3rem);
 }
 
 .copyable-code-wrapper {

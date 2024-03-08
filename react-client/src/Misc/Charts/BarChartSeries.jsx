@@ -129,7 +129,7 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
       <div className="analytics-container">
         <div className="analytics-stats">
           <h2 className="analytics-title">{title}</h2>
-          <p>{totalValue}</p>
+          <p className="analytics-main-value">{totalValue}</p>
         </div>
         <div
           style={{

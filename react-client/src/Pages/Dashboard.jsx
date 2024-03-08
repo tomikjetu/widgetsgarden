@@ -31,7 +31,7 @@ export function getDashboardSetting(name) {
   return getCookie(name) || dashboardDefaultSettings[name];
 }
 
-export function GridSettings({setGridCollumns, GridCollumns}) {
+export function GridSettings({ setGridCollumns, GridCollumns }) {
   return (
     <div className="dashboard-settings">
       <div
@@ -60,7 +60,7 @@ export function GridSettings({setGridCollumns, GridCollumns}) {
 
 export function TimeSettings({ setTimespan, timespan, transparent }) {
   return (
-    <div className={`analytics-settings ${transparent ? "transparent" : ""}`}>
+    <div style={{ boxShadow: "#00000060 -2px 2px 10px" }} className={`analytics-settings ${transparent ? "transparent" : ""}`}>
       <span className={timespan == 7 ? "selected" : ""} onClick={() => setTimespan(7)}>
         7D
       </span>

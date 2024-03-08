@@ -202,6 +202,9 @@ function AnalyzeUser(pageCollected, UserObject) {
       if (!UserObject.overview[name]) UserObject.overview[name] = {};
       var ip = event.headers.ip;
 
+      // TODO remove this and the chart from dashboard in a week of testing if the measure is correct
+      // path and origin chart is the same
+
       if (analytic.analyzeOrigin) {
         var origin = event.headers.origin.referrer;
         var domain = origin.match(DOMAINREGEXP)[0];

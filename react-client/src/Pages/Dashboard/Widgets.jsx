@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "../../Styles/Dashboard/widgets.css";
 import { Link, useSearchParams } from "react-router-dom";
-import { BinIcon, DocumentIcon, EmbedIcon, EyeIcon, GearIcon, PenIcon, TouchIcon } from "../../Styles/Svg";
+import { BackIcon, BinIcon, DocumentIcon, EmbedIcon, EyeIcon, GearIcon, PenIcon, TouchIcon } from "../../Styles/Svg";
 import Modal from "../../Components/Modal";
 import CodeCopy from "../../Components/CodeCopy";
 import TextOptions from "./Components/WidgetsEditor/Components/Options";
@@ -129,88 +129,100 @@ export default function Widgets() {
   }
 
   return (
-    <div className="dashboard-content">
-      <Modal height="auto" width="80%" className={"code-modal"} display={codeEmbedModal}>
-        <p>Get your access code <a href="/dashboard/access" style={{textDecoration: 'underline'}}>here</a></p>
-        <CodeCopy code={`<div class="widgetsgarden" widgetId="${embedId}"></div>`} />
-        <button className="btn" onClick={() => setCodeEmbedModal(false)}>
-          Close
-        </button>
-      </Modal>
-
-      <Modal height="auto" className="delete-modal" display={deleteWidgetModal} setDisplay={setDeleteWidgetModal}>
-        <h2 style={{ marginBottom: "10px" }}>Are You sure?</h2>
-        <div
-          className="buttons"
-          style={{
-            display: "flex",
-            gap: "1rem",
-          }}
-        >
-          <button className="btn" onClick={() => deleteWidgetConfirmed()}>
-            Delete
-          </button>
-          <button className="btn" onClick={() => setDeleteWidgetModal(false)}>
-            Keep
-          </button>
+    <div className="editor">
+      <header>
+        <Link to="/dashboard">
+          <p>Home Icon</p>
+        </Link>
+        <h1>Widgets</h1>
+        <p>PLS CHANGE THIS TO ICONS WITH TOOLTIP</p>
+        <div className="dashboard-status">
+          <Link to="/dashboard/analytics">
+            <div className="dashboard-container">Analytics</div>
+          </Link>
+          <Link to="/dashboard/library">
+            <div className="dashboard-container">Library</div>
+          </Link>
         </div>
-      </Modal>
+      </header>
+      <div className="dashboard-content">
+        <Modal height="auto" width="80%" className={"code-modal"} display={codeEmbedModal}>
+          <p>
+            Get your access code{" "}
+            <a href="/dashboard/access" style={{ textDecoration: "underline" }}>
+              here
+            </a>
+          </p>
+          <CodeCopy code={`<div class="widgetsgarden" widgetId="${embedId}"></div>`} />
+          <button className="btn" onClick={() => setCodeEmbedModal(false)}>
+            Close
+          </button>
+        </Modal>
 
-      <div className="dashboard-status">
-        <Link to="/dashboard/analytics">
-          <div className="dashboard-container">Analytics</div>
-        </Link>
-        <Link to="/dashboard/library">
-          <div className="dashboard-container">Library</div>
-        </Link>
-      </div>
+        <Modal height="auto" className="delete-modal" display={deleteWidgetModal} setDisplay={setDeleteWidgetModal}>
+          <h2 style={{ marginBottom: "10px" }}>Are You sure?</h2>
+          <div
+            className="buttons"
+            style={{
+              display: "flex",
+              gap: "1rem",
+            }}
+          >
+            <button className="btn" onClick={() => deleteWidgetConfirmed()}>
+              Delete
+            </button>
+            <button className="btn" onClick={() => setDeleteWidgetModal(false)}>
+              Keep
+            </button>
+          </div>
+        </Modal>
 
-      <div className="dashboard-settings">
-        <TextOptions
-          dashboardStyle
-          defaultValue={sort}
-          onChange={(value) => {
-            setSort(value);
-          }}
-          options={sortOptions}
-        />
-      </div>
+        <div className="dashboard-settings">
+          <TextOptions
+            dashboardStyle
+            defaultValue={sort}
+            onChange={(value) => {
+              setSort(value);
+            }}
+            options={sortOptions}
+          />
+        </div>
 
-      <div className="widgets">
-        {widgets == null && (
-          <>
-            <div className="widget skeleton" />
-            <div className="widget skeleton" />
-            <div className="widget skeleton" />
-          </>
-        )}
-        {widgets != null && (
-          <>
-            <div className="widget new" onClick={createWidget}>
-              +
-            </div>
-            {sorted(widgets).map((widget, index) => {
-              return (
-                <div
-                  className="widget"
-                  key={widget.widgetId}
-                  onMouseMove={(e) => {
-                    widgetMouseOver(e, index);
-                  }}
-                  onMouseLeave={(e) => {
-                    widgetMouseLeave(index);
-                  }}
-                >
-                  <div className="widgetcontent">
-                    <h4
-                      onClick={() => {
-                        editWidget(widget.widgetId);
-                      }}
-                    >
-                      {widget.displayName}
-                    </h4>
+        <div className="widgets">
+          {widgets == null && (
+            <>
+              <div className="widget skeleton" />
+              <div className="widget skeleton" />
+              <div className="widget skeleton" />
+            </>
+          )}
+          {widgets != null && (
+            <>
+              <div className="widget new" onClick={createWidget}>
+                +
+              </div>
+              {sorted(widgets).map((widget, index) => {
+                return (
+                  <div
+                    className="widget"
+                    key={widget.widgetId}
+                    onMouseMove={(e) => {
+                      widgetMouseOver(e, index);
+                    }}
+                    onMouseLeave={(e) => {
+                      widgetMouseLeave(index);
+                    }}
+                  >
+                    <div className="widgetcontent">
+                      <h4
+                        onClick={() => {
+                          editWidget(widget.widgetId);
+                        }}
+                      >
+                        {widget.displayName}
+                      </h4>
 
-                    {/*<div className="stats">
+                      {/*<div className="stats">
                   <div className="stat">
                     <EyeIcon />
                     <p className="number">{700}</p>
@@ -227,38 +239,39 @@ export default function Widgets() {
                   </div>
                 </div> */}
 
-                    <div className="actions">
-                      <div className="actionsgroup">
-                        <span
-                          style={{
-                            display: "block",
-                            height: "1.5rem",
-                            width: "1.5rem",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => editWidget(widget.widgetId)}
-                        >
-                          <PenIcon />
-                        </span>
-                        <span onClick={() => codeEmbed(widget.widgetId)}>
-                          <EmbedIcon />
-                        </span>
-                        <span onClick={() => widgetSettings(widget.widgetId)}>
-                          <GearIcon />
-                        </span>
-                      </div>
-                      <div style={{ marginLeft: "auto" }}>
-                        <span onClick={() => deleteWidget(widget.widgetId)}>
-                          <BinIcon />
-                        </span>
+                      <div className="actions">
+                        <div className="actionsgroup">
+                          <span
+                            style={{
+                              display: "block",
+                              height: "1.5rem",
+                              width: "1.5rem",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => editWidget(widget.widgetId)}
+                          >
+                            <PenIcon />
+                          </span>
+                          <span onClick={() => codeEmbed(widget.widgetId)}>
+                            <EmbedIcon />
+                          </span>
+                          <span onClick={() => widgetSettings(widget.widgetId)}>
+                            <GearIcon />
+                          </span>
+                        </div>
+                        <div style={{ marginLeft: "auto" }}>
+                          <span onClick={() => deleteWidget(widget.widgetId)}>
+                            <BinIcon />
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </>
-        )}
+                );
+              })}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

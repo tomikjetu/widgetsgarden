@@ -29,9 +29,7 @@
 .dashboard-settings {
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
-  margin-bottom: 1em;
-  
+  gap: 1rem;  
   
   & > * {
     cursor: pointer;
