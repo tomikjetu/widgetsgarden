@@ -2,9 +2,9 @@ import Chart from "react-apexcharts";
 import { TimeSettings } from "../../Pages/Dashboard";
 import { useEffect, useState } from "react";
 
-export default function LineChart({ title, id, setTimespan, timespan, startDate, endDate, source, noData }) {
+export default function BarChart({ title, id, setTimespan, timespan, startDate, endDate, source, noData }) {
   //   COLOR SET
-  
+
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [maxValue, setMaxValue] = useState(0);
@@ -16,38 +16,50 @@ export default function LineChart({ title, id, setTimespan, timespan, startDate,
     var entries = {};
     var tempData = {};
 
-    console.log(source);
-
-    Object.keys(source).forEach((entry) => {
-      entries[entry] = Object.fromEntries(
-        Object.entries(source[entry]).filter(([key]) => {
+    // Filter the data to only include entries in the selected time range
+    Object.keys(source).forEach((category) => {
+      entries[category] = Object.fromEntries(
+        Object.entries(source[category]).filter(([key]) => {
           var current = new Date(key).getTime();
-          if (current >= startDate && current <= endDate) return true;
+          return current >= startDate && current <= endDate;
         })
       );
     });
 
-    console.log(entries);
-
-    tempData = Object.keys(entries).map(function (key, index) {
-     return Object.values(entries[key] ?? []).reduce((a, b) => a + b, 0);
-    })
-    console.log(tempData);
-
-    var tempMaxValue = 0;
-    var tempTotalValue = 0;
-    Object.keys(tempData).forEach(function (key, index) {
-      if (tempData[key] > tempMaxValue) tempMaxValue = tempData[key];
-      tempTotalValue += tempData[key];
+    // Add data for each category
+    Object.keys(entries).forEach((category) => {
+      tempData[category] = Object.values(entries[category] ?? []).reduce((a, b) => a + b, 0);
     });
 
-    setData(tempData);
+    // Find the maximum value, and total value
+    var tempMaxValue = 0;
+    var tempTotalValue = 0;
+    Object.keys(tempData).forEach((category) => {
+      if (tempData[category] > tempMaxValue) tempMaxValue = tempData[category];
+      tempTotalValue += tempData[category];
+    });
+
+    var finalData = [];
+    var tempValues = [];
+
+    // Remove categories with no data
+    Object.entries(tempData).forEach(([category, value]) => value === 0 && delete tempData[category]);
+    
+    // Add data for each series
+    Object.entries(tempData).forEach(([series, value]) => tempValues.push(value));
+    finalData.push({
+      name: "Visits",
+      data: tempValues,
+    });
+
+    setCategories(Object.keys(tempData));
+    setData(finalData);
+
     setMaxValue(tempMaxValue);
     setTotalValue(tempTotalValue);
   }, [startDate, endDate, source]);
 
-
-  var [options] = useState({
+  var options = {
     chart: {
       id,
       toolbar: {
@@ -59,6 +71,11 @@ export default function LineChart({ title, id, setTimespan, timespan, startDate,
     tooltip: {
       enabled: true,
       theme: "dark",
+    },
+    legend: {
+      labels: {
+        colors: "#fff",
+      },
     },
     xaxis: {
       categories: categories,
@@ -77,14 +94,7 @@ export default function LineChart({ title, id, setTimespan, timespan, startDate,
         },
       },
     },
-  });
-
-  var [series] = useState([
-    {
-      name: "Visits",
-      data: data,
-    },
-  ]);
+  };
 
   if (!source) return noData;
 
@@ -97,7 +107,9 @@ export default function LineChart({ title, id, setTimespan, timespan, startDate,
         <TimeSettings transparent timespan={timespan} setTimespan={setTimespan} />
       </div>
 
-      <Chart options={options} series={series} type="bar" width={"100%"} height={"100%"} />
+      <div className="chart-container">
+        <Chart options={options} series={data} type="bar" width={"100%"} height={"100%"} />
+      </div>
     </div>
   );
 }

@@ -41,7 +41,7 @@ export default function MapChart({ setTimespan, timespan, source, title, id, sta
       entries[entry] = Object.fromEntries(
         Object.entries(source[entry]).filter(([key]) => {
           var current = new Date(key).getTime();
-          if (current >= startDate && current <= endDate) return true;
+          return current >= startDate && current <= endDate;
         })
       );
     });
@@ -79,19 +79,14 @@ export default function MapChart({ setTimespan, timespan, source, title, id, sta
           width: "fit-content",
         }}
       />
-      <ComposableMap
-        style={{ maxHeight: "50vh", margin: "auto" }}
-        width={width}
-        height={height}
-        projection={projection}
-      >
-        {
-          <Geographies geography={GEO_URL}>
-            {({ geographies }) =>
-              geographies.map((geo) => {
-                const value = data[geo.id];
-                return (
-                  <>
+      <div className=""> {/* removed class chart-container */}
+        <ComposableMap style={{ maxHeight: "50vh", margin: "auto" }} width={width} height={height} projection={projection}>
+          {
+            <Geographies geography={GEO_URL}>
+              {({ geographies }) =>
+                geographies.map((geo) => {
+                  const value = data[geo.id];
+                  return (
                     <Geography
                       data-tooltip-id={id}
                       data-tooltip-html={ReactDOMServer.renderToStaticMarkup(<TooltipValue name={geo.properties.name} value={value} />)}
@@ -106,13 +101,13 @@ export default function MapChart({ setTimespan, timespan, source, title, id, sta
                       fill={value ? colorScale(value) : fromColor}
                       stroke={border}
                     />
-                  </>
-                );
-              })
-            }
-          </Geographies>
-        }
-      </ComposableMap>
+                  );
+                })
+              }
+            </Geographies>
+          }
+        </ComposableMap>
+      </div>
     </div>
   );
 }

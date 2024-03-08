@@ -9,7 +9,8 @@ import { getCookie, setCookie } from "../../Misc/Cookies";
 
 import MapChart from "../../Misc/Charts/MapChart";
 import { GridSettings, TimeSettings, getDashboardSetting } from "../Dashboard";
-import LineChart from "../../Misc/Charts/BarChart";
+import BarChartSeries from "../../Misc/Charts/BarChartSeries";
+import BarChart from "../../Misc/Charts/BarChart";
 
 export default function AnalyticsPage() {
   axios.defaults.withCredentials = true;
@@ -79,8 +80,12 @@ export default function AnalyticsPage() {
         <h1>Analytics</h1>
       </header>
       <div className="dashboard-content">
+        <div style={{
+          marginBottom: '1rem'
+        }}>
         <GridSettings setGridCollumns={setGridCollumns} GridCollumns={GridCollumns} />
         <TimeSettings timespan={timespan} setTimespan={setTimespan} />
+        </div>
 
         <div
           className="dashboard-grid"
@@ -90,17 +95,8 @@ export default function AnalyticsPage() {
         >
           {analytics.enabled ? (
             <>
-              <div className="dashboard-container">
-                <h2 className="bold">Visits by domain</h2>
-                {analytics?.overview?.user?.visit?.origin && <Line style={{ maxHeight: "50vh" }} height={300} className="dashboard-overview" options={ChartOptions} data={getChartData(analytics?.overview?.user?.visit?.origin, startDate, endDate)} />}
-                {!analytics?.overview?.user?.visit?.origin && <p>No collected data yet</p>}
-              </div>
-              <div className="dashboard-container">
-                <h2 className="bold">Visits by path</h2>
-                {analytics?.overview?.user?.visit?.path && <Line style={{ maxHeight: "50vh" }} height={300} className="dashboard-overview" options={ChartOptions} data={getChartData(analytics?.overview?.user?.visit?.path, startDate, endDate)} />}
-                {!analytics?.overview?.user?.visit?.path && <p>No collected data yet</p>}
-              </div>
-              <LineChart source={analytics?.overview?.user?.visit?.path} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"Paths visited"} id={"visits-path-main"} />
+              <BarChart source={analytics?.overview?.user?.visit?.origin} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"Domains"} id={"visits-path-main"}  startDate={startDate} endDate={endDate}/>
+              <BarChartSeries source={analytics?.overview?.user?.visit?.path} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"Paths"} id={"visits-path-main"}  startDate={startDate} endDate={endDate}/>
               <MapChart source={analytics?.overview?.user?.visit?.country} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"World Map"} id={"map-country-main"} fromColor={getComputedStyle(document.querySelector("*")).getPropertyValue(`--dashboard-container`)} toColor={"#daad60"} border={"#eee"} borderSize={".5px"} startDate={startDate} endDate={endDate} />
             </>
           ) : null}
