@@ -9,6 +9,7 @@ import { getCookie, setCookie } from "../../Misc/Cookies";
 
 import MapChart from "../../Misc/Charts/MapChart";
 import { GridSettings, TimeSettings, getDashboardSetting } from "../Dashboard";
+import LineChart from "../../Misc/Charts/BarChart";
 
 export default function AnalyticsPage() {
   axios.defaults.withCredentials = true;
@@ -99,9 +100,8 @@ export default function AnalyticsPage() {
                 {analytics?.overview?.user?.visit?.path && <Line style={{ maxHeight: "50vh" }} height={300} className="dashboard-overview" options={ChartOptions} data={getChartData(analytics?.overview?.user?.visit?.path, startDate, endDate)} />}
                 {!analytics?.overview?.user?.visit?.path && <p>No collected data yet</p>}
               </div>
-              <div className="dashboard-container analytics">
-                <MapChart source={analytics?.overview?.user?.visit?.country} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"World Map"} id={"map-country-main"} fromColor={getComputedStyle(document.querySelector("*")).getPropertyValue(`--dashboard-container`)} toColor={"#daad60"} border={"#eee"} borderSize={".5px"} startDate={startDate} endDate={endDate} />
-              </div>
+              <LineChart source={analytics?.overview?.user?.visit?.path} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"Paths visited"} id={"visits-path-main"} />
+              <MapChart source={analytics?.overview?.user?.visit?.country} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"World Map"} id={"map-country-main"} fromColor={getComputedStyle(document.querySelector("*")).getPropertyValue(`--dashboard-container`)} toColor={"#daad60"} border={"#eee"} borderSize={".5px"} startDate={startDate} endDate={endDate} />
             </>
           ) : null}
 

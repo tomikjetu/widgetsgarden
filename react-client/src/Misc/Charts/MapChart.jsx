@@ -65,7 +65,7 @@ export default function MapChart({ setTimespan, timespan, source, title, id, sta
   if (!source) return noData;
 
   return (
-    <>
+    <div className="dashboard-container analytics">
       <div className="analytics-container">
         <div className="analytics-stats">
           <h2 className="analytics-title">{title}</h2>
@@ -113,6 +113,6 @@ export default function MapChart({ setTimespan, timespan, source, title, id, sta
           </Geographies>
         }
       </ComposableMap>
-    </>
+    </div>
   );
 }

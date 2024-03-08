@@ -214,9 +214,11 @@ function AnalyzeUser(pageCollected, UserObject) {
       if (analytic.analyzePath) {
         var path = event.headers.origin.path;
         if (!UserObject.overview[name].path) UserObject.overview[name].path = {};
-        if (!UserObject.overview[name].path[path]) UserObject.overview[name].path[path] = {};
-        if (!UserObject.overview[name].path[path][date]) UserObject.overview[name].path[path][date] = 0;
-        UserObject.overview[name].path[path][date] += 1;
+        
+        if (!UserObject.overview[name].path[domain]) UserObject.overview[name].path[domain] = {};
+        if (!UserObject.overview[name].path[domain][path]) UserObject.overview[name].path[domain][path] = {};
+        if (!UserObject.overview[name].path[domain][path][date]) UserObject.overview[name].path[domain][path][date] = 0;
+        UserObject.overview[name].path[domain][path][date] += 1;
       }
 
       if (analytic.analyzeCountry) {
