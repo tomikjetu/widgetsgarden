@@ -5,28 +5,27 @@ import { useEffect, useState } from "react";
 export default function BarChartSeries({ title, id, setTimespan, timespan, startDate, endDate, source, noData }) {
   //   COLOR SET
 
-  const [data, setData] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [chartData, setChartData] = useState([]);
+  const [axisCategories, setAxisCategories] = useState([]);
   const [maxValue, setMaxValue] = useState(0);
   const [totalValue, setTotalValue] = useState(0);
 
-  var [series, setSeries] = useState([]);
-  var [selectedSeries, setSelectedSeries] = useState([]);
+  var [availableCategories, setAvailableCategories] = useState([]);
+  var [selectedCategories, setSelectedCategories] = useState(null);
 
   useEffect(() => {
     if (!source) return;
 
-    var entries = {};
-    var tempData = {};
-
-    // ONE SERIES CAN HAVE VALUES FROM MULTIPLE CATEGORIES
+    var timeSelectedData = {}; // Has only values within the selected time range
+    var realData = {}; // Has no zero values or empty categories
+    var tempChartData = []; // Data sent to the chart api
 
     // Filter the data to only include entries in the selected time range
-    Object.keys(source).forEach((series) => {
-      Object.keys(source[series]).forEach((category) => {
-        if (!entries[series]) entries[series] = {};
-        entries[series][category] = Object.fromEntries(
-          Object.entries(source[series][category]).filter(([key]) => {
+    Object.keys(source).forEach((category) => {
+      timeSelectedData[category] = {};
+      Object.keys(source[category]).forEach((series) => {
+        timeSelectedData[category][series] = Object.fromEntries(
+          Object.entries(source[category][series]).filter(([key]) => {
             var current = new Date(key).getTime();
             return current >= startDate && current <= endDate;
           })
@@ -35,81 +34,60 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
     });
 
     // Reduce all values into a single object
-    Object.keys(entries).forEach((series) => {
-      Object.keys(entries[series]).forEach((category) => {
-        if (!tempData[series]) tempData[series] = {};
-        tempData[series][category] = Object.values(entries[series][category] ?? []).reduce((a, b) => a + b, 0);
+    // Remove unselected categories
+    // Remove series with no data
+    // Remove categories with zero series sum
+    Object.keys(timeSelectedData).forEach((category) => {
+      if (!selectedCategories?.includes(category)) return;
+      realData[category] = {};
+      var sum = 0;
+      Object.keys(timeSelectedData[category]).forEach((series) => {
+        var value = Object.values(timeSelectedData[category][series] ?? []).reduce((a, b) => a + b, 0);
+        if (value == 0) return;
+        realData[category][series] = value;
+        sum += value;
+      });
+      if (sum == 0) delete realData[category];
+    });
+
+    setAxisCategories(Object.keys(realData));
+    if (selectedCategories == null) setSelectedCategories(Object.keys(timeSelectedData));
+    setAvailableCategories(Object.keys(timeSelectedData));
+
+    // Create data for each category
+    var tempSeries = {};
+    availableCategories.filter((category) => selectedCategories?.includes(category)).forEach((category, i) => {
+      Object.keys(realData[category]).forEach((series) => {
+        if (!tempSeries[series]) tempSeries[series] = [];
+        tempSeries[series][i] = realData[category][series];
       });
     });
+
+    Object.keys(tempSeries).forEach((series) => {
+      tempChartData.push({ name: series, data: tempSeries[series] });
+    });
+
+    setChartData(tempChartData);
 
     // Find the maximum value, and total value
     var tempMaxValue = 0;
     var tempTotalValue = 0;
-    Object.keys(tempData).forEach(function (series, index) {
-      Object.keys(tempData[series]).forEach((category) => {
-        if (tempData[series][category] > tempMaxValue) tempMaxValue = tempData[series][category];
-        tempTotalValue += tempData[series][category];
-      });
-    });
-
-    // Create data for each category
-    var tempCategories = [];
-    Object.keys(tempData).forEach(function (series, index) {
-      Object.keys(tempData[series]).forEach((category) => {
-        if (!tempCategories.includes(category)) tempCategories.push(category);
-      });
-    });
-
-    var tempValues = {};
-
-    // Add data for each series
-    Object.keys(tempData).forEach(function (series, index) {
-      if (!tempValues[series]) tempValues[series] = [];
-      tempCategories.forEach((category) => {
-        tempValues[series].push(tempData[series][category] ?? 0);
-      });
-    });
-
-    var finalData = [];
-    var tempSeries = [];
-    Object.keys(tempValues).forEach(function (series, index) {
-      tempSeries.push(series);
-      finalData.push({
-        name: series,
-        data: tempValues[series],
-      });
-    });
-
-    // Remove empty categories and their values from the data
-    // This prevents empty bars from appearing on the chart
-    for (var i = tempCategories.length - 1; i >= 0; i--) {
-      var sum = 0;
-      finalData.forEach((series) => {
-        sum += series.data[i];
-      });
-      if (sum == 0) {
-        tempCategories.splice(i, 1);
-        finalData.forEach((series) => {
-          series.data.splice(i, 1);
-        });
-      }
-    }
-
-    setSeries(tempSeries);
-
-    //  TODO only when length changes
-    setSelectedSeries(tempSeries);
-
-    setCategories(tempCategories);
-    setData(finalData);
+    Object.keys(realData).forEach(function (category, index) {
+      Object.keys(realData[category]).forEach((series) => {
+        tempMaxValue = Math.max(tempMaxValue, realData[category][series]);
+        tempTotalValue += realData[category][series];
+      })
+    })
 
     setMaxValue(tempMaxValue);
     setTotalValue(tempTotalValue);
-  }, [startDate, endDate, source]);
+
+  }, [startDate, endDate, source, selectedCategories]);
 
   var options = {
     chart: {
       id,
+      stacked: true,
       toolbar: {
         tools: {
           download: false,
@@ -118,13 +96,15 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
     },
     tooltip: {
       enabled: true,
+      shared: true,
+      intersect: false,
       theme: "dark",
     },
     legend: {
       show: false,
     },
     xaxis: {
-      categories: categories,
+      categories: axisCategories,
       labels: {
         style: {
           colors: "#fff",
@@ -149,6 +129,7 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
       <div className="analytics-container">
         <div className="analytics-stats">
           <h2 className="analytics-title">{title}</h2>
+          <p>{totalValue}</p>
         </div>
         <div
           style={{
@@ -158,43 +139,29 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
           }}
         >
           <TimeSettings transparent timespan={timespan} setTimespan={setTimespan} />
-          <p>Hide X axis</p>
         </div>
       </div>
 
       <div className="chart-container">
-        <Chart options={options} series={data} type="bar" width={"100%"} height={"100%"} />
+        <Chart options={options} series={chartData} type="bar" width={"100%"} height={"100%"} />
       </div>
 
       <div className="analytics-list">
-        {series.map((ser, index) => {
-          var selectedOpacity = selectedSeries.includes(ser) ? 1 : 0.5;
+        {availableCategories.map((availableCategory, index) => {
+          var selectedOpacity = selectedCategories.includes(availableCategory) ? 1 : 0.5;
           return (
             <div
-              key={ser}
+              key={availableCategory}
               className="analytics-list-item"
               style={{
                 cursor: "pointer",
               }}
               onClick={() => {
-                if (selectedSeries.includes(ser)) setSelectedSeries(selectedSeries.filter((s) => s != ser));
-                else setSelectedSeries([...selectedSeries, ser]);
+                if (selectedCategories.includes(availableCategory)) setSelectedCategories(selectedCategories.filter((s) => s != availableCategory));
+                else setSelectedCategories([...selectedCategories, availableCategory]);
               }}
             >
-              <div
-                style={{
-                  width: "1rem",
-                  aspectRatio: 1,
-                  marginRight: "0.5rem",
-                  borderRadius: "25%",
-
-                  backgroundColor: `#${Math.random().toString(16).slice(2, 8)}`,
-                  opacity: selectedOpacity
-                }}
-              />
-              <p style={{opacity: selectedOpacity}}>
-                {ser}
-              </p>
+              <p style={{ opacity: selectedOpacity }}>{availableCategory}</p>
             </div>
           );
         })}

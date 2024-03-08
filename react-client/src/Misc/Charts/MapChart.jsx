@@ -79,8 +79,11 @@ export default function MapChart({ setTimespan, timespan, source, title, id, sta
           width: "fit-content",
         }}
       />
-      <div className=""> {/* removed class chart-container */}
-        <ComposableMap style={{ maxHeight: "50vh", margin: "auto" }} width={width} height={height} projection={projection}>
+      <div className="" style={{
+        display: 'flex',
+        width: "100%"
+      }}> {/* removed class chart-container */}
+        <ComposableMap style={{maxHeight: "50vh", margin: 'auto'}} width={width} height={height} projection={projection}>
           {
             <Geographies geography={GEO_URL}>
               {({ geographies }) =>
