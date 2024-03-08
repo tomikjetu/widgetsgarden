@@ -31,46 +31,60 @@ export default function Main() {
   }
 
   return (
-    <div className="dashboard-content">
-      <div className="dashboard-status">
-        <a href="/dashboard/widgets" className="dashboard-container">
-          <span>
-            Widgets: <span className="number"> {overview?.user.widgets || "Loading..."}</span>
-          </span>
-        </a>
-      </div>
+    <div className="editor">
+      <header>
+        <h1>Dashboard</h1>
 
-      <GridSettings setGridCollumns={setGridCollumns} GridCollumns={GridCollumns} />
-
-      <div
-        style={{
-          gridTemplateColumns: `repeat(${GridCollumns}, 1fr)`,
-        }}
-        className="dashboard-grid dashboard-collumns"
-      >
-        <Link to="/dashboard/access" className="dashboard-container">
-          See Access dashboard
-        </Link>
-        <Link to="/dashboard/analytics" className="dashboard-container">
-          See Analytics
-        </Link>
-
-        <div className="dashboard-container" style={{ minHeight: "200px" }}>
-          <div className="center">
-            <p>Thank you for using WidgetsGarden.</p>
-            <p>To Learn about the projects and see updates join the discord.</p>
-            <a href="https://discord.gg/3qMpH5FfZQ" target="_blank" className="btn" style={{ margin: "1em", background: "#36364d" }}>
-              JOIN
-            </a>
-          </div>
+        <div
+          style={{
+            marginLeft: "auto",
+            display: "flex",
+            alignItems: "center",
+            gap: "2rem",
+          }}
+        >
+          <GridSettings setGridCollumns={setGridCollumns} GridCollumns={GridCollumns} />
+        </div>
+      </header>
+      <div className="dashboard-content">
+        <div className="dashboard-status">
+          <a href="/dashboard/widgets" className="dashboard-container">
+            <span>
+              Widgets: <span className="number"> {overview?.user.widgets || "Loading..."}</span>
+            </span>
+          </a>
         </div>
 
-        <div className="dashboard-container" style={{ minHeight: "200px" }}>
-          <div className="center">
-            <h3 className="bold">How to use WidgetsGarden?</h3>
-            <p>1. Import your access script</p>
-            <p>2. Authorize your website/locahost</p>
-            <p>3. Add Your Widgets</p>
+        <div
+          style={{
+            gridTemplateColumns: `repeat(${GridCollumns}, 1fr)`,
+          }}
+          className="dashboard-grid dashboard-collumns"
+        >
+          <Link to="/dashboard/access" className="dashboard-container">
+            See Access dashboard
+          </Link>
+          <Link to="/dashboard/analytics" className="dashboard-container">
+            See Analytics
+          </Link>
+
+          <div className="dashboard-container" style={{ minHeight: "200px" }}>
+            <div className="center">
+              <p>Thank you for using WidgetsGarden.</p>
+              <p>To Learn about the projects and see updates join the discord.</p>
+              <a href="https://discord.gg/3qMpH5FfZQ" target="_blank" className="btn" style={{ margin: "1em", background: "#36364d" }}>
+                JOIN
+              </a>
+            </div>
+          </div>
+
+          <div className="dashboard-container" style={{ minHeight: "200px" }}>
+            <div className="center">
+              <h3 className="bold">How to use WidgetsGarden?</h3>
+              <p>1. Import your access script</p>
+              <p>2. Authorize your website/locahost</p>
+              <p>3. Add Your Widgets</p>
+            </div>
           </div>
         </div>
       </div>

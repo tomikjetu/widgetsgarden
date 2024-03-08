@@ -24,7 +24,7 @@ export default function Profile({ profile }) {
 
   return (
     <div className="editor">
-      <header style={{ display: "flex" }}>
+      <header>
         <h1>Profile</h1>
         <Link to="/logout" style={{ marginLeft: "auto" }}>
           <button className="btn" style={{ background: "#0000001c", borderRadius: "7px" }}>
