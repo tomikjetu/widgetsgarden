@@ -21,7 +21,7 @@
 
 .DashboardStyle .Input,
 .DashboardStyle .Options {
-  background-color: var(--widget-background);
+  background-color: var(--dashboard-container);
   color: white;
   text-shadow: var(--dashboard-shadow);
 }

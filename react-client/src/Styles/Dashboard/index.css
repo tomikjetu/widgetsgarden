@@ -31,13 +31,15 @@
   justify-content: flex-end;
   gap: 1rem;
   margin-bottom: 1em;
-
+  
+  
   & > * {
     cursor: pointer;
+    transition: background 500ms ease;
   }
 
   & > :hover {
-    background-color: var(--widget-hover);
+    background-color: var(--dashboard-container-hover);
   }
 }
 
@@ -71,6 +73,7 @@
   font-weight: 500;
   border-radius: 7px;
   min-width: 0px; /* To fix the grid overflow */
+  box-shadow: -4px 4px 10px 0 rgb(0 0 0 / 20%);
 
   & > div {
     width: 100%;
@@ -81,7 +84,81 @@
     padding: 0.25em 0.5em;
 
     &.selected {
-      background-color: var(--sidebar-background-active);
+      background-color: var(--dashboard-container-acitve);
+    }
+  }
+
+  &.analytics {
+    display: flex;
+    align-items: start;
+    gap: 0;
+
+    & .analytics-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    &:hover .analytics-settings {
+      opacity: 1;
+    }
+
+    & .analytics-title {
+      color: #eee;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+
+    .analytics-main-value {
+      font-size: 1.8rem;
+      font-weight: 500;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+  }
+}
+.analytics-settings {
+  --border-radius: 0.6rem;
+
+  display: flex;
+
+  height: fit-content;
+  width: fit-content;
+  border-radius: var(--border-radius);
+
+  border: 1px solid var(--dashboard-container);
+  background: var(--dashboard-container);
+
+  margin-left: auto;
+  margin-bottom: 1rem;
+  padding: 0 .25rem;
+
+  & span {
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--border-radius);
+    font-family: Arial, Helvetica, sans-serif;
+    color: #aaa;
+    cursor: pointer;
+    transition: background 500ms ease, color 500ms ease;
+    &.selected {
+      color: white;
+      background: var(--dashboard-container-acitve);
+    }
+  }
+}
+
+.analytics-settings.transparent {
+  padding: 0;
+  opacity: 0;
+  transition: opacity 500ms ease;
+  border: 1px solid #aaa;
+  
+  & span {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    color: #aaa;
+    &.selected {
+      color: white;
+      background: #aaa;
     }
   }
 }

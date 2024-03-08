@@ -19,6 +19,8 @@
   --dropdown-separator-color: white;
   --dropdown-item-background-hover: #0a2f22;
 
+  --range-color: #daad60;
+
   /*LOGIN PAGE*/
   --login-form-background: white;
   --login-form-foreground: black;
@@ -55,7 +57,9 @@
   --sidebar-background-active: #AA8B56;
   --sidebar-foreground-active: white;
   
-  --dashboard-container: #daad60;
+  --dashboard-container: #514c39;
+  --dashboard-container-hover: #736347;
+  --dashboard-container-acitve: #daad60;
   --dashboard-text: white;
   --dashboard-shadow: 1px 1px 4px black;
 
@@ -64,7 +68,15 @@
 
   /* WIDGETS */
 
+  /* LIGHT */
+  /* --widget-background: #daad60;
+  --widget-skeleton: linear-gradient(110deg, #daad60 8%, #e9c079 18%, #daad60 33%);
+  --widget-background-transparent: #daad6030;
+  --widget-hover: #e9c079; */
+
   --widget-background: #daad60;
+  --widget-skeleton: linear-gradient(110deg, #daad60 8%, #e9c079 18%, #daad60 33%);
+  --widget-background-transparent: #daad6030;
   --widget-hover: #e9c079;
 
 }

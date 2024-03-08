@@ -1,12 +1,13 @@
 :root {
-  /* --domain-background: #61b368; */
-  --domain-background: #3a9842;
+  /* --domain-background: #61b368;
+  --domain-background: #3a9842; */
+  --domain-background: #daad60; 
   --domain-foregroud: white;
 
-  --input-background: #3a9842;
+  --input-background: #daad60;
   --input-foreground: white;
   --input-plcaeholder: rgba(255, 255, 255, 0.6);
-  --add-button-background: #3a9842;
+  --add-button-background: #daad60;
 }
 
 .addDomainForm {

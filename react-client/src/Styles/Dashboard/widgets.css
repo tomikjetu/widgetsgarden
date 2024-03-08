@@ -26,8 +26,8 @@
   color: black;
 
   &.skeleton {
-    background: #daad60;
-    background: linear-gradient(110deg, #daad60 8%, #e9c079 18%, #daad60 33%);
+    background: var(--widget-background);
+    background: var(--widget-skeleton);
     border-radius: 5px;
     background-size: 200% 100%;
     animation: 1s shine linear infinite;
@@ -55,7 +55,7 @@
     cursor: pointer;
 
     border: 3px dotted var(--widget-background);
-    background-color: rgb(218 173 96 / 30%);
+    background-color: var(--widget-background-transparent)
   }
 
   & .widgetcontent {
@@ -204,6 +204,9 @@ header.navigation {
 }
 
 .editor header {
+  position: relative;
+  z-index: 599;
+  
   display: flex;
   align-items: center;
   gap: 1em;
@@ -212,6 +215,7 @@ header.navigation {
   width: calc(100% - 1em * 2 - 15em);
   background-color: var(--dashboard-navigation-background);
   margin: 0em 10em 0em 15em;
+  box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
 }
 
 @media (max-width: 991.98px) {
@@ -354,7 +358,7 @@ header.navigation {
   padding: 4px 8px;
   border-radius: 4px;
 
-  background-color: var(--widget-background);
+  background-color: var(--container-background);
   text-shadow: var(--dashboard-shadow);
   color: white;
 
