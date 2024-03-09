@@ -344,7 +344,7 @@ export async function getMessages(userId) {
 }
 
 export async function sendMessage(userId, message) {
-  // TODO send to email
+  // TODO send to email too depending on the settings
   var messages = await getMessagesData(userId);
   messages.messages.push(message);
   await messages.save();
