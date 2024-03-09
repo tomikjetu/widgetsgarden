@@ -2,10 +2,48 @@ import Chart from "react-apexcharts";
 import { TimeSettings } from "../../Pages/Dashboard";
 import { useEffect, useState } from "react";
 
+export var options = {
+  chart: {
+    // ID
+    stacked: true,
+    toolbar: {
+      tools: {
+        download: false,
+      },
+    },
+  },
+  tooltip: {
+    enabled: true,
+    shared: true,
+    intersect: false,
+    theme: "dark",
+  },
+  legend: {
+    show: false,
+  },
+  xaxis: {
+    // CATEGORIES
+    labels: {
+      style: {
+        colors: "#fff",
+        fontFamily: "Raleway, sans-serif",
+      },
+    },
+  },
+  yaxis: {
+    labels: {
+      style: {
+        colors: "#fff",
+        fontFamily: "Raleway, sans-serif",
+      },
+    },
+  },
+};
+
 export default function BarChart({ title, id, setTimespan, timespan, startDate, endDate, source, noData }) {
 
   const [data, setData] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [axisCategories, setAxisCategories] = useState([]);
   const [maxValue, setMaxValue] = useState(0);
   const [totalValue, setTotalValue] = useState(0);
 
@@ -51,49 +89,12 @@ export default function BarChart({ title, id, setTimespan, timespan, startDate, 
       data: tempValues,
     });
 
-    setCategories(Object.keys(tempData));
+    setAxisCategories(Object.keys(tempData));
     setData(finalData);
 
     setMaxValue(tempMaxValue);
     setTotalValue(tempTotalValue);
   }, [startDate, endDate, source]);
-
-  var options = {
-    chart: {
-      id,
-      toolbar: {
-        tools: {
-          download: false,
-        },
-      },
-    },
-    tooltip: {
-      enabled: true,
-      theme: "dark",
-    },
-    legend: {
-      labels: {
-        colors: "#fff",
-      },
-    },
-    xaxis: {
-      categories: categories,
-      labels: {
-        style: {
-          colors: "#fff",
-          fontFamily: "Raleway, sans-serif",
-        },
-      },
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "#fff",
-          fontFamily: "Raleway, sans-serif",
-        },
-      },
-    },
-  };
 
   if (!source) return noData;
 
@@ -107,7 +108,17 @@ export default function BarChart({ title, id, setTimespan, timespan, startDate, 
       </div>
 
       <div className="chart-container">
-        <Chart options={options} series={data} type="bar" width={"100%"} height={"100%"} />
+        <Chart options={{
+          ...options,
+          chart: {
+            ...options.chart,
+            id
+          },
+          xaxis: {
+            ...options.xaxis,
+            categories: axisCategories
+          }
+        }} series={data} type="bar" width={"100%"} height={"100%"} />
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import Chart from "react-apexcharts";
 import { TimeSettings } from "../../Pages/Dashboard";
 import { useEffect, useState } from "react";
+import { options } from "./BarChart";
 
 export default function BarChartSeries({ title, id, setTimespan, timespan, startDate, endDate, source, noData }) {
 
@@ -49,10 +50,7 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
       if (sum == 0) delete realData[category];
     });
 
-    setAxisCategories(Object.keys(realData));
-    if (selectedCategories == null) setSelectedCategories(Object.keys(timeSelectedData));
-    setAvailableCategories(Object.keys(timeSelectedData));
-
+    
     // Create data for each category
     var tempSeries = {};
     availableCategories.filter((category) => selectedCategories?.includes(category)).forEach((category, i) => {
@@ -66,8 +64,7 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
       tempChartData.push({ name: series, data: tempSeries[series] });
     });
 
-    setChartData(tempChartData);
-
+    
     // Find the maximum value, and total value
     var tempMaxValue = 0;
     var tempTotalValue = 0;
@@ -78,48 +75,17 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
       })
     })
 
+    
+    setAxisCategories(Object.keys(realData));
+    if (selectedCategories == null) setSelectedCategories(Object.keys(timeSelectedData));
+    setAvailableCategories(Object.keys(timeSelectedData));
+
+    setChartData(tempChartData);
+
     setMaxValue(tempMaxValue);
     setTotalValue(tempTotalValue);
 
   }, [startDate, endDate, source, selectedCategories]);
-
-  var options = {
-    chart: {
-      id,
-      stacked: true,
-      toolbar: {
-        tools: {
-          download: false,
-        },
-      },
-    },
-    tooltip: {
-      enabled: true,
-      shared: true,
-      intersect: false,
-      theme: "dark",
-    },
-    legend: {
-      show: false,
-    },
-    xaxis: {
-      categories: axisCategories,
-      labels: {
-        style: {
-          colors: "#fff",
-          fontFamily: "Raleway, sans-serif",
-        },
-      },
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "#fff",
-          fontFamily: "Raleway, sans-serif",
-        },
-      },
-    },
-  };
 
   if (!source) return noData;
 
@@ -142,7 +108,17 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
       </div>
 
       <div className="chart-container">
-        <Chart options={options} series={chartData} type="bar" width={"100%"} height={"100%"} />
+        <Chart options={{
+          ...options,
+          chart: {
+            ...options.chart,
+            id
+          },
+          xaxis: {
+            ...options.xaxis,
+            categories: axisCategories
+          }
+        }} series={chartData} type="bar" width={"100%"} height={"100%"} />
       </div>
 
       <div className="analytics-list">
