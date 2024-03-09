@@ -3,6 +3,10 @@
   grid-auto-rows: 1fr;
   grid-template-columns: repeat(auto-fit, minmax(250px, 250px));
   justify-content: center;
+
+  &.list{
+    grid-template-columns: 1fr;
+  }
 }
 
 @keyframes shine {
@@ -12,18 +16,18 @@
 }
 
 .widget {
+  --height: 150px;
   background-color: var(--widget-background);
 
   transition: scale 200ms cubic-bezier(0.075, 0.82, 0.165, 1), background-color 250ms ease;
 
-  height: 150px;
-  max-height: 150px;
-  min-height: 150px;
+  height: var(--height);
+  max-height:  var(--height);
+  min-height:  var(--height);
 
   padding: 0.5rem 1rem;
   margin: 10px;
   border-radius: 10px;
-  color: black;
 
   &.skeleton {
     background: var(--widget-background);
@@ -36,10 +40,6 @@
   &:hover {
     scale: 1.05;
     background-color: var(--widget-hover);
-  }
-
-  &.create {
-    height: 10em;
   }
 
   &.new {
@@ -58,6 +58,8 @@
     background-color: var(--widget-background-transparent)
   }
 
+
+  /* Library has description */
   & .widgetcontent {
     position: relative;
     min-height: calc(100% - 2rem);
@@ -83,6 +85,15 @@
 
   overflow-y: auto;
   scrollbar-width: none;
+}
+
+.widget.list{
+  --height: 75px;
+  margin: 5px 10px;
+
+  &:hover {
+    scale: 1;
+  }
 }
 
 .widget::-webkit-scrollbar {

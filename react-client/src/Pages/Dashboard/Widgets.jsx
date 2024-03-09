@@ -2,44 +2,58 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "../../Styles/Dashboard/widgets.css";
 import { Link, useSearchParams } from "react-router-dom";
-import { BackIcon, BinIcon, DocumentIcon, EmbedIcon, EyeIcon, GearIcon, HomeIcon, PenIcon, TouchIcon } from "../../Styles/Svg";
+import { AnalyticsIcon, BackIcon, BinIcon, DocumentIcon, EmbedIcon, EyeIcon, GearIcon, HomeIcon, PenIcon, SortAIcon, SortLastModifiedIcon, SortNewestCreatedIcon, SortOldestCreatedIcon, SortZIcon, TouchIcon, WidgetsIcon } from "../../Styles/Svg";
 import Modal from "../../Components/Modals/Modal";
 import CodeCopy from "../../Components/CodeCopy";
 import TextOptions from "./Components/WidgetsEditor/Components/Options";
 import { getCookie, setCookie } from "../../Misc/Cookies";
-import { getDashboardSetting } from "../Dashboard";
+import { GridSettings, getDashboardSetting } from "../Dashboard";
+import { Tooltip } from "react-tooltip";
 
 var sortOptions = [
   {
+    icon: <SortLastModifiedIcon />,
     text: "Last Modified",
     value: "lastModified",
   },
   {
+    icon: <SortNewestCreatedIcon />,
     text: "Newest Created",
     value: "newest",
   },
   {
+    icon: <SortOldestCreatedIcon />,
     text: "Oldest Created",
     value: "oldest",
   },
   {
+    icon: <SortAIcon />,
     text: "Name (A-Z)",
     value: "nameA",
   },
   {
+    icon: <SortZIcon />,
     text: "Name (Z-A)",
     value: "nameZ",
   },
 ];
 export default function Widgets() {
   axios.defaults.withCredentials = true;
+
+  var [GridCollumns, setGridCollumns] = useState(2);
   var [widgets, setWidgets] = useState(null);
 
   var [sort, setSort] = useState(getDashboardSetting("dashboard-sort"));
 
   useEffect(() => {
+    setGridCollumns(getDashboardSetting("dashboard-collumns"));
     getWidgets();
   }, []);
+
+  useEffect(() => {
+    if (GridCollumns == null) return;
+    setCookie("dashboard-collumns", GridCollumns, null, "/dashboard");
+  }, [GridCollumns]);
 
   function getWidgets() {
     axios.get(`${process.env.REACT_APP_SERVER_URL}/dashboard/widgets`).then((res) => {
@@ -111,6 +125,7 @@ export default function Widgets() {
   }
 
   function widgetMouseOver(event, index) {
+    if (GridCollumns == 1) return;
     var target = document.getElementsByClassName("widget")[index + 1];
     var width = target.clientWidth;
     var height = target.clientHeight;
@@ -131,26 +146,57 @@ export default function Widgets() {
   return (
     <div className="editor">
       <header>
-        <div style={{
-          display:'flex',
-          gap: "1rem",
-          alignItems: 'flex-end'
-        }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            alignItems: "flex-end",
+          }}
+        >
           <Link to="/dashboard">
-            <span style={{fontSize: '2rem'}}>
-            <HomeIcon/>
+            <span style={{ fontSize: "2rem" }}>
+              <HomeIcon />
             </span>
           </Link>
           <h1>Widgets</h1>
         </div>
-        <p>PLS CHANGE THIS TO ICONS WITH TOOLTIP</p>
-        <div className="dashboard-status">
-          <Link to="/dashboard/analytics">
-            <div className="dashboard-container">Analytics</div>
+        <div
+          style={{
+            marginLeft: "1rem",
+          }}
+          className="dashboard-settings"
+        >
+          <Tooltip id="header-links-toolip" />
+          <Link data-tooltip-content={"Analytics"} data-tooltip-id="header-links-toolip" data-tooltip-place="bottom" className="dashboard-container button" style={{ fontSize: "2rem" }} to="/dashboard/analytics">
+            <AnalyticsIcon />
           </Link>
-          <Link to="/dashboard/library">
-            <div className="dashboard-container">Library</div>
+          <Link data-tooltip-content={"Library"} data-tooltip-id="header-links-toolip" data-tooltip-place="bottom" className="dashboard-container button" style={{ fontSize: "2rem" }} to="/dashboard/library">
+            <WidgetsIcon />
           </Link>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            marginLeft: "auto",
+          }}
+        >
+          <GridSettings setGridCollumns={setGridCollumns} GridCollumns={GridCollumns} />
+          <div
+            style={{
+              filter: "drop-shadow(#00000060 -2px 2px 10px)",
+            }}
+          >
+            <TextOptions
+              dashboardStyle
+              defaultValue={sort}
+              onChange={(value) => {
+                setSort(value);
+              }}
+              options={sortOptions}
+            />
+          </div>
         </div>
       </header>
       <div className="dashboard-content">
@@ -185,18 +231,7 @@ export default function Widgets() {
           </div>
         </Modal>
 
-        <div className="dashboard-settings">
-          <TextOptions
-            dashboardStyle
-            defaultValue={sort}
-            onChange={(value) => {
-              setSort(value);
-            }}
-            options={sortOptions}
-          />
-        </div>
-
-        <div className="widgets">
+        <div className={`widgets ${GridCollumns == 1 ? "list" : ""}`}>
           {widgets == null && (
             <>
               <div className="widget skeleton" />
@@ -206,13 +241,13 @@ export default function Widgets() {
           )}
           {widgets != null && (
             <>
-              <div className="widget new" onClick={createWidget}>
+              <div className={`widget new ${GridCollumns == 1 ? "list" : ""}`} onClick={createWidget}>
                 +
               </div>
               {sorted(widgets).map((widget, index) => {
                 return (
                   <div
-                    className="widget"
+                    className={`widget ${GridCollumns == 1 ? "list" : ""}`}
                     key={widget.widgetId}
                     onMouseMove={(e) => {
                       widgetMouseOver(e, index);
@@ -231,21 +266,11 @@ export default function Widgets() {
                       </h4>
 
                       {/*<div className="stats">
-                  <div className="stat">
-                    <EyeIcon />
-                    <p className="number">{700}</p>
-                  </div>
-
-                  <div className="stat">
-                    <TouchIcon />
-                    <p className="number">{200}</p>
-                  </div>
-
-                  <div className="stat">
-                    <DocumentIcon />
-                    <p className="number">{50}</p>
-                  </div>
-                </div> */}
+                        <div className="stat">
+                          <EyeIcon />
+                          <p className="number">{700}</p>
+                        </div>
+                      </div> */}
 
                       <div className="actions">
                         <div className="actionsgroup">
