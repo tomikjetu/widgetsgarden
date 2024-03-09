@@ -1,3 +1,7 @@
+:root{
+  --border-radius: 12px;
+}
+
 .OptionsComponent {
   position: relative;
   width: fit-content;
@@ -8,17 +12,21 @@
 }
 
 .DashboardStyle {
-  border-radius: 7px;
+  border-radius: var(--border-radius);
 }
 
 .DashboardStyle .Input:focus {
-  border-radius: 7px 7px 0 0;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
 .DashboardStyle .Input {
-  border-radius: 7px;
+  border-radius: var(--border-radius);
 }
 
+.DashboardStyle .Input,
+.DashboardStyle .Option{
+  transition: background-color 250ms ease;
+}
 .DashboardStyle .Input,
 .DashboardStyle .Options {
   background-color: var(--dashboard-container);
@@ -26,10 +34,20 @@
   text-shadow: var(--dashboard-shadow);
 }
 
+.DashboardStyle .Input:hover ,
+.DashboardStyle .Option:hover {
+  background-color: var(--dashboard-container-hover);
+}
+
 .Input {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  min-width: 225px;
+  
   cursor: pointer;
   padding: 0.5rem 1rem;
-  font-size: 1rem;
+  font-size: 1.3rem;
   user-select: none;
   border: none;
 }
@@ -41,7 +59,7 @@
 .Options {
   position: absolute;
   z-index: 1000;
-  max-height: 200px;
+  max-height: 50vh;
   overflow-y: auto;
   background-color: white;
   color: black;
@@ -56,5 +74,9 @@
 
 .Option {
   cursor: pointer;
-  padding: 0.5em 1em;
+  padding: 0.5rem 1rem;
+
+  display: flex;
+  gap: .5rem;
+  font-size: 1.3rem;
 }

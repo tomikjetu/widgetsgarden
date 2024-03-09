@@ -12,7 +12,7 @@ import "../Styles/Dashboard/index.css";
 import "../Styles/Dashboard/Environment/navbar.css";
 import "../Styles/Dashboard/Environment/sidebar.css";
 
-import { BurgerMenuIcon, DashboardCollumn, DashboardCollumnsTwo } from "../Styles/Svg";
+import { BurgerMenuIcon, DashboardCollumnIcon, DashboardCollumnsTwoIcon } from "../Styles/Svg";
 import Sidebar from "./Dashboard/Components/Sidebar";
 import AnalyticsPage from "./Dashboard/AnalyticsPage";
 import Editor from "./Dashboard/Editor/Editor";
@@ -20,6 +20,7 @@ import Settings from "./Dashboard/Settings";
 import Library from "./Dashboard/Library";
 import Admin from "./Dashboard/Admin";
 import { getCookie } from "../Misc/Cookies";
+import { Tooltip } from "react-tooltip";
 
 export const dashboardDefaultSettings = {
   "dashboard-collumns": 2,
@@ -32,35 +33,50 @@ export function getDashboardSetting(name) {
 }
 
 export function GridSettings({ setGridCollumns, GridCollumns }) {
+  var IconStyles = {
+    filter: "drop-shadow(0 0 2px black)",
+    height: "1.2rem",
+    width: "1.2rem",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  };
   return (
-    <div className="dashboard-settings">
-      <div
+    <div className="dashboard-settings-group">
+      <Tooltip id="tooltip-group-grid-settings" />
+      <span
+        data-tooltip-id="tooltip-group-grid-settings"
+        data-tooltip-content="Single Column"
+        data-tooltip-place="bottom"
         onClick={() => {
           setGridCollumns(1);
         }}
-        className={`dashboard-container setting ${GridCollumns == 1 ? "selected" : ""}`}
+        className={`${GridCollumns == 1 ? "selected" : ""}`}
       >
-        <span style={{ filter: "drop-shadow(0 0 2px black)", width: "1.5rem", display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <DashboardCollumn />
+        <span style={IconStyles}>
+          <DashboardCollumnIcon />
         </span>
-      </div>
-      <div
+      </span>
+      <span
+        data-tooltip-id="tooltip-group-grid-settings"
+        data-tooltip-content="Grid"
+        data-tooltip-place="bottom"
         onClick={() => {
           setGridCollumns(2);
         }}
-        className={`dashboard-container setting ${GridCollumns == 2 ? "selected" : ""}`}
+        className={`${GridCollumns == 2 ? "selected" : ""}`}
       >
-        <span style={{ filter: "drop-shadow(0 0 2px black)", width: "1.5rem", display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <DashboardCollumnsTwo />
+        <span style={IconStyles}>
+          <DashboardCollumnsTwoIcon />
         </span>
-      </div>
+      </span>
     </div>
   );
 }
 
 export function TimeSettings({ setTimespan, timespan, transparent }) {
   return (
-    <div style={{ boxShadow: "#00000060 -2px 2px 10px" }} className={`analytics-settings ${transparent ? "transparent" : ""}`}>
+    <div className={`dashboard-settings-group ${transparent ? "transparent" : ""}`}>
       <span className={timespan == 7 ? "selected" : ""} onClick={() => setTimespan(7)}>
         7D
       </span>

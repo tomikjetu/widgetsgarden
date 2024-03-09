@@ -33,7 +33,7 @@
   
   & > * {
     cursor: pointer;
-    transition: background 500ms ease;
+    transition: background 250ms ease;
   }
 
   & > :hover {
@@ -77,7 +77,7 @@
     width: 100%;
   }
 
-  &.setting {
+  &.button {
     width: fit-content;
     padding: 0.25em 0.5em;
 
@@ -96,7 +96,7 @@
       justify-content: space-between;
       margin-bottom: 0.5rem;
     }
-    &:hover .analytics-settings {
+    &:hover .dashboard-settings-group {
       opacity: 1;
     }
 
@@ -138,10 +138,11 @@
 
 /* TODO ANALYTICS.css BELOW AND FEW LINES ABOVE */
 
-.analytics-settings {
+.dashboard-settings-group {
   --border-radius: 0.6rem;
 
   display: flex;
+  box-shadow: #00000060 -2px 2px 10px;
 
   height: fit-content;
   width: fit-content;
@@ -152,28 +153,40 @@
 
   margin-left: auto;
 
-  & span {
+  & > span {
     font-size: 1rem;
     padding: 0.75rem 0.75rem;
     border-radius: var(--border-radius);
     font-family: Arial, Helvetica, sans-serif;
-    color: #aaa;
     cursor: pointer;
-    transition: background 500ms ease, color 500ms ease;
+    transition: background 250ms ease, color 250ms ease;
+
+    color: #aaa;
+    & svg  *{
+      transition: fill 250ms ease, stroke 250ms ease;
+      fill: #aaa;
+      stroke: #aaa;
+    }
+
     &.selected {
-      color: white;
       background: var(--dashboard-container-acitve);
+      color: white;
+      & svg  *{
+        fill: white;
+        stroke: white;
+      }
     }
   }
 }
 
-.analytics-settings.transparent {
+.dashboard-settings-group.transparent {
   padding: 0;
   opacity: 0;
-  transition: opacity 500ms ease;
+  transition: opacity 250ms ease;
+  box-shadow: #00000040 -2px 2px 10px;
   
   & span {
-    font-size: 0.75rem;
+    font-size: 1rem;
     padding: 0.25rem 0.5rem;
     color: #aaa;
     &.selected {
