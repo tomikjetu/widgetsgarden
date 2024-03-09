@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
-import { UpgradeIcon, WidgetsIcon, LockIcon, DocumentIcon, MainDashboardIcon } from '../../../Styles/Svg';
+import { UpgradeIcon, WidgetsIcon, LockIcon, DocumentIcon, AnalyticsIcon, HomeIcon } from '../../../Styles/Svg';
 
 import Profile from './Profile';
 import Notifications from './Notifications';
@@ -15,6 +15,7 @@ export default function Sidebar({ notifications, sidebarToggle, profile }) {
   useEffect(() => {
 
     // TODO on any link clcked toogle sidebar
+    // TODO mini sidebar version with just icons
 
     sidebarRef.current.classList.add('activating');
     setTimeout(() => {
@@ -32,9 +33,10 @@ export default function Sidebar({ notifications, sidebarToggle, profile }) {
     </a>
 
     <div className="sidebar-items">
-      <a href="/dashboard" className={`sidebar-item ${pathname == "/dashboard" ? "sidebar-item-active" : ""}`}><MainDashboardIcon className="dashboard-icon" /> <span>Main dashboard</span></a>
+      <a href="/dashboard" className={`sidebar-item ${pathname == "/dashboard" ? "sidebar-item-active" : ""}`}><HomeIcon className="dashboard-icon" /> <span>Home</span></a>
       <a href="/dashboard/access" className={`sidebar-item ${pathname == "/dashboard/access" ? "sidebar-item-active" : ""}`}><LockIcon /> <span>Access</span></a>
       <a href="/dashboard/widgets" className={`sidebar-item ${pathname == "/dashboard/widgets" ? "sidebar-item-active" : ""}`}><WidgetsIcon /> <span>Widgets</span></a>
+      <a href="/dashboard/analytics" className={`sidebar-item ${pathname == "/dashboard/analytics" ? "sidebar-item-active" : ""}`}><AnalyticsIcon /> <span>Analytics</span></a>
     </div>
     <div className="sidebar-items sidebar-items-bottom">
       <a href="/dashboard/upgrade" className={`sidebar-item`}><UpgradeIcon></UpgradeIcon> <span>Pricing</span></a>

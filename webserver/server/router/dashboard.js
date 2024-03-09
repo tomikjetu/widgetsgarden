@@ -66,7 +66,7 @@ export default function (app) {
     const User = getUserSerialization(req);
     var widgets = await getWidgets(User.uuid);
     widgets.forEach((element) => {
-      element.analytics = {}; // TODO load stats
+      element.analytics = {}; // TODO load widget analytics, once added
       element.data = {};
     });
 

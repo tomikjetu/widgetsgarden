@@ -67,6 +67,8 @@ export default function Messages() {
       <header style={{ display: "flex" }}>
         <h1>Messages</h1>
       </header>
+       {/* TODO add email settings */}
+
       <div className="dashboard-content">
         <div className="dashboard-grid">
           <div key={filters.join("")} className="messages dashboard-container">

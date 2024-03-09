@@ -66,7 +66,24 @@ export function LockIcon() {
   );
 }
 
-export function MainDashboardIcon() {
+export function HomeIcon() {
+  return (
+    <svg className="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g id="SVGRepo_iconCarrier">
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M11.3103 1.77586C11.6966 1.40805 12.3034 1.40805 12.6897 1.77586L20.6897 9.39491L23.1897 11.7759C23.5896 12.1567 23.605 12.7897 23.2241 13.1897C22.8433 13.5896 22.2103 13.605 21.8103 13.2241L21 12.4524V20C21 21.1046 20.1046 22 19 22H14H10H5C3.89543 22 3 21.1046 3 20V12.4524L2.18966 13.2241C1.78972 13.605 1.15675 13.5896 0.775862 13.1897C0.394976 12.7897 0.410414 12.1567 0.810345 11.7759L3.31034 9.39491L11.3103 1.77586ZM5 10.5476V20H9V15C9 13.3431 10.3431 12 12 12C13.6569 12 15 13.3431 15 15V20H19V10.5476L12 3.88095L5 10.5476ZM13 20V15C13 14.4477 12.5523 14 12 14C11.4477 14 11 14.4477 11 15V20H13Z"
+          fill="#fff"
+        ></path>
+      </g>
+    </svg>
+  );
+}
+
+export function AnalyticsIcon() {
   return (
     <svg fill="#000000" width="800px" height="800px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="icon">
       <path d="M12 4C6.486 4 2 8.486 2 14a9.89 9.89 0 0 0 1.051 4.445c.17.34.516.555.895.555h16.107c.379 0 .726-.215.896-.555A9.89 9.89 0 0 0 22 14c0-5.514-4.486-10-10-10zm5.022 5.022L13.06 15.06a1.53 1.53 0 0 1-2.121.44 1.53 1.53 0 0 1 0-2.561l6.038-3.962a.033.033 0 0 1 .045.01.034.034 0 0 1 0 .035z" />
@@ -123,10 +140,19 @@ export function CopyIcon() {
 
 export function PenIcon() {
   return (
-    <svg style={{
-      width: '100%',
-      height: '100%'
-    }} viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" className="pen" transform="matrix(1, 0, 0, 1, 0, 0)" stroke="#ffffff" strokeWidth="0.00024000000000000003">
+    <svg
+      style={{
+        width: "100%",
+        height: "100%",
+      }}
+      viewBox="0 0 24.00 24.00"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="pen"
+      transform="matrix(1, 0, 0, 1, 0, 0)"
+      stroke="#ffffff"
+      strokeWidth="0.00024000000000000003"
+    >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="0.43200000000000005"></g>
       <g id="SVGRepo_iconCarrier">

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "../../Styles/Dashboard/widgets.css";
 import { Link, useSearchParams } from "react-router-dom";
-import { BackIcon, BinIcon, DocumentIcon, EmbedIcon, EyeIcon, GearIcon, PenIcon, TouchIcon } from "../../Styles/Svg";
-import Modal from "../../Components/Modal";
+import { BackIcon, BinIcon, DocumentIcon, EmbedIcon, EyeIcon, GearIcon, HomeIcon, PenIcon, TouchIcon } from "../../Styles/Svg";
+import Modal from "../../Components/Modals/Modal";
 import CodeCopy from "../../Components/CodeCopy";
 import TextOptions from "./Components/WidgetsEditor/Components/Options";
 import { getCookie, setCookie } from "../../Misc/Cookies";
@@ -131,10 +131,18 @@ export default function Widgets() {
   return (
     <div className="editor">
       <header>
-        <Link to="/dashboard">
-          <p>Home Icon</p>
-        </Link>
-        <h1>Widgets</h1>
+        <div style={{
+          display:'flex',
+          gap: "1rem",
+          alignItems: 'flex-end'
+        }}>
+          <Link to="/dashboard">
+            <span style={{fontSize: '2rem'}}>
+            <HomeIcon/>
+            </span>
+          </Link>
+          <h1>Widgets</h1>
+        </div>
         <p>PLS CHANGE THIS TO ICONS WITH TOOLTIP</p>
         <div className="dashboard-status">
           <Link to="/dashboard/analytics">

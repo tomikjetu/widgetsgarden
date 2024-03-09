@@ -16,7 +16,7 @@ import { BackIcon, BinIcon, EmbedIcon, EyeIcon, ForwardsIcon, GearIcon, InfoIcon
 
 import { DropdownMenu } from "../../../Components/DropdownMenu";
 import { useParams, useSearchParams } from "react-router-dom";
-import Modal from "../../../Components/Modal";
+import Modal from "../../../Components/Modals/Modal";
 import InputStyle from "../Components/WidgetsEditor/Components/Styles/Input.module.css";
 import CodeCopy from "../../../Components/CodeCopy";
 import InputSwitch from "../Components/WidgetsEditor/InputSwitch";
@@ -725,10 +725,10 @@ export default function Editor() {
   }
 
   function importWidget(data) {
-    // TODO calculate x and y from half of width and height
+    // TODO move the pan to half of widget width and height
 
     if (typeof data != "object") data = JSON.parse(data);
-
+    
     var widget = data.filter((w) => w.type == "Widget")[0];
 
     var importedElements = [];

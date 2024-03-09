@@ -3,7 +3,6 @@ import { TimeSettings } from "../../Pages/Dashboard";
 import { useEffect, useState } from "react";
 
 export default function BarChart({ title, id, setTimespan, timespan, startDate, endDate, source, noData }) {
-  //   COLOR SET
 
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);

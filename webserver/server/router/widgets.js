@@ -29,9 +29,9 @@ export async function isVerifiedMiddleware(req, res, next) {
 export async function accessGranted(req) {
   const apiKey = req.query.apiKey;
   if (!apiKey) return false;
+  // Referrer has to be localhost or a domain
+  // file:// is not valid referrer, it's never sent 
   var Referrer = req.get("referrer") || "";
-  
-  // TODO check for file://, let user allow local files
 
   if (!Referrer) return false;
 

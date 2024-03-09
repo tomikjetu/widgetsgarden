@@ -8,10 +8,11 @@ import { setCookie } from "../../Misc/Cookies";
 
 import axios from "axios";
 
-import { CloseIcon, PlusIcon } from "../../Styles/Svg";
+import { CloseIcon, HomeIcon, PlusIcon } from "../../Styles/Svg";
 import "../../Styles/Dashboard/access.css";
 import CodeCopy from "../../Components/CodeCopy";
 import { GridSettings, TimeSettings, getDashboardSetting } from "../Dashboard";
+import TimeLine from "../../Misc/Charts/TimeLine";
 
 export default function Access() {
   axios.defaults.withCredentials = true;
@@ -105,10 +106,20 @@ export default function Access() {
   return (
     <div className="editor">
       <header>
-        <Link to="/dashboard">
-          <p>Home Icon</p>
-        </Link>
-        <h1>Access</h1>
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            alignItems: "flex-end",
+          }}
+        >
+          <Link to="/dashboard">
+            <span style={{ fontSize: "2rem" }}>
+              <HomeIcon />
+            </span>
+          </Link>
+          <h1>Access</h1>
+        </div>
 
         <div
           style={{
@@ -123,9 +134,12 @@ export default function Access() {
         </div>
       </header>
       <div className="dashboard-content">
-        <div className="dashboard-container" style={{
-          marginBottom: '1rem'
-        }}>
+        <div
+          className="dashboard-container"
+          style={{
+            marginBottom: "1rem",
+          }}
+        >
           <h1>Set Up</h1>
           <p>Include widgetsgarden.js to gain access to widgets.</p>
 
@@ -209,6 +223,8 @@ export default function Access() {
               </div>
             </div>
           </div>
+
+          <TimeLine title={"ApiKey Usage"} />
 
           <div className="dashboard-container">
             <h2 className="bold">ApiKey Usage</h2>
