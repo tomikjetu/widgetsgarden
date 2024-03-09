@@ -11,7 +11,7 @@
 
 .dashboard-content {
   background-color: var(--dashboard-background) !important;
-  width: calc(100vw - 18rem - 3px);
+  width: calc(100vw - 19rem - 3px);
   padding-left: 17rem;
   padding-top: 1rem;
   padding-right: 2rem;

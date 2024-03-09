@@ -5,12 +5,22 @@ import { UpgradeIcon, WidgetsIcon, LockIcon, DocumentIcon, AnalyticsIcon, HomeIc
 
 import Profile from "./Profile";
 import Notifications from "./Notifications";
+import { NO_SIDEBAR_BREAK } from "../../Dashboard";
 
 export default function Sidebar({ notifications, sidebarToggle, profile, sidebarExtended, setSidebarExtended }) {
   const location = useLocation();
   const pathname = location.pathname;
 
   const sidebarRef = useRef();
+
+  var [isDesktop, setDesktop] = useState(window.innerWidth >= NO_SIDEBAR_BREAK);
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      var width = window.innerWidth;
+      if (width >= NO_SIDEBAR_BREAK) setDesktop(true);
+      else setDesktop(false);
+    });
+  }, []);
 
   useEffect(() => {
     sidebarRef.current.classList.add("activating");
@@ -24,10 +34,12 @@ export default function Sidebar({ notifications, sidebarToggle, profile, sidebar
 
   return (
     <nav ref={sidebarRef} className={`sidebar ${pathname == "/dashboard/editor" ? "editor" : ""} ${sidebarExtended ? "extended" : ""}`}>
-      <a className="sidebar-brand" href="/dashboard">
-        {sidebarExtended && <h3 className="sidebar-title">WidgetsGarden</h3>}
-        {!sidebarExtended && <h3 className="sidebar-title">WG</h3>}
-      </a>
+      {isDesktop && (
+        <a className="sidebar-brand" href="/dashboard">
+          {sidebarExtended && <h3 className="sidebar-title">WidgetsGarden</h3>}
+          {!sidebarExtended && <h3 className="sidebar-title">WG</h3>}
+        </a>
+      )}
 
       <div className="sidebar-items">
         <a href="/dashboard" className={`sidebar-item ${pathname == "/dashboard" ? "sidebar-item-active" : ""}`}>
@@ -49,11 +61,13 @@ export default function Sidebar({ notifications, sidebarToggle, profile, sidebar
         </a>
         <Notifications notifications={notifications} sidebarExtended={sidebarExtended} />
         <Profile profile={profile} sidebarExtended={sidebarExtended} />
-        <div className="sidebar-item" onClick={() => setSidebarExtended(!sidebarExtended)}>
-          {sidebarExtended && <RetractSidebarIcon/>}
-          {!sidebarExtended && <ExtendSidebarIcon/>}
-          {sidebarExtended && <span className="sidebar-item-text">Hide Sidebar</span>}
-        </div>
+        {isDesktop && (
+          <div className="sidebar-item" onClick={() => setSidebarExtended(!sidebarExtended)}>
+            {sidebarExtended && <RetractSidebarIcon />}
+            {!sidebarExtended && <ExtendSidebarIcon />}
+            {sidebarExtended && <span className="sidebar-item-text">Hide Sidebar</span>}
+          </div>
+        )}
       </div>
     </nav>
   );

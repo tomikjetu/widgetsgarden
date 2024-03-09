@@ -22,6 +22,7 @@ import Admin from "./Dashboard/Admin";
 import { getCookie, setCookie } from "../Misc/Cookies";
 import { Tooltip } from "react-tooltip";
 
+export const NO_SIDEBAR_BREAK = 650;
 export const dashboardDefaultSettings = {
   "dashboard-collumns": 2,
   "dashboard-timespan": 30,
@@ -96,20 +97,18 @@ export function TimeSettings({ setTimespan, timespan, transparent }) {
 
 export default function Dashboard({ profile, notifications }) {
   const [sidebarToggle, setSidebarToggle] = useState(false);
-  const [sidebarExtended, setSidebarExtended] = useState(false);
+  const [sidebarExtended, setSidebarExtended] = useState((window.innerWidth < NO_SIDEBAR_BREAK ? false : getDashboardSetting("sidebar-extended")) == "true");
   const ToggleSidebar = () => setSidebarToggle(!sidebarToggle);
 
   useEffect(()=>{
-    setSidebarExtended(window.innerWidth < 1000 || getDashboardSetting("sidebar-extended"));
-
     window.addEventListener(("resize"), ()=>{
       var width = window.innerWidth;
-      if(width < 1000) setSidebarExtended(true);
+      if(width < NO_SIDEBAR_BREAK) setSidebarExtended(true);
     });
   }, [])
 
   useEffect(()=>{
-    if(!sidebarExtended) return;
+    if(sidebarExtended == null) return;
     setCookie("sidebar-extended", sidebarExtended, null, "/dashboard");
   }, [sidebarExtended])
 

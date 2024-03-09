@@ -11,10 +11,9 @@ export default function Main() {
 
   /* SETTINGS START */
 
-  var [GridCollumns, setGridCollumns] = useState(2);
+  var [GridCollumns, setGridCollumns] = useState(getDashboardSetting("dashboard-collumns"));
 
   useEffect(() => {
-    setGridCollumns(getDashboardSetting("dashboard-collumns"));
     LoadOverview();
   }, []);
 

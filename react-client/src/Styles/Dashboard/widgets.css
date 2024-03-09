@@ -236,7 +236,7 @@ header.navigation {
   transition: width 500ms ease, margin 500ms ease;
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 650px) {
   .editor header {
     width: calc(100% - 1em * 2);
     margin: 3em 0em 0em 0em;

@@ -1,6 +1,8 @@
-@media (max-width: 991.98px) {
+@media (max-width: 650px) {
   .sidebar {
-    width: 100%;
+    padding-top: 3rem;
+    width: 0% !important;
+    height: calc(100% - 3rem);
     display: none;
   }
 
@@ -15,7 +17,6 @@
   .sidebar.activating {
     display: block;
     width: 0%;
-    height: 100%;
     transition: width 1s;
   }
 
@@ -26,8 +27,7 @@
 
   .sidebar.active {
     display: block;
-    width: 100%;
-    height: 100%;
+    width: 100% !important;;
   }
 
   .sidebar.active > * {
