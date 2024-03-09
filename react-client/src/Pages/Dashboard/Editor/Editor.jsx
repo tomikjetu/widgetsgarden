@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { screenToWorld, worldToScreen } from "./Tools/misc";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-import { toast, Bounce } from "react-toastify";
+import { toast } from "react-toastify";
 
 import { Widget } from "./Elements/Widget";
 

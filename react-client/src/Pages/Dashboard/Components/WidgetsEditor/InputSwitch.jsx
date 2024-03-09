@@ -21,6 +21,8 @@ export default function InputSwitch({ type, value, setValue, preset }) {
   switch (type) {
     case "text":
       return <input className={InputStyle.Input} defaultValue={tempValue || ""} onChange={(e) => changeValue(e.target.value)} />;
+    case "text-multiline":
+      return <textarea className={InputStyle.Input} defaultValue={tempValue || ""} onChange={(e) => changeValue(e.target.value)}></textarea>
     case "number":
       return <input className={InputStyle.Input} type="number" defaultValue={tempValue} onChange={(e) => changeValue(e.target.value)} />;
     case "range":

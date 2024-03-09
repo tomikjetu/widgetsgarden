@@ -214,6 +214,11 @@ header.navigation {
   }
 }
 
+.dashboard.extended .editor header{
+  width: calc(100% - 1em * 2 - 5rem);
+  margin: 0em 0em 0em 5rem;
+}
+
 .editor header {
   position: relative;
   z-index: 599;
@@ -223,10 +228,12 @@ header.navigation {
   gap: 1em;
 
   padding: 1em;
-  width: calc(100% - 1em * 2 - 15em);
+  width: calc(100% - 1em * 2 - 16rem);
   background-color: var(--dashboard-navigation-background);
-  margin: 0em 10em 0em 15em;
+  margin: 0em 10em 0em 16rem;
   box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
+
+  transition: width 500ms ease, margin 500ms ease;
 }
 
 @media (max-width: 991.98px) {

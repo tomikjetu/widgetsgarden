@@ -1,47 +1,60 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import { UpgradeIcon, WidgetsIcon, LockIcon, DocumentIcon, AnalyticsIcon, HomeIcon } from '../../../Styles/Svg';
+import { UpgradeIcon, WidgetsIcon, LockIcon, DocumentIcon, AnalyticsIcon, HomeIcon, RetractSidebarIcon, ExtendSidebarIcon } from "../../../Styles/Svg";
 
-import Profile from './Profile';
-import Notifications from './Notifications';
+import Profile from "./Profile";
+import Notifications from "./Notifications";
 
-export default function Sidebar({ notifications, sidebarToggle, profile }) {
+export default function Sidebar({ notifications, sidebarToggle, profile, sidebarExtended, setSidebarExtended }) {
   const location = useLocation();
   const pathname = location.pathname;
 
   const sidebarRef = useRef();
 
   useEffect(() => {
-
-    // TODO on any link clcked toogle sidebar
-    // TODO mini sidebar version with just icons
-
-    sidebarRef.current.classList.add('activating');
+    sidebarRef.current.classList.add("activating");
     setTimeout(() => {
-      sidebarRef.current.classList.toggle('active', sidebarToggle);
+      sidebarRef.current.classList.toggle("active", sidebarToggle);
     }, 10);
     setTimeout(() => {
-      sidebarRef.current.classList.remove('activating');
-  }, 1000);
+      sidebarRef.current.classList.remove("activating");
+    }, 1000);
   }, [sidebarToggle]);
 
-  return <nav ref={sidebarRef} className={`sidebar ${pathname == "/dashboard/editor" ? "editor" : ""}`}>
+  return (
+    <nav ref={sidebarRef} className={`sidebar ${pathname == "/dashboard/editor" ? "editor" : ""} ${sidebarExtended ? "extended" : ""}`}>
+      <a className="sidebar-brand" href="/dashboard">
+        {sidebarExtended && <h3 className="sidebar-title">WidgetsGarden</h3>}
+        {!sidebarExtended && <h3 className="sidebar-title">WG</h3>}
+      </a>
 
-    <a className="sidebar-brand" href="/dashboard">
-      <h3 className="sidebar-title">WidgetsGarden</h3>
-    </a>
-
-    <div className="sidebar-items">
-      <a href="/dashboard" className={`sidebar-item ${pathname == "/dashboard" ? "sidebar-item-active" : ""}`}><HomeIcon className="dashboard-icon" /> <span>Home</span></a>
-      <a href="/dashboard/access" className={`sidebar-item ${pathname == "/dashboard/access" ? "sidebar-item-active" : ""}`}><LockIcon /> <span>Access</span></a>
-      <a href="/dashboard/widgets" className={`sidebar-item ${pathname == "/dashboard/widgets" ? "sidebar-item-active" : ""}`}><WidgetsIcon /> <span>Widgets</span></a>
-      <a href="/dashboard/analytics" className={`sidebar-item ${pathname == "/dashboard/analytics" ? "sidebar-item-active" : ""}`}><AnalyticsIcon /> <span>Analytics</span></a>
-    </div>
-    <div className="sidebar-items sidebar-items-bottom">
-      <a href="/dashboard/upgrade" className={`sidebar-item`}><UpgradeIcon></UpgradeIcon> <span>Pricing</span></a>
-      <Notifications notifications={notifications} />
-      <Profile profile={profile} />
-    </div>
-  </nav >
+      <div className="sidebar-items">
+        <a href="/dashboard" className={`sidebar-item ${pathname == "/dashboard" ? "sidebar-item-active" : ""}`}>
+          <HomeIcon className="dashboard-icon" /> {sidebarExtended && <span className="sidebar-item-text">Home</span>}
+        </a>
+        <a href="/dashboard/access" className={`sidebar-item ${pathname == "/dashboard/access" ? "sidebar-item-active" : ""}`}>
+          <LockIcon /> {sidebarExtended && <span className="sidebar-item-text">Access</span>}
+        </a>
+        <a href="/dashboard/widgets" className={`sidebar-item ${pathname == "/dashboard/widgets" ? "sidebar-item-active" : ""}`}>
+          <WidgetsIcon /> {sidebarExtended && <span className="sidebar-item-text">Widgets</span>}
+        </a>
+        <a href="/dashboard/analytics" className={`sidebar-item ${pathname == "/dashboard/analytics" ? "sidebar-item-active" : ""}`}>
+          <AnalyticsIcon /> {sidebarExtended && <span className="sidebar-item-text">Analytics</span>}
+        </a>
+      </div>
+      <div className="sidebar-items sidebar-items-bottom">
+        <a href="/dashboard/upgrade" className={`sidebar-item`}>
+          <UpgradeIcon></UpgradeIcon> {sidebarExtended && <span>Pricing</span>}
+        </a>
+        <Notifications notifications={notifications} sidebarExtended={sidebarExtended} />
+        <Profile profile={profile} sidebarExtended={sidebarExtended} />
+        <div className="sidebar-item" onClick={() => setSidebarExtended(!sidebarExtended)}>
+          {sidebarExtended && <RetractSidebarIcon/>}
+          {!sidebarExtended && <ExtendSidebarIcon/>}
+          {sidebarExtended && <span className="sidebar-item-text">Hide Sidebar</span>}
+        </div>
+      </div>
+    </nav>
+  );
 }

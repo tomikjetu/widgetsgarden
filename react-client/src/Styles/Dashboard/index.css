@@ -11,11 +11,17 @@
 
 .dashboard-content {
   background-color: var(--dashboard-background) !important;
-  width: calc(100vw - 18em - 3px);
-  padding-left: 16em;
-  padding-top: 1em;
-  padding-right: 2em;
-  padding-bottom: 1em;
+  width: calc(100vw - 18rem - 3px);
+  padding-left: 17rem;
+  padding-top: 1rem;
+  padding-right: 2rem;
+  padding-bottom: 1rem;
+  transition: width 500ms ease, padding 500ms ease;
+}
+
+.dashboard.extended .dashboard-content{
+  padding-left: 6rem;
+  width: calc(100vw - 7rem);
 }
 
 .dashboard-status {

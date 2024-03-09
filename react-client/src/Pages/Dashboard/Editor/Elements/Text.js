@@ -28,7 +28,7 @@ export class Text extends Element {
       {
         title: "Text",
         path: "data.text",
-        type: "text",
+        type: "text-multiline",
       },
       {
         title: "Font Size",

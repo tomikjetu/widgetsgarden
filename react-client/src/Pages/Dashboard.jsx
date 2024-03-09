@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
 
 import MainPage from "./Dashboard/Main";
@@ -19,13 +19,14 @@ import Editor from "./Dashboard/Editor/Editor";
 import Settings from "./Dashboard/Settings";
 import Library from "./Dashboard/Library";
 import Admin from "./Dashboard/Admin";
-import { getCookie } from "../Misc/Cookies";
+import { getCookie, setCookie } from "../Misc/Cookies";
 import { Tooltip } from "react-tooltip";
 
 export const dashboardDefaultSettings = {
   "dashboard-collumns": 2,
   "dashboard-timespan": 30,
   "dashboard-sort": "lastModified",
+  "sidebar-extended": true
 };
 
 export function getDashboardSetting(name) {
@@ -95,12 +96,27 @@ export function TimeSettings({ setTimespan, timespan, transparent }) {
 
 export default function Dashboard({ profile, notifications }) {
   const [sidebarToggle, setSidebarToggle] = useState(false);
+  const [sidebarExtended, setSidebarExtended] = useState(false);
   const ToggleSidebar = () => setSidebarToggle(!sidebarToggle);
 
+  useEffect(()=>{
+    setSidebarExtended(window.innerWidth < 1000 || getDashboardSetting("sidebar-extended"));
+
+    window.addEventListener(("resize"), ()=>{
+      var width = window.innerWidth;
+      if(width < 1000) setSidebarExtended(true);
+    });
+  }, [])
+
+  useEffect(()=>{
+    if(!sidebarExtended) return;
+    setCookie("sidebar-extended", sidebarExtended, null, "/dashboard");
+  }, [sidebarExtended])
+
   return (
-    <div className="dashboard">
+    <div className={`dashboard ${!sidebarExtended ? "extended" : ""}`}>
       <header>
-        <Sidebar notifications={notifications} profile={profile} sidebarToggle={sidebarToggle} />
+        <Sidebar notifications={notifications} profile={profile} sidebarToggle={sidebarToggle} sidebarExtended={sidebarExtended} setSidebarExtended={setSidebarExtended} />
 
         <div className="dashboard-navigation">
           <div className="dashbord-navigtion-content">
