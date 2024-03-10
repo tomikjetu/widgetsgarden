@@ -3,12 +3,11 @@ import axios from "axios";
 import "../../Styles/Dashboard/widgets.css";
 import { Link, useSearchParams } from "react-router-dom";
 import { AnalyticsIcon, BinIcon, DocumentIcon, EmbedIcon, EyeIcon, GearIcon, HomeIcon, PenIcon, SortAIcon, SortLastModifiedIcon, SortNewestCreatedIcon, SortOldestCreatedIcon, SortZIcon, TouchIcon, WidgetsIcon } from "../../Styles/Svg";
-import CodeCopy from "../../Elements/CodeCopy";
 import TextOptions from "./Components/WidgetsEditor/Components/Options";
 import { setCookie } from "../../Misc/Cookies";
 import { GridSettings, getDashboardSetting } from "../Dashboard";
 import { Tooltip } from "react-tooltip";
-import { Modal, ModalDelete } from "../../Elements/Modals";
+import { ModalDelete } from "./Components/Elements/Modals";
 import { EmbedModal } from "./Editor/Components/Modals/EmbedModal";
 
 // it's own file

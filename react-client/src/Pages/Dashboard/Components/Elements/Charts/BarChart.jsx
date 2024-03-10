@@ -1,8 +1,8 @@
 import Chart from "react-apexcharts";
-import { TimeSettings } from "../../Pages/Dashboard";
+import { TimeSettings } from "../../../../Dashboard.jsx";
 import { useEffect, useState } from "react";
 
-import {BarChartOptions} from "./Options/BarChartOptions.jsx";
+import { BarChartOptions } from "./Options/BarChartOptions.jsx";
 
 export default function BarChart({ title, id, setTimespan, timespan, startDate, endDate, source, noData }) {
   const [data, setData] = useState([]);
@@ -51,13 +51,16 @@ export default function BarChart({ title, id, setTimespan, timespan, startDate, 
 
     setAxisCategories(Object.keys(tempData));
     setData(finalData);
-    
+
     setTotalValue(tempTotalValue);
   }, [startDate, endDate, source]);
 
-  if (!source) return <div className="dashboard-container analytics"> 
-    <p>{noData}</p>
-  </div>;
+  if (!source)
+    return (
+      <div className="dashboard-container analytics">
+        <p>{noData}</p>
+      </div>
+    );
 
   return (
     <div className="dashboard-container analytics">

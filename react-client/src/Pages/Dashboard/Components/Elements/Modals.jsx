@@ -1,5 +1,5 @@
-import styles from "../Styles/root/elements/Modal.module.css";
-import { BinIcon } from "../Styles/Svg";
+import styles from "../../../../Styles/root/elements/Modal.module.css";
+import { BinIcon } from "../../../../Styles/Svg";
 import { Button, ButtonDanger } from "./Buttons";
 
 export function ModalDelete({ height, width, maxWidth, children, display, setDisplay, title, onClose, onDelete }) {

@@ -1,10 +1,11 @@
 import axios from "axios";
 import React from "react";
-import { useEffect, useRef, useState } from "react";
-import { screenToWorld, worldToScreen } from "./Tools/misc";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-
 import { toast } from "react-toastify";
+import { useEffect, useRef, useState } from "react";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useSearchParams } from "react-router-dom";
+
+import { screenToWorld } from "./Tools/misc";
 
 import { Widget } from "./Elements/Widget";
 
@@ -14,20 +15,18 @@ import { Text } from "./Elements/Text";
 import { ImageElement } from "./Elements/Image";
 import { BackIcon, BinIcon, EmbedIcon, EyeIcon, ForwardsIcon, GearIcon, InfoIcon, PenIcon, PlayIcon, PlusIcon, SaveIcon, TickIcon } from "../../../Styles/Svg";
 
-import { DropdownMenu } from "../../../Elements/DropdownMenu";
-import { useParams, useSearchParams } from "react-router-dom";
-import { Modal, ModalDelete } from "../../../Elements/Modals";
 import InputStyle from "../Components/WidgetsEditor/Components/Styles/Input.module.css";
-import CodeCopy from "../../../Elements/CodeCopy";
 import InputSwitch from "../Components/WidgetsEditor/InputSwitch";
+import InstallPluginModal from "./Components/Modals/InstallPluginModal";
+import { DropdownMenu } from "../Components/Elements/DropdownMenu";
+import { Modal, ModalDelete } from "../Components/Elements/Modals";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { ButtonElement } from "./Elements/Button";
 import { Container } from "./Elements/Container";
-import InstallPluginModal from "./Components/Modals/InstallPluginModal";
 import { AddPluginFunctionModal } from "./Components/Modals/AddPluginFunctionModal";
 import { PluginInfoModal } from "./Components/Modals/PluginInfoModal";
 import { EmbedModal } from "./Components/Modals/EmbedModal";
-import { Button, ButtonDanger } from "../../../Elements/Buttons";
+import { Button, ButtonDanger } from "../Components/Elements/Buttons";
 
 export var PLUGINS;
 

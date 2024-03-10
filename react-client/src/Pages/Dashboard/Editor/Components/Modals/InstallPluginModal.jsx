@@ -1,4 +1,4 @@
-import { Modal } from "../../../../../Elements/Modals";
+import { Modal } from "../../../Components/Elements/Modals";
 export default function InstallPluginModal({ isOpenPluginsModal, setOpenPluginsModal, PLUGINS, addPlugin }) {
   return (
     <Modal title={"Install Plugin"} display={isOpenPluginsModal} setDisplay={setOpenPluginsModal}>

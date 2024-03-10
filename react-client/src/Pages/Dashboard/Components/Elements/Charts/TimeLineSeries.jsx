@@ -2,6 +2,7 @@ import Chart from "react-apexcharts";
 import { TimeSettings } from "../../../../Dashboard.jsx";
 import { useEffect, useState } from "react";
 import { LineChartOptions } from "./Options/LineChartOptions.jsx";
+import { SelectableAnalytic } from "../Analytic.jsx";
 
 export default function TimeLineSeries({ title, id, setTimespan, timespan, startDate, endDate, source, noData, colorSet, labels }) {
   const [data, setData] = useState([]);
@@ -100,26 +101,7 @@ export default function TimeLineSeries({ title, id, setTimespan, timespan, start
         />
       </div>
 
-      <div className="analytics-list">
-        {availableSeries.map((availableSerie, index) => {
-          var selectedOpacity = selectedSeries.includes(availableSerie.value) ? 1 : 0.5;
-          return (
-            <div
-              key={availableSerie.value}
-              className="analytics-list-item"
-              onClick={() => {
-                if (selectedSeries.includes(availableSerie.value)) setSelectedSeries(selectedSeries.filter((s) => s != availableSerie.value));
-                else setSelectedSeries([...selectedSeries, availableSerie.value]);
-              }}
-            >
-              <p style={{ opacity: selectedOpacity}} className="analytics-item-with-stats">
-                <span>{availableSerie.label}</span>
-                <span>{availableSeriesTotals[availableSerie.value]}</span>
-              </p>
-            </div>
-          );
-        })}
-      </div>
+      <SelectableAnalytic collections={availableSeries} selectedAnalytics={selectedSeries} setSelectedAnalytics={setSelectedSeries} collectionsValues={availableSeriesTotals} />
     </div>
   );
 }

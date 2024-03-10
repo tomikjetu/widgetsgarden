@@ -1,5 +1,5 @@
-import { Button, ButtonDanger } from "../../../../../Elements/Buttons";
-import { Modal } from "../../../../../Elements/Modals";
+import { Button, ButtonDanger } from "../../../Components/Elements/Buttons";
+import { Modal } from "../../../Components/Elements/Modals";
 
 export function PluginInfoModal({ isOpenPluginMenuModal, setOpenPluginMenuModal, pluginMenuModalData, removePlugin }) {
   if (!pluginMenuModalData) return "";

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Tooltip } from "react-tooltip";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import ReactDOMServer from "react-dom/server";
-import { TimeSettings } from "../../Pages/Dashboard";
+import { TimeSettings } from "../../../../Dashboard";
 
 const GEO_URL = "/map.json";
 
@@ -85,7 +85,7 @@ export default function MapChart({ setTimespan, timespan, source, title, id, sta
         display: 'flex',
         width: "100%"
       }}> {/* removed class chart-container */}
-        <ComposableMap style={{maxHeight: "50vh", margin: 'auto'}} width={width} height={height} projection={projection}>
+        <ComposableMap style={{margin: 'auto'}} width={width} height={height} projection={projection}>
           {
             <Geographies geography={GEO_URL}>
               {({ geographies }) =>

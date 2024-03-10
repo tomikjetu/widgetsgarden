@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {Modal} from "../../../../../Elements/Modals";
+import { Modal } from "../../../Components/Elements/Modals";
 import { BinIcon, UploadIcon } from "../../../../../Styles/Svg";
 import styles from "./Styles/ImagePicker.module.css";
 
@@ -134,7 +134,7 @@ export default function ImagePicker({ value, setValue }) {
       </Modal>
 
       <div className={styles.PickerPreview} onClick={editImage}>
-          <img src={value || "/missing-image.png"}></img>
+        <img src={value || "/missing-image.png"}></img>
         <p>Change Image</p>
       </div>
     </>

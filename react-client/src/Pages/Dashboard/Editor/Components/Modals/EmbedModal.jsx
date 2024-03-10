@@ -1,5 +1,5 @@
-import CodeCopy from "../../../../../Elements/CodeCopy";
-import { Modal } from "../../../../../Elements/Modals";
+import CodeCopy from "../../../Components/Elements/CodeCopy";
+import { Modal } from "../../../Components/Elements/Modals";
 import { EmbedIcon } from "../../../../../Styles/Svg";
 
 export function EmbedModal({ embedId, codeEmbedModal, setCodeEmbedModal }) {

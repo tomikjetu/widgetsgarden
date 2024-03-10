@@ -1,5 +1,5 @@
-import { Button } from "../../../../../Elements/Buttons";
-import { Modal } from "../../../../../Elements/Modals";
+import { Modal } from "../../../Components/Elements/Modals";
+import { Button } from "../../../Components/Elements/Buttons";
 import { InfoIcon } from "../../../../../Styles/Svg";
 
 // TODO

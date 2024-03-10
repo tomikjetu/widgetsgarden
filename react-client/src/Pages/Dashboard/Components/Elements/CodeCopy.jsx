@@ -1,9 +1,9 @@
-import { CopyIcon } from "../Styles/Svg";
 import Highlight from "react-highlight";
 
 import { toast } from "react-toastify";
 
-import "../Styles/root/highlight.css";
+import "../../../../Styles/root/highlight.css";
+import { CopyIcon } from "../../../../Styles/Svg";
 
 export default function CodeCopy({ code, fit }) {
   function Copy() {

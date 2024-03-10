@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 
-
 export function DropdownMenu({ children, options, onToggle }) {
   const [active, setAcitve] = useState(false);
   const dropdownRef = useRef(null);

@@ -3,6 +3,7 @@ import axios from "axios";
 import { setCookie } from "../../Misc/Cookies";
 import { Link } from "react-router-dom";
 import { GridSettings, getDashboardSetting } from "../Dashboard";
+import Analytic from "./Components/Elements/Analytic";
 
 export default function Main({ profile }) {
   axios.defaults.withCredentials = true;
@@ -63,24 +64,17 @@ export default function Main({ profile }) {
           className="dashboard-grid dashboard-collumns"
         >
           <div className="dashboard-container analytics">
-            <h3>Quick Access</h3>
+            <h3>Quick Stats</h3>
             <div className="analytics-list">
-              <a
-                href="/dashboard/widgets"
-                className="analytics-list-item analytics-item-with-stats"
-              >
-                <span>Widgets</span>
-                <span className="number"> {overview?.user.widgets || "Loading..."}</span>
-              </a>
+              <Analytic label="Widgets Created" value={overview?.user.widgets} link="/dashboard/widgets" />
+              <Analytic label="Last 7 Days Visits" value={"Unknown"} link="/dashboard/analytics" />
+              <Analytic label="Last 7 Days Usage" value={"Unknown"} link="/dashboard/access" />
+            </div>
+            <h3>WidgetsGarden</h3>
+            <div className="analytics-list">
+              <Analytic label="Library" value={"Unknown"} link="/dashboard/library" />
             </div>
           </div>
-
-          <Link to="/dashboard/access" className="dashboard-container">
-            See Access dashboard
-          </Link>
-          <Link to="/dashboard/analytics" className="dashboard-container">
-            See Analytics
-          </Link>
 
           <div className="dashboard-container" style={{ minHeight: "200px" }}>
             <div className="center">

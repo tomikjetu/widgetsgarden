@@ -1,7 +1,8 @@
 import Chart from "react-apexcharts";
-import { TimeSettings } from "../../Pages/Dashboard";
+import { TimeSettings } from "../../../../Dashboard.jsx";
 import { useEffect, useState } from "react";
 import { BarChartOptions } from "./Options/BarChartOptions.jsx";
+import { SelectableAnalytic } from "../Analytic.jsx";
 
 export default function BarChartSeries({ title, id, setTimespan, timespan, startDate, endDate, source, noData, labels }) {
   const [chartData, setChartData] = useState([]);
@@ -56,11 +57,11 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
     // Create data for each category
     var tempSeries = {};
     availableCategories
-      .filter((category) => selectedCategories?.includes(category))
+      .filter((category) => selectedCategories?.includes(category.value))
       .forEach((category, i) => {
-        Object.keys(realData[category]).forEach((series) => {
+        Object.keys(realData[category.value]).forEach((series) => {
           if (!tempSeries[series]) tempSeries[series] = [];
-          tempSeries[series][i] = realData[category][series];
+          tempSeries[series][i] = realData[category.value][series];
         });
       });
 
@@ -77,7 +78,7 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
 
     setAxisCategories(Object.keys(realData));
     if (selectedCategories == null) setSelectedCategories(Object.keys(timeSelectedData));
-    setAxisCategories(Object.keys(timeSelectedData).map(value=> ({ label: labels[Object.keys(timeSelectedData).indexOf(value)] ?? value, value })));
+    setAvailableCategories(Object.keys(timeSelectedData).map((value) => ({ label: labels ? labels[Object.keys(timeSelectedData).indexOf(value)] ?? value : value, value })));
 
     setChartData(tempChartData);
 
@@ -130,26 +131,7 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
         />
       </div>
 
-      <div className="analytics-list">
-        {availableCategories.map((availableCategory, index) => {
-          var selectedOpacity = selectedCategories.includes(availableCategory.value) ? 1 : 0.5;
-          return (
-            <div
-              key={availableCategory.value}
-              className="analytics-list-item"
-              onClick={() => {
-                if (selectedCategories.includes(availableCategory.value)) setSelectedCategories(selectedCategories.filter((s) => s != availableCategory.value));
-                else setSelectedCategories([...selectedCategories, availableCategory.value]);
-              }}
-            >
-              <p style={{ opacity: selectedOpacity }} className="analytics-item-with-stats">
-                <span>{availableCategory.label}</span>
-                <span>{availableCategoriesTotals[availableCategory.value]}</span>
-              </p>
-            </div>
-          );
-        })}
-      </div>
+      <SelectableAnalytic collections={availableCategories} selectedAnalytics={selectedCategories} setSelectedAnalytics={setSelectedCategories} collectionsValues={availableCategoriesTotals} />
     </div>
   );
 }

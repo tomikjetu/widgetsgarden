@@ -7,7 +7,7 @@ import axios from "axios";
 
 import { CloseIcon, HomeIcon, PlusIcon } from "../../Styles/Svg";
 import "../../Styles/Dashboard/access.css";
-import CodeCopy from "../../Elements/CodeCopy";
+import CodeCopy from "./Components/Elements/CodeCopy";
 import { GridSettings, TimeSettings, getDashboardSetting } from "../Dashboard";
 import TimeLineSeries from "./Components/Elements/Charts/TimeLineSeries";
 

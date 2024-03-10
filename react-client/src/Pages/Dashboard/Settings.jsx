@@ -6,7 +6,7 @@ import { useSearchParams } from "react-router-dom";
 
 import InputStyle from "./Components/WidgetsEditor/Components/Styles/Input.module.css";
 import { TickIcon, PenIcon } from "../../Styles/Svg";
-import { Modal } from "../../Elements/Modals";
+import { Modal } from "./Components/Elements/Modals";
 
 import { toast } from "react-toastify";
 
