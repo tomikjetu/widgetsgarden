@@ -29,7 +29,6 @@ export default function Access() {
     getDomains();
     axios.get(`${process.env.REACT_APP_SERVER_URL}/dashboard/access/stats`).then((res) => {
       setStats(res.data);
-      console.log(res.data);
     });
     axios.get(`${process.env.REACT_APP_SERVER_URL}/dashboard/apikey`).then((res) => {
       setApiKey(res.data);
@@ -221,7 +220,7 @@ export default function Access() {
             </div>
           </div>
 
-          <TimeLineSeries title={"ApiKey Usage"} id={"apiKeyUsage"} setTimespan={setTimespan} timespan={timespan} startDate={startDate} endDate={endDate} source={stats} noData={"No collected data yet"} />
+          <TimeLineSeries title={"ApiKey Usage"} id={"apiKeyUsage"} colorSet={["#008000", "#FF0000"]} setTimespan={setTimespan} timespan={timespan} startDate={startDate} endDate={endDate} source={stats} noData={"No collected data yet"} />
         </div>
       </div>
     </div>

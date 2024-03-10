@@ -9,14 +9,18 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
   const [totalValue, setTotalValue] = useState(0);
 
   var [availableCategories, setAvailableCategories] = useState([]);
+  var [availableCategoriesTotals, setAvailableCategoriesTotals] = useState([]);
   var [selectedCategories, setSelectedCategories] = useState(null);
 
   useEffect(() => {
     if (!source) return;
 
     var timeSelectedData = {}; // Has only values within the selected time range
-    var realData = {}; // Has no zero values or empty categories
-    var tempChartData = []; // Data sent to the chart api
+    var realData = {};         // Has no zero values or empty categories
+    var tempChartData = [];    // Data sent to the chart api
+    
+    var tempTotalValue = 0;
+    var tempCategoryTotals = {};
 
     // Filter the data to only include entries in the selected time range
     Object.keys(source).forEach((category) => {
@@ -36,16 +40,17 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
     // Remove series with no data
     // Remove categories with zero series sum
     Object.keys(timeSelectedData).forEach((category) => {
-      if (!selectedCategories?.includes(category)) return;
       realData[category] = {};
+      if (!tempCategoryTotals[category]) tempCategoryTotals[category] = 0;
       var sum = 0;
       Object.keys(timeSelectedData[category]).forEach((series) => {
         var value = Object.values(timeSelectedData[category][series] ?? []).reduce((a, b) => a + b, 0);
+        tempCategoryTotals[category] +=value; // Find the total value of each category
         if (value == 0) return;
         realData[category][series] = value;
         sum += value;
       });
-      if (sum == 0) delete realData[category];
+      if (sum == 0 || !selectedCategories?.includes(category)) delete realData[category];
     });
 
     // Create data for each category
@@ -64,7 +69,6 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
     });
 
     // Find the total value
-    var tempTotalValue = 0;
     Object.keys(realData).forEach(function (category, index) {
       Object.keys(realData[category]).forEach((series) => {
         tempTotalValue += realData[category][series];
@@ -78,6 +82,7 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
     setChartData(tempChartData);
 
     setTotalValue(tempTotalValue);
+    setAvailableCategoriesTotals(tempCategoryTotals);
   }, [startDate, endDate, source, selectedCategories]);
 
   if (!source) return noData;
@@ -135,7 +140,10 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
                 else setSelectedCategories([...selectedCategories, availableCategory]);
               }}
             >
-              <p style={{ opacity: selectedOpacity }}>{availableCategory}</p>
+              <p style={{ opacity: selectedOpacity, width: "100%", display: "flex", justifyContent: "space-between" }}>
+                <span>{availableCategory}</span>
+                <span>{availableCategoriesTotals[availableCategory]}</span>
+              </p>
             </div>
           );
         })}
