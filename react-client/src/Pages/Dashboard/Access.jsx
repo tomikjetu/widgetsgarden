@@ -1,8 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Chart from "chart.js/auto"; // IMPORTANT
-import { Line } from "react-chartjs-2";
 import { Link } from "react-router-dom";
-import { ChartOptions, getChartData } from "../../Misc/Charts";
 
 import { setCookie } from "../../Misc/Cookies";
 
@@ -12,7 +9,7 @@ import { CloseIcon, HomeIcon, PlusIcon } from "../../Styles/Svg";
 import "../../Styles/Dashboard/access.css";
 import CodeCopy from "../../Components/CodeCopy";
 import { GridSettings, TimeSettings, getDashboardSetting } from "../Dashboard";
-import TimeLine from "../../Misc/Charts/TimeLine";
+import TimeLineSeries from "../../Misc/Charts/TimeLineSeries";
 
 export default function Access() {
   axios.defaults.withCredentials = true;
@@ -224,13 +221,7 @@ export default function Access() {
             </div>
           </div>
 
-          <TimeLine title={"ApiKey Usage"} />
-
-          <div className="dashboard-container">
-            <h2 className="bold">ApiKey Usage</h2>
-            {stats && <Line style={{ maxHeight: "50vh" }} height={300} className="dashboard-overview" options={ChartOptions} data={getChartData(stats, startDate, endDate, false, ["Authorized", "Restricted"], ["green", "red"])} />}
-            {!stats && <p>No collected data yet</p>}
-          </div>
+          <TimeLineSeries title={"ApiKey Usage"} id={"apiKeyUsage"} setTimespan={setTimespan} timespan={timespan} startDate={startDate} endDate={endDate} source={stats} noData={"No collected data yet"} />
         </div>
       </div>
     </div>

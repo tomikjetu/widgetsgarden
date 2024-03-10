@@ -2,49 +2,11 @@ import Chart from "react-apexcharts";
 import { TimeSettings } from "../../Pages/Dashboard";
 import { useEffect, useState } from "react";
 
-export var options = {
-  chart: {
-    // ID
-    stacked: true,
-    toolbar: {
-      tools: {
-        download: false,
-      },
-    },
-  },
-  tooltip: {
-    enabled: true,
-    shared: true,
-    intersect: false,
-    theme: "dark",
-  },
-  legend: {
-    show: false,
-  },
-  xaxis: {
-    // CATEGORIES
-    labels: {
-      style: {
-        colors: "#fff",
-        fontFamily: "Raleway, sans-serif",
-      },
-    },
-  },
-  yaxis: {
-    labels: {
-      style: {
-        colors: "#fff",
-        fontFamily: "Raleway, sans-serif",
-      },
-    },
-  },
-};
+import {BarChartOptions} from "./Options/BarChartOptions.jsx";
 
 export default function BarChart({ title, id, setTimespan, timespan, startDate, endDate, source, noData }) {
-
   const [data, setData] = useState([]);
   const [axisCategories, setAxisCategories] = useState([]);
-  const [maxValue, setMaxValue] = useState(0);
   const [totalValue, setTotalValue] = useState(0);
 
   useEffect(() => {
@@ -68,11 +30,9 @@ export default function BarChart({ title, id, setTimespan, timespan, startDate, 
       tempData[category] = Object.values(entries[category] ?? []).reduce((a, b) => a + b, 0);
     });
 
-    // Find the maximum value, and total value
-    var tempMaxValue = 0;
+    // Find the total value
     var tempTotalValue = 0;
     Object.keys(tempData).forEach((category) => {
-      if (tempData[category] > tempMaxValue) tempMaxValue = tempData[category];
       tempTotalValue += tempData[category];
     });
 
@@ -81,7 +41,7 @@ export default function BarChart({ title, id, setTimespan, timespan, startDate, 
 
     // Remove categories with no data
     Object.entries(tempData).forEach(([category, value]) => value === 0 && delete tempData[category]);
-    
+
     // Add data for each series
     Object.entries(tempData).forEach(([series, value]) => tempValues.push(value));
     finalData.push({
@@ -91,8 +51,7 @@ export default function BarChart({ title, id, setTimespan, timespan, startDate, 
 
     setAxisCategories(Object.keys(tempData));
     setData(finalData);
-
-    setMaxValue(tempMaxValue);
+    
     setTotalValue(tempTotalValue);
   }, [startDate, endDate, source]);
 
@@ -108,17 +67,23 @@ export default function BarChart({ title, id, setTimespan, timespan, startDate, 
       </div>
 
       <div className="chart-container">
-        <Chart options={{
-          ...options,
-          chart: {
-            ...options.chart,
-            id
-          },
-          xaxis: {
-            ...options.xaxis,
-            categories: axisCategories
-          }
-        }} series={data} type="bar" width={"100%"} height={"100%"} />
+        <Chart
+          options={{
+            ...BarChartOptions,
+            chart: {
+              ...BarChartOptions.chart,
+              id,
+            },
+            xaxis: {
+              ...BarChartOptions.xaxis,
+              categories: axisCategories,
+            },
+          }}
+          series={data}
+          type="bar"
+          width={"100%"}
+          height={"100%"}
+        />
       </div>
     </div>
   );

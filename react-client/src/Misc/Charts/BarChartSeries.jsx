@@ -1,13 +1,11 @@
 import Chart from "react-apexcharts";
 import { TimeSettings } from "../../Pages/Dashboard";
 import { useEffect, useState } from "react";
-import { options } from "./BarChart";
+import { BarChartOptions } from "./Options/BarChartOptions.jsx";
 
 export default function BarChartSeries({ title, id, setTimespan, timespan, startDate, endDate, source, noData }) {
-
   const [chartData, setChartData] = useState([]);
   const [axisCategories, setAxisCategories] = useState([]);
-  const [maxValue, setMaxValue] = useState(0);
   const [totalValue, setTotalValue] = useState(0);
 
   var [availableCategories, setAvailableCategories] = useState([]);
@@ -50,41 +48,36 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
       if (sum == 0) delete realData[category];
     });
 
-    
     // Create data for each category
     var tempSeries = {};
-    availableCategories.filter((category) => selectedCategories?.includes(category)).forEach((category, i) => {
-      Object.keys(realData[category]).forEach((series) => {
-        if (!tempSeries[series]) tempSeries[series] = [];
-        tempSeries[series][i] = realData[category][series];
+    availableCategories
+      .filter((category) => selectedCategories?.includes(category))
+      .forEach((category, i) => {
+        Object.keys(realData[category]).forEach((series) => {
+          if (!tempSeries[series]) tempSeries[series] = [];
+          tempSeries[series][i] = realData[category][series];
+        });
       });
-    });
 
     Object.keys(tempSeries).forEach((series) => {
       tempChartData.push({ name: series, data: tempSeries[series] });
     });
 
-    
-    // Find the maximum value, and total value
-    var tempMaxValue = 0;
+    // Find the total value
     var tempTotalValue = 0;
     Object.keys(realData).forEach(function (category, index) {
       Object.keys(realData[category]).forEach((series) => {
-        tempMaxValue = Math.max(tempMaxValue, realData[category][series]);
         tempTotalValue += realData[category][series];
-      })
-    })
+      });
+    });
 
-    
     setAxisCategories(Object.keys(realData));
     if (selectedCategories == null) setSelectedCategories(Object.keys(timeSelectedData));
     setAvailableCategories(Object.keys(timeSelectedData));
 
     setChartData(tempChartData);
 
-    setMaxValue(tempMaxValue);
     setTotalValue(tempTotalValue);
-
   }, [startDate, endDate, source, selectedCategories]);
 
   if (!source) return noData;
@@ -108,17 +101,23 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
       </div>
 
       <div className="chart-container">
-        <Chart options={{
-          ...options,
-          chart: {
-            ...options.chart,
-            id
-          },
-          xaxis: {
-            ...options.xaxis,
-            categories: axisCategories
-          }
-        }} series={chartData} type="bar" width={"100%"} height={"100%"} />
+        <Chart
+          options={{
+            ...BarChartOptions,
+            chart: {
+              ...BarChartOptions.chart,
+              id,
+            },
+            xaxis: {
+              ...BarChartOptions.xaxis,
+              categories: axisCategories,
+            },
+          }}
+          series={chartData}
+          type="bar"
+          width={"100%"}
+          height={"100%"}
+        />
       </div>
 
       <div className="analytics-list">

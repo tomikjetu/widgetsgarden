@@ -64,6 +64,7 @@
 /* EDITOR VIEW END */
 
 .sidebar {
+  overflow: hidden;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -83,7 +84,6 @@
 
 .sidebar-brand {
   margin: 0.6em 1em;
-  overflow: hidden;
 }
 
 .sidebar-title {
@@ -93,7 +93,6 @@
 
   margin-left: 1rem;
   margin-right: 4rem;
-  overflow: hidden;
 }
 
 .sidebar-toggler path {
@@ -106,12 +105,14 @@
   padding: 1em;
 
   user-select: none;
-  -webkit-user-drag: none;
   cursor: pointer;
+  overflow: hidden;
 
   & .icon {
     height: 1.5rem;
+    min-height: 1.5rem;
     width: 1.5rem;
+    min-width: 1.5rem;
   }
 }
 
