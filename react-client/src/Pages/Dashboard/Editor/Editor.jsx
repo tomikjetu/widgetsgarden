@@ -14,15 +14,20 @@ import { Text } from "./Elements/Text";
 import { ImageElement } from "./Elements/Image";
 import { BackIcon, BinIcon, EmbedIcon, EyeIcon, ForwardsIcon, GearIcon, InfoIcon, PenIcon, PlayIcon, PlusIcon, SaveIcon, TickIcon } from "../../../Styles/Svg";
 
-import { DropdownMenu } from "../../../Components/DropdownMenu";
+import { DropdownMenu } from "../../../Elements/DropdownMenu";
 import { useParams, useSearchParams } from "react-router-dom";
-import Modal from "../../../Components/Modals/Modal";
+import { Modal, ModalDelete } from "../../../Elements/Modals";
 import InputStyle from "../Components/WidgetsEditor/Components/Styles/Input.module.css";
-import CodeCopy from "../../../Components/CodeCopy";
+import CodeCopy from "../../../Elements/CodeCopy";
 import InputSwitch from "../Components/WidgetsEditor/InputSwitch";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { ButtonElement } from "./Elements/Button";
 import { Container } from "./Elements/Container";
+import InstallPluginModal from "./Components/Modals/InstallPluginModal";
+import { AddPluginFunctionModal } from "./Components/Modals/AddPluginFunctionModal";
+import { PluginInfoModal } from "./Components/Modals/PluginInfoModal";
+import { EmbedModal } from "./Components/Modals/EmbedModal";
+import { Button, ButtonDanger } from "../../../Elements/Buttons";
 
 export var PLUGINS;
 
@@ -226,10 +231,10 @@ export default function Editor() {
         if (pluginfunction.plugin == id) {
           var pluginLock = pluginfunction.lock;
           element.pluginfunctions.splice(i, 1);
-            if(typeof pluginLock == "boolean") element.locked = false;
-            else if(typeof pluginLock == "object") element.locked = element.locked.filter((l) => !pluginLock.includes(l));
-          }
+          if (typeof pluginLock == "boolean") element.locked = false;
+          else if (typeof pluginLock == "object") element.locked = element.locked.filter((l) => !pluginLock.includes(l));
         }
+      }
     });
   }
 
@@ -634,10 +639,10 @@ export default function Editor() {
   }
 
   function checkLock(elementLock, settingsLock) {
-    if (!elementLock) return false;
+    if (!elementLock || !settingsLock) return false;
     if (typeof elementLock == "undefined" || elementLock == null) return false;
     if (typeof elementLock == "boolean" && elementLock) return true;
-    var locked=  false;
+    var locked = false;
     if (typeof elementLock == "object") {
       elementLock.forEach((lock) => {
         if (settingsLock.includes(lock)) locked = true;
@@ -728,7 +733,7 @@ export default function Editor() {
     // TODO move the pan to half of widget width and height
 
     if (typeof data != "object") data = JSON.parse(data);
-    
+
     var widget = data.filter((w) => w.type == "Widget")[0];
 
     var importedElements = [];
@@ -907,254 +912,19 @@ export default function Editor() {
 
   return (
     <div className="editor-workspace">
-      <Modal width={"500px"} height="auto" className="addplugins-modal" display={isOpenPluginsModal} setDisplay={setOpenPluginsModal}>
-        <h3 style={{ marginBottom: "10px" }}>Install Plugin</h3>
-        <div
-          className="buttons"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
-            gap: "1rem",
-            width: "100%",
-            margin: "2rem 0 ",
-          }}
-        >
-          {PLUGINS &&
-            PLUGINS.map((plugin) => {
-              return (
-                <div
-                  style={{
-                    cursor: "pointer",
-                    textAlign: "center",
-                    width: "100px",
-                  }}
-                  key={plugin.id}
-                  onClick={() => {
-                    addPlugin(plugin.id);
-                  }}
-                >
-                  <img
-                    style={{
-                      width: "100px",
-                      borderRadius: "4px",
-                      marginBottom: "7px",
-                    }}
-                    src={`${process.env.REACT_APP_SERVER_URL}/assets/library/plugin/${plugin.id}`}
-                    alt="Plugin Thumbnail"
-                  />
-                  <p>{plugin.name}</p>
-                </div>
-              );
-            })}
-        </div>
-        <button className="btn" onClick={() => setOpenPluginsModal(false)}>
-          Cancel
-        </button>
+      <InstallPluginModal isOpenPluginsModal={isOpenPluginsModal} setOpenPluginsModal={setOpenPluginsModal} PLUGINS={PLUGINS} addPlugin={addPlugin} />
+      <AddPluginFunctionModal isOpenAddPluginFunctionModal={isOpenAddPluginFunctionModal} setOpenAddPluginFunctionModal={setOpenAddPluginFunctionModal} setOpenPluginsModal={setOpenPluginsModal} filteredPluginFunctions={filteredPluginFunctions} checkLock={checkLock} selectedElement={selectedElement} addPluginFunctionToSelectedElement={addPluginFunctionToSelectedElement} openPluginMenu={openPluginMenu} />
+      <PluginInfoModal isOpenPluginMenuModal={isOpenPluginMenuModal} setOpenPluginMenuModal={setOpenPluginMenuModal} pluginMenuModalData={pluginMenuModalData} removePlugin={removePlugin} />
+
+      <Modal title={"Back to dashboard"} display={isOpenCloseModal} setDisplay={setOpenCloseModal} buttons={[<ButtonDanger onClick={() => closeWithoutSaving()}>Discard Changes</ButtonDanger>, <Button onClick={() => setOpenCloseModal(false)}>Cancel</Button>, <Button onClick={() => closeAndSave()}>Save & Close</Button>]}>
+        You're leaving the editor.
       </Modal>
 
-      <Modal height="auto" className="pluginfunctions-modal" display={isOpenAddPluginFunctionModal} setDisplay={setOpenAddPluginFunctionModal}>
-        <h3 style={{ marginBottom: "10px", marginLeft: "auto" }}>Add Plugin Function</h3>
-        <button
-          className="btn"
-          onClick={() => {
-            setOpenAddPluginFunctionModal(false);
-            setOpenPluginsModal(true);
-          }}
-        >
-          Install more plugins
-        </button>
-        <div
-          className="buttons"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-            margin: "2rem 0",
-          }}
-        >
-          {filteredPluginFunctions.map((pluginfunction) => {
-            return (
-              <div key={pluginfunction.name} style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                <p
-                  style={{
-                    cursor: checkLock(selectedElement?.locked, pluginfunction.lock) ? "not-allowed" : "pointer",
-                    color: checkLock(selectedElement?.locked, pluginfunction.lock) ? "#888" : "#fff",
-                  }}
-                  onClick={() => {
-                    if (checkLock(selectedElement?.locked, pluginfunction.lock)) return;
-                    addPluginFunctionToSelectedElement(pluginfunction);
-                  }}
-                >
-                  {pluginfunction.name}
-                </p>
-                <span
-                  style={{
-                    cursor: "pointer",
-                    width: "16px",
-                    height: "16px",
-                  }}
-                  onClick={() => {
-                    setOpenAddPluginFunctionModal(false);
-                    openPluginMenu(pluginfunction.plugin);
-                  }}
-                >
-                  <InfoIcon />
-                </span>
-              </div>
-            );
-          })}
-        </div>
-        <button className="btn" onClick={() => setOpenAddPluginFunctionModal(false)}>
-          Cancel
-        </button>
-      </Modal>
+      <ModalDelete title={widget?.displayName} display={isOpenDeleteModal} setDisplay={setOpenDeleteModal} onClose={() => setOpenDeleteModal(false)} onDelete={() => deleteWidgetConfirmed()}>
+        <p>Are you sure you want to delete this widget? All widget data will be permanently deleted from your account and the library. This action cannot be undone.</p>
+      </ModalDelete>
 
-      <Modal height="auto" width={"80%"} maxWidth="80%" className="plugininfo-modal" display={isOpenPluginMenuModal} setDisplay={setOpenPluginMenuModal}>
-        {pluginMenuModalData && (
-          <>
-            <div
-              style={{
-                display: "flex",
-                gap: "10px",
-                alignItems: "baseline",
-                width: "100%",
-                justifyContent: "center",
-                margin: "0 1rem",
-              }}
-            >
-              <h2 style={{ marginBottom: "10px", marginLeft: "auto" }}>{pluginMenuModalData.name}</h2>
-              <span
-                style={{
-                  display: "block",
-                  width: "16px",
-                  height: "16px",
-                  cursor: "pointer",
-                  marginLeft: "auto",
-                }}
-                onClick={() => {
-                  removePlugin(pluginMenuModalData.id);
-                }}
-              >
-                <BinIcon />
-              </span>
-            </div>
-            <div
-              style={{
-                margin: "1rem",
-                maxHeight: "50vh",
-                overflowY: "auto",
-                width: "100%",
-              }}
-            >
-              <p>{pluginMenuModalData.description}</p>
-              {pluginMenuModalData.functions.map((pluginfunction) => {
-                return (
-                  <div
-                    style={{
-                      marginTop: "1rem",
-                    }}
-                    key={pluginfunction.id}
-                  >
-                    <span
-                      style={{
-                        display: "flex",
-                        gap: ".5rem",
-                      }}
-                    >
-                      <h3>{pluginfunction.name}</h3>
-                      <div className="element-tags">
-                        {pluginfunction.elements == "*" && <span className="element-tag">All Elements</span>}
-                        {typeof pluginfunction.elements == "object" &&
-                          pluginfunction.elements.map((tag) => {
-                            return (
-                              <span key={Math.random()} className="element-tag">
-                                {tag}
-                              </span>
-                            );
-                          })}
-                      </div>
-                    </span>
-
-                    <p>{pluginfunction.description ?? "Undocumented"}</p>
-
-                    {pluginfunction.parameters &&
-                      pluginfunction.parameters.map((parameter) => {
-                        return (
-                          <div style={{ marginTop: ".7rem" }} key={parameter.id}>
-                            <span
-                              style={{
-                                display: "flex",
-                                gap: ".5rem",
-                              }}
-                            >
-                              <h4>{parameter.title}</h4>
-                              <span className="element-tag gray">{parameter.type}</span>
-                            </span>
-                            <p style={{ whiteSpace: "pre-wrap" }}>{parameter.description ?? "Undocumented"}</p>
-                          </div>
-                        );
-                      })}
-                  </div>
-                );
-              })}
-            </div>
-          </>
-        )}
-        <button
-          className="btn"
-          onClick={() => {
-            setOpenPluginMenuModal(false);
-          }}
-        >
-          Close
-        </button>
-      </Modal>
-
-      <Modal height="auto" className="close-modal" display={isOpenCloseModal} setDisplay={setOpenCloseModal}>
-        <h2 style={{ marginBottom: "10px" }}>Are You sure?</h2>
-        <div
-          className="buttons"
-          style={{
-            display: "flex",
-            gap: "1rem",
-          }}
-        >
-          <button style={{ fontSize: "15px", whiteSpace: "nowrap" }} className="btn" onClick={() => closeWithoutSaving()}>
-            Discard Changes
-          </button>
-          <button style={{ fontSize: "15px", whiteSpace: "nowrap" }} className="btn" onClick={() => closeAndSave()}>
-            Save & Close
-          </button>
-          <button style={{ fontSize: "15px", whiteSpace: "nowrap" }} className="btn" onClick={() => setOpenCloseModal(false)}>
-            Cancel
-          </button>
-        </div>
-      </Modal>
-
-      <Modal height="auto" className="delete-modal" display={isOpenDeleteModal} setDisplay={setOpenDeleteModal}>
-        <h2 style={{ marginBottom: "10px" }}>Are You sure?</h2>
-        <div
-          className="buttons"
-          style={{
-            display: "flex",
-            gap: "1rem",
-          }}
-        >
-          <button className="btn" onClick={() => deleteWidgetConfirmed()}>
-            Delete
-          </button>
-          <button className="btn" onClick={() => setOpenDeleteModal(false)}>
-            Keep
-          </button>
-        </div>
-      </Modal>
-
-      <Modal height="auto" width="80%" className={"code-modal"} display={isOpenCodeModal}>
-        {widget && <CodeCopy code={`<div class="widgetsgarden" widgetId="${widget.widgetId}"></div>`} />}
-        <button className="btn" onClick={() => setOpenCodeModal(false)}>
-          Close
-        </button>
-      </Modal>
+      <EmbedModal embedId={widget?.widgetId} codeEmbedModal={isOpenCodeModal} setCodeEmbedModal={setOpenCodeModal} />
 
       <header className="navigation">
         <div onClick={closeEditor} style={{ cursor: "pointer" }}>

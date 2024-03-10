@@ -7,7 +7,7 @@ import axios from "axios";
 
 import { CloseIcon, HomeIcon, PlusIcon } from "../../Styles/Svg";
 import "../../Styles/Dashboard/access.css";
-import CodeCopy from "../../Components/CodeCopy";
+import CodeCopy from "../../Elements/CodeCopy";
 import { GridSettings, TimeSettings, getDashboardSetting } from "../Dashboard";
 import TimeLineSeries from "../../Misc/Charts/TimeLineSeries";
 
@@ -136,8 +136,10 @@ export default function Access() {
             marginBottom: "1rem",
           }}
         >
-          <h1>Set Up</h1>
-          <p>Include widgetsgarden.js to gain access to widgets.</p>
+          <h1>Installation</h1>
+          <p>
+            To track analytics or display a widget on your website, include this script in every page you want to track or display a widget:
+          </p>
 
           {apiKey && <CodeCopy code={`<script defer src="${process.env.REACT_APP_SERVER_URL}/widgetsgarden.js?apiKey=${apiKey}"></script>`} />}
         </div>
@@ -220,7 +222,7 @@ export default function Access() {
             </div>
           </div>
 
-          <TimeLineSeries title={"ApiKey Usage"} id={"apiKeyUsage"} colorSet={["#008000", "#FF0000"]} setTimespan={setTimespan} timespan={timespan} startDate={startDate} endDate={endDate} source={stats} noData={"No collected data yet"} />
+          <TimeLineSeries title={"ApiKey Usage"} id={"apiKeyUsage"} labels={["Authorized", "Restricted"]} colorSet={["#008000", "#FF0000"]} setTimespan={setTimespan} timespan={timespan} startDate={startDate} endDate={endDate} source={stats} noData={"Loading usage..."} />
         </div>
       </div>
     </div>

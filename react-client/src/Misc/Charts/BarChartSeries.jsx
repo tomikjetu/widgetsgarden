@@ -85,7 +85,9 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
     setAvailableCategoriesTotals(tempCategoryTotals);
   }, [startDate, endDate, source, selectedCategories]);
 
-  if (!source) return noData;
+  if (!source) return <div className="dashboard-container analytics"> 
+    <p>{noData}</p>
+  </div>;
 
   return (
     <div className="dashboard-container analytics">
@@ -132,15 +134,12 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
             <div
               key={availableCategory}
               className="analytics-list-item"
-              style={{
-                cursor: "pointer",
-              }}
               onClick={() => {
                 if (selectedCategories.includes(availableCategory)) setSelectedCategories(selectedCategories.filter((s) => s != availableCategory));
                 else setSelectedCategories([...selectedCategories, availableCategory]);
               }}
             >
-              <p style={{ opacity: selectedOpacity, width: "100%", display: "flex", justifyContent: "space-between" }}>
+              <p style={{ opacity: selectedOpacity}} className="analytics-item-with-stats">
                 <span>{availableCategory}</span>
                 <span>{availableCategoriesTotals[availableCategory]}</span>
               </p>

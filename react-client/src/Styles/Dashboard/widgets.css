@@ -376,7 +376,7 @@ header.navigation {
   padding: 4px 8px;
   border-radius: 4px;
 
-  background-color: var(--container-background);
+  background-color: #daad60;
   text-shadow: var(--dashboard-shadow);
   color: white;
 

@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "../../Styles/Dashboard/widgets.css";
 import { Link, useSearchParams } from "react-router-dom";
-import { AnalyticsIcon, BackIcon, BinIcon, DocumentIcon, EmbedIcon, EyeIcon, GearIcon, HomeIcon, PenIcon, SortAIcon, SortLastModifiedIcon, SortNewestCreatedIcon, SortOldestCreatedIcon, SortZIcon, TouchIcon, WidgetsIcon } from "../../Styles/Svg";
-import Modal from "../../Components/Modals/Modal";
-import CodeCopy from "../../Components/CodeCopy";
+import { AnalyticsIcon, BinIcon, DocumentIcon, EmbedIcon, EyeIcon, GearIcon, HomeIcon, PenIcon, SortAIcon, SortLastModifiedIcon, SortNewestCreatedIcon, SortOldestCreatedIcon, SortZIcon, TouchIcon, WidgetsIcon } from "../../Styles/Svg";
+import CodeCopy from "../../Elements/CodeCopy";
 import TextOptions from "./Components/WidgetsEditor/Components/Options";
-import { getCookie, setCookie } from "../../Misc/Cookies";
+import { setCookie } from "../../Misc/Cookies";
 import { GridSettings, getDashboardSetting } from "../Dashboard";
 import { Tooltip } from "react-tooltip";
+import { Modal, ModalDelete } from "../../Elements/Modals";
+import { EmbedModal } from "./Editor/Components/Modals/EmbedModal";
 
+// it's own file
 var sortOptions = [
   {
     icon: <SortLastModifiedIcon />,
@@ -100,10 +102,12 @@ export default function Widgets() {
   var [codeEmbedModal, setCodeEmbedModal] = useState(false);
   var [embedId, setEmbedId] = useState("");
   var [deleteWidgetId, setDeleteWidgetId] = useState(0);
+  var [deleteWidgetName, setDeleteWidgetName] = useState("");
 
-  function deleteWidget(widgetId) {
+  function deleteWidget(widgetId, widgetName) {
     setDeleteWidgetModal(true);
     setDeleteWidgetId(widgetId);
+    setDeleteWidgetName(widgetName);
   }
 
   function deleteWidgetConfirmed() {
@@ -200,36 +204,11 @@ export default function Widgets() {
         </div>
       </header>
       <div className="dashboard-content">
-        <Modal height="auto" width="80%" className={"code-modal"} display={codeEmbedModal}>
-          <p>
-            Get your access code{" "}
-            <a href="/dashboard/access" style={{ textDecoration: "underline" }}>
-              here
-            </a>
-          </p>
-          <CodeCopy code={`<div class="widgetsgarden" widgetId="${embedId}"></div>`} />
-          <button className="btn" onClick={() => setCodeEmbedModal(false)}>
-            Close
-          </button>
-        </Modal>
+        <EmbedModal embedId={embedId} codeEmbedModal={codeEmbedModal} setCodeEmbedModal={setCodeEmbedModal} />
 
-        <Modal height="auto" className="delete-modal" display={deleteWidgetModal} setDisplay={setDeleteWidgetModal}>
-          <h2 style={{ marginBottom: "10px" }}>Are You sure?</h2>
-          <div
-            className="buttons"
-            style={{
-              display: "flex",
-              gap: "1rem",
-            }}
-          >
-            <button className="btn" onClick={() => deleteWidgetConfirmed()}>
-              Delete
-            </button>
-            <button className="btn" onClick={() => setDeleteWidgetModal(false)}>
-              Keep
-            </button>
-          </div>
-        </Modal>
+        <ModalDelete title={deleteWidgetName} display={deleteWidgetModal} setDisplay={setDeleteWidgetModal} onClose={() => setDeleteWidgetModal(false)} onDelete={() => deleteWidgetConfirmed()}>
+          <p>Are you sure you want to delete this widget? All widget data will be permanently deleted from your account and the library. This action cannot be undone.</p>
+        </ModalDelete>
 
         <div className={`widgets ${GridCollumns == 1 ? "list" : ""}`}>
           {widgets == null && (
@@ -293,7 +272,7 @@ export default function Widgets() {
                           </span>
                         </div>
                         <div style={{ marginLeft: "auto" }}>
-                          <span onClick={() => deleteWidget(widget.widgetId)}>
+                          <span onClick={() => deleteWidget(widget.widgetId, widget.displayName)}>
                             <BinIcon />
                           </span>
                         </div>

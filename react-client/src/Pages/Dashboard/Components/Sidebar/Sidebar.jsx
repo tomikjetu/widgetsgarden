@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-import { UpgradeIcon, WidgetsIcon, LockIcon, DocumentIcon, AnalyticsIcon, HomeIcon, RetractSidebarIcon, ExtendSidebarIcon } from "../../../Styles/Svg";
+import { UpgradeIcon, WidgetsIcon, LockIcon, DocumentIcon, AnalyticsIcon, HomeIcon, RetractSidebarIcon, ExtendSidebarIcon } from "../../../../Styles/Svg";
 
 import Profile from "./Profile";
 import Notifications from "./Notifications";
-import { NO_SIDEBAR_BREAK } from "../../Dashboard";
+import { NO_SIDEBAR_BREAK } from "../../../Dashboard";
 
 export default function Sidebar({ notifications, sidebarToggle, profile, sidebarExtended, setSidebarExtended }) {
   const location = useLocation();

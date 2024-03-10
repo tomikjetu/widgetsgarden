@@ -3,11 +3,11 @@ import { useParams } from "react-router-dom";
 
 import { SketchPicker } from "react-color";
 
-import Styles from "../../../Styles/Dashboard/widgetPreview.module.css";
+import Styles from "../../../../Styles/Dashboard/widgetPreview.module.css";
 import { useState } from "react";
 import { useEffect } from "react";
-import { BinIcon, RefreshIcon } from "../../../Styles/Svg";
-import { deleteCookie, getAllCookies } from "../../../Misc/Cookies";
+import { BinIcon, RefreshIcon } from "../../../../Styles/Svg";
+import { deleteCookie, getAllCookies } from "../../../../Misc/Cookies";
 
 var textColor = function (backgroundColor) {
   var result = /^rgba\(([0-9]{0,3}), ?([0-9]{0,3}), ?([0-9]{0,3}), ?([.0-9]{0,})\)$/i.exec(backgroundColor);

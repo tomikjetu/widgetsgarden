@@ -4,7 +4,7 @@ import { setCookie } from "../../Misc/Cookies";
 import { Link } from "react-router-dom";
 import { GridSettings, getDashboardSetting } from "../Dashboard";
 
-export default function Main() {
+export default function Main({ profile }) {
   axios.defaults.withCredentials = true;
 
   const [overview, setOverview] = useState(null);
@@ -47,11 +47,13 @@ export default function Main() {
       </header>
       <div className="dashboard-content">
         <div className="dashboard-status">
-          <a href="/dashboard/widgets" className="dashboard-container">
-            <span>
-              Widgets: <span className="number"> {overview?.user.widgets || "Loading..."}</span>
-            </span>
-          </a>
+          <div className="dashboard-container">
+            <div style={{ padding: "1rem", boxSizing: "border-box" }}>
+              <h2 style={{ marginBottom: ".7rem" }}>Welcome back, {profile.username}!</h2>
+              <p>Glad to see you in the garden!</p>
+              {/* IMAGE HERE ABOVE 1000PX, transparent, maybe overflowing, abstract... */}
+            </div>
+          </div>
         </div>
 
         <div
@@ -60,6 +62,19 @@ export default function Main() {
           }}
           className="dashboard-grid dashboard-collumns"
         >
+          <div className="dashboard-container analytics">
+            <h3>Quick Access</h3>
+            <div className="analytics-list">
+              <a
+                href="/dashboard/widgets"
+                className="analytics-list-item analytics-item-with-stats"
+              >
+                <span>Widgets</span>
+                <span className="number"> {overview?.user.widgets || "Loading..."}</span>
+              </a>
+            </div>
+          </div>
+
           <Link to="/dashboard/access" className="dashboard-container">
             See Access dashboard
           </Link>

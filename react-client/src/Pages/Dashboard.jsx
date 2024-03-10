@@ -13,7 +13,7 @@ import "../Styles/Dashboard/Environment/navbar.css";
 import "../Styles/Dashboard/Environment/sidebar.css";
 
 import { BurgerMenuIcon, DashboardCollumnIcon, DashboardCollumnsTwoIcon } from "../Styles/Svg";
-import Sidebar from "./Dashboard/Components/Sidebar";
+import Sidebar from "./Dashboard/Components/Sidebar/Sidebar";
 import AnalyticsPage from "./Dashboard/AnalyticsPage";
 import Editor from "./Dashboard/Editor/Editor";
 import Settings from "./Dashboard/Settings";
@@ -27,7 +27,7 @@ export const dashboardDefaultSettings = {
   "dashboard-collumns": 2,
   "dashboard-timespan": 30,
   "dashboard-sort": "lastModified",
-  "sidebar-extended": true
+  "sidebar-extended": "true"
 };
 
 export function getDashboardSetting(name) {
@@ -97,7 +97,7 @@ export function TimeSettings({ setTimespan, timespan, transparent }) {
 
 export default function Dashboard({ profile, notifications }) {
   const [sidebarToggle, setSidebarToggle] = useState(false);
-  const [sidebarExtended, setSidebarExtended] = useState((window.innerWidth < NO_SIDEBAR_BREAK ? false : getDashboardSetting("sidebar-extended")) == "true");
+  const [sidebarExtended, setSidebarExtended] = useState(window.innerWidth < NO_SIDEBAR_BREAK || getDashboardSetting("sidebar-extended") == "true");
   const ToggleSidebar = () => setSidebarToggle(!sidebarToggle);
 
   useEffect(()=>{
@@ -134,7 +134,7 @@ export default function Dashboard({ profile, notifications }) {
       <main>
         <div>
           <Routes>
-            <Route path="" Component={MainPage} />
+            <Route path="" element={<MainPage profile={profile} />} />
             <Route path="access" Component={AccessPage} />
             <Route path="widgets" Component={WidgetsPage} />
             <Route path="analytics" Component={AnalyticsPage} />

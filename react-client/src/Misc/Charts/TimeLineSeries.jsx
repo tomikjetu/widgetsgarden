@@ -3,7 +3,7 @@ import { TimeSettings } from "../../Pages/Dashboard.jsx";
 import { useEffect, useState } from "react";
 import { LineChartOptions } from "./Options/LineChartOptions.jsx";
 
-export default function TimeLineSeries({ title, id, setTimespan, timespan, startDate, endDate, source, noData, colorSet }) {
+export default function TimeLineSeries({ title, id, setTimespan, timespan, startDate, endDate, source, noData, colorSet, labels }) {
   const [data, setData] = useState([]);
   const [totalValue, setTotalValue] = useState(0);
 
@@ -32,7 +32,7 @@ export default function TimeLineSeries({ title, id, setTimespan, timespan, start
     });
 
     // Add data for each category
-    Object.keys(timeSelectedData).forEach((series) => {
+    Object.keys(timeSelectedData).forEach((series, i) => {
       var data = [];
 
       let currentDate = new Date(startDate);
@@ -51,20 +51,23 @@ export default function TimeLineSeries({ title, id, setTimespan, timespan, start
       if (!selectedSeries?.includes(series)) return;
 
       tempData.push({
-        name: series,
+        name: labels[i] ?? series,
         data,
       });
     });
 
     if (selectedSeries == null) setSelectedSeries(Object.keys(timeSelectedData));
-    setAvailableSeries(Object.keys(timeSelectedData))
+    
+    setAvailableSeries(Object.keys(timeSelectedData).map(value=> ({ label: labels[Object.keys(timeSelectedData).indexOf(value)] ?? value, value })));
 
     setData(tempData);
     setTotalValue(tempTotalValue);
     setAvailableSeriesTotals(tempSeriesTotal);
   }, [startDate, endDate, source, selectedSeries]);
 
-  if (!source) return noData;
+  if (!source) return <div className="dashboard-container analytics"> 
+    <p>{noData}</p>
+  </div>;
 
   return (
     <div className="dashboard-container analytics">
@@ -99,22 +102,19 @@ export default function TimeLineSeries({ title, id, setTimespan, timespan, start
 
       <div className="analytics-list">
         {availableSeries.map((availableSerie, index) => {
-          var selectedOpacity = selectedSeries.includes(availableSerie) ? 1 : 0.5;
+          var selectedOpacity = selectedSeries.includes(availableSerie.value) ? 1 : 0.5;
           return (
             <div
-              key={availableSerie}
+              key={availableSerie.value}
               className="analytics-list-item"
-              style={{
-                cursor: "pointer",
-              }}
               onClick={() => {
-                if (selectedSeries.includes(availableSerie)) setSelectedSeries(selectedSeries.filter((s) => s != availableSerie));
-                else setSelectedSeries([...selectedSeries, availableSerie]);
+                if (selectedSeries.includes(availableSerie.value)) setSelectedSeries(selectedSeries.filter((s) => s != availableSerie.value));
+                else setSelectedSeries([...selectedSeries, availableSerie.value]);
               }}
             >
-              <p style={{ opacity: selectedOpacity, width: "100%", display: "flex", justifyContent: "space-between" }}>
-                <span>{availableSerie}</span>
-                <span>{availableSeriesTotals[availableSerie]}</span>
+              <p style={{ opacity: selectedOpacity}} className="analytics-item-with-stats">
+                <span>{availableSerie.label}</span>
+                <span>{availableSeriesTotals[availableSerie.value]}</span>
               </p>
             </div>
           );

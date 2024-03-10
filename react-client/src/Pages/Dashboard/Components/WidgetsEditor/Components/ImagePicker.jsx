@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Modal from "../../../../../Components/Modals/Modal";
+import {Modal} from "../../../../../Elements/Modals";
 import { BinIcon, UploadIcon } from "../../../../../Styles/Svg";
 import styles from "./Styles/ImagePicker.module.css";
 

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { UserIcon } from "../../../Styles/Svg";
+import { UserIcon } from "../../../../Styles/Svg";
 
 export default function Profile({ profile, sidebarExtended }) {
   return (

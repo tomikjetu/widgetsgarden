@@ -55,7 +55,9 @@ export default function BarChart({ title, id, setTimespan, timespan, startDate, 
     setTotalValue(tempTotalValue);
   }, [startDate, endDate, source]);
 
-  if (!source) return noData;
+  if (!source) return <div className="dashboard-container analytics"> 
+    <p>{noData}</p>
+  </div>;
 
   return (
     <div className="dashboard-container analytics">

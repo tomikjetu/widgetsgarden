@@ -8,7 +8,7 @@ import NotFound from "./Pages/NotFound";
 import { useEffect, useState } from "react";
 
 import TermsOfServices from "./Pages/TermsOfServices";
-import PreviewWidget from "./Pages/Dashboard/Components/PreviewWidget";
+import PreviewWidget from "./Pages/Dashboard/Components/WidgetsEditor/PreviewWidget";
 import { LoadNotifications } from "./Pages/Dashboard/Messages";
 
 import { ToastContainer, Bounce } from "react-toastify";

@@ -19,7 +19,7 @@
   transition: width 500ms ease, padding 500ms ease;
 }
 
-.dashboard.extended .dashboard-content{
+.dashboard.extended .dashboard-content {
   padding-left: 6rem;
   width: calc(100vw - 7rem);
 }
@@ -35,8 +35,8 @@
 .dashboard-settings {
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;  
-  
+  gap: 1rem;
+
   & > * {
     cursor: pointer;
     transition: background 250ms ease;
@@ -118,7 +118,7 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    & .chart-container{
+    & .chart-container {
       max-height: 50vh;
       min-height: 40vh;
       height: 100%;
@@ -134,11 +134,18 @@
     & .analytics-list-item {
       background-color: var(--dashboard-container-hover);
       border-radius: 0.5rem;
-      padding: .5rem 1rem;
+      padding: 0.5rem 1rem;
       display: flex;
       align-items: center;
+      cursor: pointer;
     }
 
+    & .analytics-item-with-stats{
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      box-sizing: border-box;
+    }
   }
 }
 
@@ -168,7 +175,7 @@
     transition: background 250ms ease, color 250ms ease;
 
     color: #aaa;
-    & svg  *{
+    & svg * {
       transition: fill 250ms ease, stroke 250ms ease;
       fill: #aaa;
       stroke: #aaa;
@@ -177,10 +184,14 @@
     &.selected {
       background: var(--dashboard-container-acitve);
       color: white;
-      & svg  *{
+      & svg * {
         fill: white;
         stroke: white;
       }
+    }
+
+    &:not(.selected):hover {
+      background: var(--dashboard-container-hover);
     }
   }
 }
@@ -190,7 +201,7 @@
   opacity: 0;
   transition: opacity 250ms ease;
   box-shadow: #00000040 -2px 2px 10px;
-  
+
   & span {
     font-size: 1rem;
     padding: 0.25rem 0.5rem;

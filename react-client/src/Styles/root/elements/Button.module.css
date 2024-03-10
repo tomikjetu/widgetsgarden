@@ -1,0 +1,42 @@
+:root{
+    --button-background: #395144;
+    --button-hover: #38614b;
+
+    --button-danger-background: rgb(158, 65, 65);
+    --button-danger-hover: rgb(208, 84, 84);
+}
+
+.button {
+  cursor: pointer;
+  padding: 0.5em 0.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--button-background);
+  color: white;
+  border: none;
+  font-size: 1.1em;
+  padding: 0.5em 1em;
+
+  scale: 1;
+  transition: background-color 250ms ease-in-out, scale 300ms cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  border-radius: 10px;
+}
+
+.button:hover {
+  background-color: var(--button-hover);
+}
+
+.button:active {
+  scale: 1.1;
+}
+
+.buttonDanger {
+  background-color: var(--button-danger-background);
+}
+
+.buttonDanger:hover {
+  background-color: var(--button-danger-hover)
+}

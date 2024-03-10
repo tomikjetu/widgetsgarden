@@ -225,7 +225,6 @@ code.hljs {
 }
 
 .hljs::-webkit-scrollbar {
-  background-color: red;
   height: 8px;
 }
 
