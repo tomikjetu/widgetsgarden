@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { BackIcon } from "../../Styles/Svg";
 import { setCookie } from "../../Misc/Cookies";
 
-import MapChart from "../../Misc/Charts/MapChart";
+import MapChart from "./Components/Elements/Charts/MapChart";
 import { GridSettings, TimeSettings, getDashboardSetting } from "../Dashboard";
-import BarChartSeries from "../../Misc/Charts/BarChartSeries";
-import BarChart from "../../Misc/Charts/BarChart";
+import BarChartSeries from "./Components/Elements/Charts/BarChartSeries";
+import BarChart from "./Components/Elements/Charts/BarChart";
 
 export default function AnalyticsPage() {
   axios.defaults.withCredentials = true;

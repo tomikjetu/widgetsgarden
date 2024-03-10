@@ -3,7 +3,7 @@ import { TimeSettings } from "../../Pages/Dashboard";
 import { useEffect, useState } from "react";
 import { BarChartOptions } from "./Options/BarChartOptions.jsx";
 
-export default function BarChartSeries({ title, id, setTimespan, timespan, startDate, endDate, source, noData }) {
+export default function BarChartSeries({ title, id, setTimespan, timespan, startDate, endDate, source, noData, labels }) {
   const [chartData, setChartData] = useState([]);
   const [axisCategories, setAxisCategories] = useState([]);
   const [totalValue, setTotalValue] = useState(0);
@@ -16,9 +16,9 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
     if (!source) return;
 
     var timeSelectedData = {}; // Has only values within the selected time range
-    var realData = {};         // Has no zero values or empty categories
-    var tempChartData = [];    // Data sent to the chart api
-    
+    var realData = {}; // Has no zero values or empty categories
+    var tempChartData = []; // Data sent to the chart api
+
     var tempTotalValue = 0;
     var tempCategoryTotals = {};
 
@@ -45,7 +45,7 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
       var sum = 0;
       Object.keys(timeSelectedData[category]).forEach((series) => {
         var value = Object.values(timeSelectedData[category][series] ?? []).reduce((a, b) => a + b, 0);
-        tempCategoryTotals[category] +=value; // Find the total value of each category
+        tempCategoryTotals[category] += value; // Find the total value of each category
         if (value == 0) return;
         realData[category][series] = value;
         sum += value;
@@ -77,7 +77,7 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
 
     setAxisCategories(Object.keys(realData));
     if (selectedCategories == null) setSelectedCategories(Object.keys(timeSelectedData));
-    setAvailableCategories(Object.keys(timeSelectedData));
+    setAxisCategories(Object.keys(timeSelectedData).map(value=> ({ label: labels[Object.keys(timeSelectedData).indexOf(value)] ?? value, value })));
 
     setChartData(tempChartData);
 
@@ -85,9 +85,12 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
     setAvailableCategoriesTotals(tempCategoryTotals);
   }, [startDate, endDate, source, selectedCategories]);
 
-  if (!source) return <div className="dashboard-container analytics"> 
-    <p>{noData}</p>
-  </div>;
+  if (!source)
+    return (
+      <div className="dashboard-container analytics">
+        <p>{noData}</p>
+      </div>
+    );
 
   return (
     <div className="dashboard-container analytics">
@@ -129,19 +132,19 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
 
       <div className="analytics-list">
         {availableCategories.map((availableCategory, index) => {
-          var selectedOpacity = selectedCategories.includes(availableCategory) ? 1 : 0.5;
+          var selectedOpacity = selectedCategories.includes(availableCategory.value) ? 1 : 0.5;
           return (
             <div
-              key={availableCategory}
+              key={availableCategory.value}
               className="analytics-list-item"
               onClick={() => {
-                if (selectedCategories.includes(availableCategory)) setSelectedCategories(selectedCategories.filter((s) => s != availableCategory));
-                else setSelectedCategories([...selectedCategories, availableCategory]);
+                if (selectedCategories.includes(availableCategory.value)) setSelectedCategories(selectedCategories.filter((s) => s != availableCategory.value));
+                else setSelectedCategories([...selectedCategories, availableCategory.value]);
               }}
             >
-              <p style={{ opacity: selectedOpacity}} className="analytics-item-with-stats">
-                <span>{availableCategory}</span>
-                <span>{availableCategoriesTotals[availableCategory]}</span>
+              <p style={{ opacity: selectedOpacity }} className="analytics-item-with-stats">
+                <span>{availableCategory.label}</span>
+                <span>{availableCategoriesTotals[availableCategory.value]}</span>
               </p>
             </div>
           );

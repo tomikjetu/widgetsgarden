@@ -9,7 +9,7 @@ import { CloseIcon, HomeIcon, PlusIcon } from "../../Styles/Svg";
 import "../../Styles/Dashboard/access.css";
 import CodeCopy from "../../Elements/CodeCopy";
 import { GridSettings, TimeSettings, getDashboardSetting } from "../Dashboard";
-import TimeLineSeries from "../../Misc/Charts/TimeLineSeries";
+import TimeLineSeries from "./Components/Elements/Charts/TimeLineSeries";
 
 export default function Access() {
   axios.defaults.withCredentials = true;

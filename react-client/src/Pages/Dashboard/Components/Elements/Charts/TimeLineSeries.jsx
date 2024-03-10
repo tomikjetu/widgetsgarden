@@ -1,5 +1,5 @@
 import Chart from "react-apexcharts";
-import { TimeSettings } from "../../Pages/Dashboard.jsx";
+import { TimeSettings } from "../../../../Dashboard.jsx";
 import { useEffect, useState } from "react";
 import { LineChartOptions } from "./Options/LineChartOptions.jsx";
 
