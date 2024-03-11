@@ -2,6 +2,10 @@
   --item-width: 100px;
 }
 
+.ImagePicker input {
+  display: none;
+}
+
 .Header {
   display: flex;
   align-items: baseline;
@@ -12,9 +16,8 @@
   }
 
   & .Upload {
-    width: 24px;
-    aspect-ratio: 1/1;
-
+    display: flex;
+    gap: 1rem;
     & input {
       display: none;
     }
@@ -26,8 +29,11 @@
   grid-template-columns: repeat(auto-fit, var(--item-width));
   margin: 1rem;
   gap: 1rem;
-  width: 100%;
+  width: calc(100% - 2rem);
   justify-items: center;
+  overflow-y: auto;
+  justify-content: space-between;
+  max-height: 300px;
 }
 
 .Image {

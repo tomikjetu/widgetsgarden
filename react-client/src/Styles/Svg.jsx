@@ -140,15 +140,7 @@ export function CopyIcon() {
 
 export function PenIcon() {
   return (
-    <svg
-      viewBox="0 0 24.00 24.00"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="pen"
-      transform="matrix(1, 0, 0, 1, 0, 0)"
-      stroke="#ffffff"
-      strokeWidth="0.00024000000000000003"
-    >
+    <svg viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" className="pen" transform="matrix(1, 0, 0, 1, 0, 0)" stroke="#ffffff" strokeWidth="0.00024000000000000003">
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#CCCCCC" strokeWidth="0.43200000000000005"></g>
       <g id="SVGRepo_iconCarrier">
@@ -300,9 +292,18 @@ export function EmbedIcon() {
   );
 }
 
-export function UploadIcon() {
+export function UploadIcon({ width }) {
   return (
-    <svg className="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      style={{
+        width,
+        height: width,
+      }}
+      className="icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
       <g id="SVGRepo_iconCarrier">

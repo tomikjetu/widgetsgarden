@@ -12,6 +12,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
 
   background-color: var(--button-background);
   color: white;
@@ -23,6 +24,7 @@
   transition: background-color 250ms ease-in-out, scale 300ms cubic-bezier(0.075, 0.82, 0.165, 1);
 
   border-radius: 10px;
+
 }
 
 .button:hover {

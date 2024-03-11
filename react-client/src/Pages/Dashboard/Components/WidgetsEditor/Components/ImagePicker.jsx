@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal } from "../../../Components/Elements/Modals";
 import { BinIcon, UploadIcon } from "../../../../../Styles/Svg";
 import styles from "./Styles/ImagePicker.module.css";
+import { Button } from "../../Elements/Buttons";
 
 export default function ImagePicker({ value, setValue }) {
   var [isModalOpen, setModalOpen] = useState(false);
@@ -61,25 +62,31 @@ export default function ImagePicker({ value, setValue }) {
   }
 
   return (
-    <>
-      <Modal height="auto" width="70%" className="changeimage-modal" display={isModalOpen} setDisplay={setModalOpen}>
+    <div className={styles.ImagePicker}>
+      <Modal title={"Images"} maxWidth={"100%"} width={"80%"} className="changeimage-modal" display={isModalOpen} setDisplay={setModalOpen}
+      buttons={[
+
+        <Button onClick={() => setModalOpen(false)}>Close</Button>
+      ]}>
         <div className={styles.Header}>
-          <h3>Images</h3>
-          {tabOpen == 0 && (
-            <span onClick={uploadImage} className={styles.Upload}>
-              <UploadIcon />
-              <input accept="image/*" id="image-file" type="file" />
-            </span>
-          )}
         </div>
 
         <div className={styles.tabs}>
-          <div className={`${styles.tab} ${tabOpen == 0 ? styles.selected : ""}`} onClick={() => setTabOpen(0)}>
+          <Button className={`${styles.tab} ${tabOpen == 0 ? styles.selected : ""}`} onClick={() => setTabOpen(0)}>
             Your Images
-          </div>
-          <div className={`${styles.tab} ${tabOpen == 1 ? styles.selected : ""}`} onClick={() => setTabOpen(1)}>
+          </Button>
+          {tabOpen == 0 && (
+            <span onClick={uploadImage} className={styles.Upload}>
+              <Button>
+                <UploadIcon width="24px" />
+                Upload Image
+              </Button>
+              <input accept="image/*" id="image-file" type="file" />
+            </span>
+          )}
+          <Button className={`${styles.tab} ${tabOpen == 1 ? styles.selected : ""}`} onClick={() => setTabOpen(1)}>
             Library
-          </div>
+          </Button>
         </div>
 
         {tabOpen == 0 && (
@@ -127,16 +134,12 @@ export default function ImagePicker({ value, setValue }) {
               })}
           </div>
         )}
-
-        <button className="btn" onClick={() => setModalOpen(false)}>
-          Cancel
-        </button>
       </Modal>
 
       <div className={styles.PickerPreview} onClick={editImage}>
         <img src={value || "/missing-image.png"}></img>
         <p>Change Image</p>
       </div>
-    </>
+    </div>
   );
 }

@@ -49,7 +49,7 @@ export class Container extends Element {
         },
       },
       {
-        title: "Color",
+        title: "Text Color",
         path: "data.font.color",
         type: "color",
       },
