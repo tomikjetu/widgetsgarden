@@ -9,6 +9,7 @@ import { TickIcon, PenIcon } from "../../Styles/Svg";
 import { Modal } from "./Components/Elements/Modals";
 
 import { toast } from "react-toastify";
+import { Button, ButtonDanger } from "./Components/Elements/Buttons";
 
 export default function Settings() {
   axios.defaults.withCredentials = true;
@@ -147,26 +148,9 @@ export default function Settings() {
         </div>
       </header>
       <div className="dashboard-content">
-        <Modal height="auto" className="close-modal" display={isOpenCloseModal} setDisplay={setOpenCloseModal}>
-          <h2 style={{ marginBottom: "10px" }}>Are You sure?</h2>
-          <div
-            className="buttons"
-            style={{
-              display: "flex",
-              gap: "1rem",
-            }}
-          >
-            <button style={{ fontSize: "15px", whiteSpace: "nowrap" }} className="btn" onClick={() => closeWithoutSaving()}>
-              Discard Changes
-            </button>
-            <button style={{ fontSize: "15px", whiteSpace: "nowrap" }} className="btn" onClick={() => closeAndSave()}>
-              Save & Close
-            </button>
-            <button style={{ fontSize: "15px", whiteSpace: "nowrap" }} className="btn" onClick={() => setOpenCloseModal(false)}>
-              Cancel
-            </button>
-          </div>
-        </Modal>
+      <Modal title={"Back to widgets"} display={isOpenCloseModal} setDisplay={setOpenCloseModal} buttons={[<ButtonDanger onClick={() => closeWithoutSaving()}>Discard Changes</ButtonDanger>, <Button onClick={() => setOpenCloseModal(false)}>Cancel</Button>, <Button onClick={() => closeAndSave()}>Save & Close</Button>]}>
+        You're leaving the settings.
+      </Modal>
 
         <div
           className="dashboard-grid"

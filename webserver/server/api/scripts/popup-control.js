@@ -3,6 +3,7 @@ window.addEventListener("widgetEvent", function (event) {
   if (headers.plugin != "popup_control") return;
   switch (body.data.route) {
     case "display":
+      console.log(body.data.open);
       widgetsgarden.DisplayWidget(headers.widgetId, body.data.open);
       break;
     case "register_leave":

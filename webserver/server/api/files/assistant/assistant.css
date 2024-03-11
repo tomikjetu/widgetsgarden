@@ -40,6 +40,7 @@
 .assistant-message {
   max-width: 80%;
   text-wrap: wrap;
+  white-space: normal;
   padding: 0.25rem 0.5rem;
   margin: 0 1rem;
   width: fit-content;

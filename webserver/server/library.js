@@ -23,7 +23,7 @@ export async function LibraryAddWidget(widget) {
         displayName: widget.displayName,
         description: widget.description,
         dateAdded: new Date(),
-        dateUpdated: new Date()
+        dateUpdated: new Date(),
       });
       await data.save();
       resolve();
@@ -32,6 +32,8 @@ export async function LibraryAddWidget(widget) {
 }
 
 export async function UpdateLibrary() {
+  console.log("Updating Library...");
+  var updatetCount = 0;
   Library.findOne({}).then(async (data) => {
     for (var i = data.widgets.length - 1; i >= 0; i--) {
       var widgetReferrence = data.widgets[i];
@@ -39,19 +41,26 @@ export async function UpdateLibrary() {
       var dateUpdated = widgetReferrence.dateUpdated || 0;
 
       var widget = await getWidget(widgetReferrence.widgetId, widgetReferrence.userId);
-      if (!widget) data.widgets.splice(i, 1);
+      if (widget == null) data.widgets.splice(i, 1);
 
       var dateModified = widget.dateModified;
 
-      if(new Date(dateUpdated) > new Date(dateModified)) continue;
+      if (new Date(dateUpdated) > new Date(dateModified)) continue;
+
+      console.log(`Updating Widget: ${widgetReferrence.displayName} (${widgetReferrence.widgetId})`);
+      updatetCount++;
 
       widgetReferrence.displayName = widget.displayName;
       widgetReferrence.description = widget.description;
-      widgetReferrence.userName = await getUserName(widget.userId)
+      widgetReferrence.userName = await getUserName(widget.userId);
       widgetReferrence.dateUpdated = new Date();
     }
 
-    data.save();
+    console.log(`Library Updated [${updatetCount}/${data.widgets.length}]`);
+    if (updatetCount > 0) {
+      data.markModified("widgets");
+      await data.save();
+    }
   });
 }
 
@@ -75,7 +84,7 @@ export async function CopyWidget(widgetId, userId) {
       widget._id = new mongoose.Types.ObjectId();
       widget.userId = userId;
       widget.dateCreated = new Date();
-      var newId = generateWidgetID(); 
+      var newId = generateWidgetID();
       widget.widgetId = newId;
       await Widget.collection.insertOne(widget);
       resolve(newId);
@@ -91,21 +100,20 @@ export async function GetLibrary() {
   });
 }
 
-
 var AssetsLibrary = [];
 loadAssetsLibrary();
-function loadAssetsLibrary(){
+function loadAssetsLibrary() {
   AssetsLibrary = [];
   var dir = fs.readdirSync("server/assets/library");
-  dir.forEach((file)=>{
+  dir.forEach((file) => {
     AssetsLibrary.push({
       name: file.split(".")[0],
-      assetId : file.split(".")[0]
-    })
+      assetId: file.split(".")[0],
+    });
   });
 }
 
-export function getAssetsLibrary(){
+export function getAssetsLibrary() {
   // Only load assets on start of the production server
   if (process.env.ENVIRONMENT == "development") loadAssetsLibrary();
   return AssetsLibrary;

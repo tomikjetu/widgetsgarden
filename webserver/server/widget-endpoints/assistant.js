@@ -18,6 +18,7 @@ function generateChatID() {
 export default function AiWidgetEndpoint(app) {
   app.get("/api/widgetapi/assistant/start", (req, res) => {
     var prompt = req.query.prompt;
+    var init = req.query.init;
     var id = generateChatID();
     var messages = [
       {
@@ -26,7 +27,7 @@ export default function AiWidgetEndpoint(app) {
       },
       {
         role: "assistant",
-        content: "Hello, how can I help you?",
+        content: init,
       },
     ];
     Chats.push({
@@ -86,6 +87,6 @@ export default function AiWidgetEndpoint(app) {
       content: chatCompletion.choices[0].message.content,
     });
 
-    res.json({ done: true });
+    res.json({ done: true, chat: chat.messages, chatCompletion });
   });
 }

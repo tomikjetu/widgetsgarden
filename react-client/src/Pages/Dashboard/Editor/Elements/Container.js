@@ -11,7 +11,7 @@ export class Container extends Element {
       {
         title: "Border Radius",
         path: "data.borderRadius",
-        type: "number",
+        type: "range",
         preset: {
           default: "0",
         }
@@ -19,7 +19,12 @@ export class Container extends Element {
       {
         title: "Font Size",
         path: "data.font.size",
-        type: "number",
+        type: "range",
+        preset: {
+          default: "15",
+          min: 1,
+          max: 100,
+        }
       },
       {
         title: "Font Family",

@@ -43,7 +43,6 @@ export function AddPluginFunctionModal({ isOpenAddPluginFunctionModal, setOpenAd
         }}
       >
         {filteredPluginFunctions.map((pluginfunction) => {
-          console.log(pluginfunction);
           return (
             <div key={pluginfunction.name} style={{ marginBottom: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
               <p

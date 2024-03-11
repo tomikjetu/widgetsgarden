@@ -324,7 +324,7 @@ header.navigation {
     }
 
     & input {
-      width: fill-available;
+      width: stretch;
       width: -moz-available;
     }
   }

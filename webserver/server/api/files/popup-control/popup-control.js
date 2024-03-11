@@ -1,14 +1,16 @@
 function popup_control_cookie_control(elementId, ...parameters) {
   var cookie = parameters[0];
-  // This Function is handled by the main script if present.
+  // This Function is handled by the main script if function is present.
 }
 
 function popup_control_click_to_close(elementId, ...parameters) {
   var preventFutureOpen = parameters[0];
   var CookieControl = parameters[1];
   var element = document.getElementById(elementId);
+  element.style.cursor = "pointer";
   element.addEventListener("click", () => {
     AnalyticUse("close");
+    console.log(sendMessage);
     sendMessage(
       {
         event: "widgetEvent",

@@ -180,7 +180,8 @@ export default function Editor() {
   var [filteredPluginFunctions, setFilteredPluginFunctions] = useState([]);
 
   function closeEditor() {
-    setOpenCloseModal(true);
+    if(!previewActive) setOpenCloseModal(true);
+    else setPreviewActive(false);
   }
 
   async function closeAndSave() {

@@ -434,6 +434,7 @@ export async function deleteWidget(userId, widgetId) {
       .catch(() => {
         resolve();
       });
+      LibraryRemoveWidget(widgetId);
   });
 }
 

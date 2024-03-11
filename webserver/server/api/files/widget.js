@@ -169,6 +169,7 @@ function LoadPluginFunctions(element, pluginfunctions) {
       try {
         var parsedParams = parameters?.map((param) => `"${typeof param.value == "string" ? param.value.replace(/\"/g, "'") : param.value}"`);
         var command = `${plugin}_${id}("${ElementId}", ${parsedParams?.join(", ")})`;
+        command = command.replace(/(\r\n|\n|\r)/gm, " ");
         eval(command);
       } catch (error) {
         console.log(`[WidgetsGarden] Couldn't load plugin ${plugin}`);
@@ -226,8 +227,8 @@ function LoadElements() {
         }
 
         if (element.data.borderRadius) {
-          if (borderStroke > 0) IconElement.style.border = `${element.data.borderStroke}px solid ${element.data.borderStrokeColor}`;
-          IconElement.style.borderRadius = `${element.data.borderRadius}px`;
+          if (element.data.borderStroke > 0) NewElement.style.border = `${element.data.borderStroke}px solid ${element.data.borderStrokeColor}`;
+          NewElement.style.borderRadius = `${element.data.borderRadius}px`;
         }
 
         NewElement.style.width = `${element.width}px`;
