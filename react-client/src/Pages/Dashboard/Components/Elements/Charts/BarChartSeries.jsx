@@ -36,22 +36,29 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
       });
     });
 
+    // Remove series with no data
+    Object.keys(timeSelectedData).forEach((category) => {
+      var sum = 0;
+      Object.keys(timeSelectedData[category]).forEach((series) => {
+        var value = Object.values(timeSelectedData[category][series] ?? []).reduce((a, b) => a + b, 0);
+        sum += value;
+      });
+      if (sum == 0) delete timeSelectedData[category];
+    });
+
     // Reduce all values into a single object
     // Remove unselected categories
-    // Remove series with no data
     // Remove categories with zero series sum
     Object.keys(timeSelectedData).forEach((category) => {
+      if (!selectedCategories?.includes(category)) return;
       realData[category] = {};
       if (!tempCategoryTotals[category]) tempCategoryTotals[category] = 0;
-      var sum = 0;
       Object.keys(timeSelectedData[category]).forEach((series) => {
         var value = Object.values(timeSelectedData[category][series] ?? []).reduce((a, b) => a + b, 0);
         tempCategoryTotals[category] += value; // Find the total value of each category
         if (value == 0) return;
         realData[category][series] = value;
-        sum += value;
       });
-      if (sum == 0 || !selectedCategories?.includes(category)) delete realData[category];
     });
 
     // Create data for each category
