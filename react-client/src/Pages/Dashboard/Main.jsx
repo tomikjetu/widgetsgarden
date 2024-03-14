@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { setCookie } from "../../Misc/Cookies";
-import { Link } from "react-router-dom";
+
 import { GridSettings, getDashboardSetting } from "../Dashboard";
 import Analytic from "./Components/Elements/Analytic";
+import { DiscordIcon, InstagramIcon, TiktokIcon, YoutubeIcon } from "../../Styles/Svg";
+import { Button } from "./Components/Elements/Buttons";
+import { IntroductionBlock } from "./Components/Elements/Introduction";
 
 export default function Main({ profile }) {
   axios.defaults.withCredentials = true;
@@ -63,6 +66,8 @@ export default function Main({ profile }) {
           }}
           className="dashboard-grid dashboard-collumns"
         >
+          <IntroductionBlock />
+
           <div className="dashboard-container analytics">
             <h3>Quick Stats</h3>
             <div className="analytics-list">
@@ -77,21 +82,30 @@ export default function Main({ profile }) {
           </div>
 
           <div className="dashboard-container" style={{ minHeight: "200px" }}>
-            <div className="center">
-              <p>Thank you for using WidgetsGarden.</p>
-              <p>To Learn about the projects and see updates join the discord.</p>
-              <a href="https://discord.gg/3qMpH5FfZQ" target="_blank" className="btn" style={{ margin: "1em", background: "#36364d" }}>
-                JOIN
+            <div className="center" style={{ gap: "1rem" }}>
+              <h3>We're all about community!</h3>
+              <a href="https://discord.gg/3qMpH5FfZQ" target="_blank">
+                <Button background="#736347">
+                  <DiscordIcon /> Join Our Discord Community
+                </Button>
               </a>
-            </div>
-          </div>
-
-          <div className="dashboard-container" style={{ minHeight: "200px" }}>
-            <div className="center">
-              <h3 className="bold">How to use WidgetsGarden?</h3>
-              <p>1. Import your access script</p>
-              <p>2. Authorize your website/locahost</p>
-              <p>3. Add Your Widgets</p>
+              <div style={{ display: "flex", gap: "1rem", justifyContent: "center", width: "100%" }}>
+                <a href="" target="_blank">
+                  <Button style={{ width: "4rem", aspectRatio: 1 }} background="#736347">
+                    <InstagramIcon />
+                  </Button>
+                </a>
+                <a href="" target="_blank">
+                  <Button style={{ width: "4rem", aspectRatio: 1 }} background="#736347">
+                    <TiktokIcon />
+                  </Button>
+                </a>
+                <a href="" target="_blank">
+                  <Button style={{ width: "4rem", aspectRatio: 1 }} background="#736347">
+                    <YoutubeIcon />
+                  </Button>
+                </a>
+              </div>
             </div>
           </div>
         </div>

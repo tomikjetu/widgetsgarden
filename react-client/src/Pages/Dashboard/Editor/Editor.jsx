@@ -13,7 +13,7 @@ import loop, { drawBackground, updateLoopElements } from "./Tools/loop";
 import { loadLayout, addElement, getElement, updateManagerElements, removeElement } from "./Tools/manager";
 import { Text } from "./Elements/Text";
 import { ImageElement } from "./Elements/Image";
-import { BackIcon, BinIcon, EmbedIcon, EyeIcon, ForwardsIcon, GearIcon, InfoIcon, PenIcon, PlayIcon, PlusIcon, SaveIcon, TickIcon } from "../../../Styles/Svg";
+import { BackIcon, BinIcon, EmbedIcon, EyeIcon, ForwardsIcon, GearIcon, InfoIcon, LinkIcon, PenIcon, PlayIcon, PlusIcon, SaveIcon, TickIcon } from "../../../Styles/Svg";
 
 import InputStyle from "../Components/WidgetsEditor/Components/Styles/Input.module.css";
 import InputSwitch from "../Components/WidgetsEditor/InputSwitch";
@@ -180,7 +180,7 @@ export default function Editor() {
   var [filteredPluginFunctions, setFilteredPluginFunctions] = useState([]);
 
   function closeEditor() {
-    if(!previewActive) setOpenCloseModal(true);
+    if (!previewActive) setOpenCloseModal(true);
     else setPreviewActive(false);
   }
 
@@ -1044,8 +1044,12 @@ export default function Editor() {
             left: contextMenuPosition.left + "px",
           }}
         >
-          <p onClick={() => addElementContextMenu()}>Add Element</p>
-          <p onClick={() => addPluginContextMenu()}>Add Plugin</p>
+          <div className="context-menu-item" onClick={() => addElementContextMenu()}>
+            Add Element
+          </div>
+          <div className="context-menu-item" onClick={() => addPluginContextMenu()}>
+            Add Plugin
+          </div>
         </div>
         <div
           className="context-menu"
@@ -1055,10 +1059,18 @@ export default function Editor() {
             left: contextMenuPosition.left + "px",
           }}
         >
-          <p onClick={() => addContainerElement()}>Container</p>
-          <p onClick={() => addImageElement()}>Image</p>
-          <p onClick={() => addTextElement()}>Text</p>
-          <p onClick={() => addButtonElement()}>Button</p>
+          <div className="context-menu-item" onClick={() => addContainerElement()}>
+            Container
+          </div>
+          <div className="context-menu-item" onClick={() => addImageElement()}>
+            Image
+          </div>
+          <div className="context-menu-item" onClick={() => addTextElement()}>
+            Text
+          </div>
+          <div className="context-menu-item" onClick={() => addButtonElement()}>
+            Button
+          </div>
         </div>
         <div
           className="context-menu"
@@ -1068,18 +1080,32 @@ export default function Editor() {
             left: contextMenuPosition.left + "px",
           }}
         >
-          {selectedElement?.type != "Widget" && (
-            <>
-              <p onClick={() => deleteSelectedElement()}>Delete</p>
-              {selectedElement?.hasLink() ? <p onClick={() => removeLinkFromSelectedElement()}>Remove Link</p> : <p onClick={() => addLinkToSelectedElement()}>Add Link</p>}
-            </>
-          )}
           {selectedElement?.type == "Widget" && (
             <>
-              <p onClick={() => addElementContextMenu()}>Add Element</p>
+              <div className="context-menu-item" onClick={() => addElementContextMenu()}>
+                Add Element
+              </div>
             </>
           )}
-          <p onClick={() => addPluginFunctionToSelectedElementContextMenu()}>Add Plugin Function</p>
+          <div className="context-menu-item" onClick={() => addPluginFunctionToSelectedElementContextMenu()}>
+            Add Plugin Function
+          </div>
+          {selectedElement?.type != "Widget" && (
+            <>
+              {selectedElement?.hasLink() ? (
+                <div className="context-menu-item" onClick={() => removeLinkFromSelectedElement()}>
+                  Remove Link
+                </div>
+              ) : (
+                <div className="context-menu-item" onClick={() => addLinkToSelectedElement()}>
+                  <LinkIcon background={"#000"} /> Add Link
+                </div>
+              )}
+              <div className="context-menu-item" onClick={() => deleteSelectedElement()}>
+                <BinIcon background={"#000"} /> Delete
+              </div>
+            </>
+          )}
         </div>
         <div ref={editorSettings} className="editor-settings">
           <div className="hidden-settings">

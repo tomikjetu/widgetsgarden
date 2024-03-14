@@ -250,13 +250,28 @@ header.navigation {
 
 .editor-workspace .context-menu {
   position: absolute;
-  background: black;
-  padding: 0.5rem 1rem;
+  background: white;
+  border-radius: 7px;
+  color: black;
   flex-direction: column;
-  gap: 0.5rem;
+  overflow: hidden;
 
-  & p {
+  & .context-menu-item {
+    display: flex;
+    gap: 1rem;
+    font-size: 16px;
+    padding: 0.5rem 1rem;
     cursor: pointer;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    & svg{
+      width: 1rem;
+      aspect-ratio: 1;
+    }
+
   }
 }
 
