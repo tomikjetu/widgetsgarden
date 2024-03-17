@@ -53,7 +53,7 @@ export async function onLoad(req, apiKey) {
     });
     access.save();
   });
-  addIntroPoint(await getUserFromApiKey(apiKey), 1);
+  if (authorized) addIntroPoint(await getUserFromApiKey(apiKey), 1);
 }
 
 /*
@@ -383,40 +383,39 @@ export async function deleteMessage(userId, id) {
 ██║██║░╚███║░░░██║░░░██║░░██║╚█████╔╝
 ╚═╝╚═╝░░╚══╝░░░╚═╝░░░╚═╝░░╚═╝░╚════╝░*/
 
-export async function getUserGuide(User){
-  if(!User.guide){
+export async function getUserGuide(User) {
+  if (!User.guide) {
     User.guide = {
       introduction: [false, false, false],
       skippedIntro: false,
       access: false,
       widgets: false,
       analytics: false,
-      editor: false
-    }
+      editor: false,
+    };
     User.markModified("guide");
     await User.save();
   }
   return User.guide;
 }
 
-export async function skipIntroduction(User){
+export async function skipIntroduction(User) {
   User.guide.skippedIntro = true;
   User.markModified("guide");
   await User.save();
 }
 
-export async function markGuideDone(User, key){
+export async function markGuideDone(User, key) {
   User.guide[key] = true;
   User.markModified("guide");
   await User.save();
 }
 
-export async function addIntroPoint(User, id){
+export async function addIntroPoint(User, id) {
   User.guide.introduction[id] = true;
   User.markModified("guide");
   await User.save();
 }
-
 
 /*
 ░██╗░░░░░░░██╗██╗██████╗░░██████╗░███████╗████████╗░██████╗
@@ -480,7 +479,7 @@ export async function deleteWidget(userId, widgetId) {
       .catch(() => {
         resolve();
       });
-      LibraryRemoveWidget(widgetId);
+    LibraryRemoveWidget(widgetId);
   });
 }
 
@@ -624,7 +623,7 @@ export function getProfilePicture(User) {
       assets.push(file);
     });
     var random = assets[Math.floor(Math.random() * assets.length)];
-    if(random) fs.copyFileSync(`./server/assets/profiles-images/${random.name}`, `./server/assets/profiles/${User.uuid}.jpg`);
+    if (random) fs.copyFileSync(`./server/assets/profiles-images/${random.name}`, `./server/assets/profiles/${User.uuid}.jpg`);
   }
 
   return process.env.API_URL + "/assets/profile/" + User.uuid;
