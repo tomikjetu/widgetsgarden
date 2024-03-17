@@ -203,6 +203,7 @@ export default function Widgets() {
         </div>
       </header>
       <div className="dashboard-content">
+        <Tooltip id="widgets-tooltip" place="bottom"  style={{ zIndex: 99 }}/>
         <EmbedModal embedId={embedId} codeEmbedModal={codeEmbedModal} setCodeEmbedModal={setCodeEmbedModal} />
 
         <ModalDelete title={deleteWidgetName} display={deleteWidgetModal} setDisplay={setDeleteWidgetModal} onClose={() => setDeleteWidgetModal(false)} onDelete={() => deleteWidgetConfirmed()}>
@@ -243,12 +244,19 @@ export default function Widgets() {
                         {widget.displayName}
                       </h4>
 
-                      {/*<div className="stats">
-                        <div className="stat">
+                      <div className="stats">
+                        {/* <div className="stat">
                           <EyeIcon />
                           <p className="number">{700}</p>
+                        </div> */}
+                        <div className="stat">
+                          {widget.published && (
+                            <span data-tooltip-content={"Published to library"} data-tooltip-id="widgets-tooltip">
+                              <WidgetsIcon />
+                            </span>
+                          )}
                         </div>
-                      </div> */}
+                      </div>
 
                       <div className="actions">
                         <div className="actionsgroup">
@@ -260,18 +268,20 @@ export default function Widgets() {
                               cursor: "pointer",
                             }}
                             onClick={() => editWidget(widget.widgetId)}
+                            data-tooltip-content={"Edit"}
+                            data-tooltip-id="widgets-tooltip"
                           >
                             <PenIcon />
                           </span>
-                          <span onClick={() => codeEmbed(widget.widgetId)}>
+                          <span onClick={() => codeEmbed(widget.widgetId)} data-tooltip-content={"Code Embed"} data-tooltip-id="widgets-tooltip">
                             <EmbedIcon />
                           </span>
-                          <span onClick={() => widgetSettings(widget.widgetId)}>
+                          <span onClick={() => widgetSettings(widget.widgetId)} data-tooltip-content={"Settings"} data-tooltip-id="widgets-tooltip">
                             <GearIcon />
                           </span>
                         </div>
                         <div style={{ marginLeft: "auto" }}>
-                          <span onClick={() => deleteWidget(widget.widgetId, widget.displayName)}>
+                          <span onClick={() => deleteWidget(widget.widgetId, widget.displayName)} data-tooltip-content={"Delete"} data-tooltip-id="widgets-tooltip">
                             <BinIcon />
                           </span>
                         </div>

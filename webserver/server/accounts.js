@@ -3,6 +3,7 @@ import { hashPassword } from "./passport.js";
 import sharp from "sharp";
 import fs from "fs";
 import path from "path";
+import { LibraryRemoveWidget } from "./library.js";
 
 export function isLogged(req, res, next) {
   const User = getUserSerialization(req);
@@ -52,6 +53,7 @@ export async function onLoad(req, apiKey) {
     });
     access.save();
   });
+  addIntroPoint(await getUserFromApiKey(apiKey), 1);
 }
 
 /*
@@ -374,6 +376,49 @@ export async function deleteMessage(userId, id) {
 }
 
 /*
+██╗███╗░░██╗████████╗██████╗░░█████╗░
+██║████╗░██║╚══██╔══╝██╔══██╗██╔══██╗
+██║██╔██╗██║░░░██║░░░██████╔╝██║░░██║
+██║██║╚████║░░░██║░░░██╔══██╗██║░░██║
+██║██║░╚███║░░░██║░░░██║░░██║╚█████╔╝
+╚═╝╚═╝░░╚══╝░░░╚═╝░░░╚═╝░░╚═╝░╚════╝░*/
+
+export async function getUserGuide(User){
+  if(!User.guide){
+    User.guide = {
+      introduction: [false, false, false],
+      skippedIntro: false,
+      access: false,
+      widgets: false,
+      analytics: false,
+      editor: false
+    }
+    User.markModified("guide");
+    await User.save();
+  }
+  return User.guide;
+}
+
+export async function skipIntroduction(User){
+  User.guide.skippedIntro = true;
+  User.markModified("guide");
+  await User.save();
+}
+
+export async function markGuideDone(User, key){
+  User.guide[key] = true;
+  User.markModified("guide");
+  await User.save();
+}
+
+export async function addIntroPoint(User, id){
+  User.guide.introduction[id] = true;
+  User.markModified("guide");
+  await User.save();
+}
+
+
+/*
 ░██╗░░░░░░░██╗██╗██████╗░░██████╗░███████╗████████╗░██████╗
 ░██║░░██╗░░██║██║██╔══██╗██╔════╝░██╔════╝╚══██╔══╝██╔════╝
 ░╚██╗████╗██╔╝██║██║░░██║██║░░██╗░█████╗░░░░░██║░░░╚█████╗░
@@ -417,11 +462,12 @@ export async function getWidgetPreview(widgetId) {
   });
 }
 
-export async function createWidget(userId, data, displayName) {
+export async function createWidget(User, data, displayName) {
   return new Promise(async (resolve, reject) => {
-    var widget = new Widget({ userId, widgetId: generateWidgetID(), dateCreated: new Date(), data, displayName: "New Widget" });
+    var widget = new Widget({ userId: User.uuid, widgetId: generateWidgetID(), dateCreated: new Date(), data, displayName: "New Widget" });
     await widget.save();
     resolve(widget);
+    addIntroPoint(User, 0);
   });
 }
 

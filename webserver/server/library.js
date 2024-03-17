@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { generateWidgetID, getUserName, getWidget } from "./accounts.js";
+import { addIntroPoint, generateWidgetID, getUserName, getWidget } from "./accounts.js";
 import { Library, Widget } from "./database.js";
 import fs from "fs";
 
@@ -74,7 +74,7 @@ export async function LibraryRemoveWidget(widgetId) {
   });
 }
 
-export async function CopyWidget(widgetId, userId) {
+export async function CopyWidget(widgetId, User) {
   return new Promise((resolve) => {
     Library.findOne({}).then(async (data) => {
       var widgetReferrence = data.widgets.find((widget) => widget.widgetId == widgetId);
@@ -82,12 +82,13 @@ export async function CopyWidget(widgetId, userId) {
       var widget = await getWidget(widgetReferrence.widgetId, widgetReferrence.userId);
       if (!widget) return resolve(false);
       widget._id = new mongoose.Types.ObjectId();
-      widget.userId = userId;
+      widget.userId = User.uuid;
       widget.dateCreated = new Date();
       var newId = generateWidgetID();
       widget.widgetId = newId;
       await Widget.collection.insertOne(widget);
       resolve(newId);
+      addIntroPoint(User, 0);
     });
   });
 }

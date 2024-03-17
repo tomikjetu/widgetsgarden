@@ -18,6 +18,16 @@ async function fetchChannel(id, limit) {
   });
 }
 
+async function fetchLatest(id) {
+  return new Promise((resolve) => {
+    fetch(`/api/widgetapi/youtube/latest?channelId=${id}`)
+      .then((res) => res.json())
+      .then((res) => {
+        resolve(res);
+      });
+  });
+}
+
 function getViewsString(views) {
   return Intl.NumberFormat("en-US", {
     notation: "compact",
@@ -210,9 +220,53 @@ async function youtube_yt_channel(elementId, ...parameters) {
   });
 }
 
+async function youtube_yt_latest(elementId, ...parameters) {
+  var element = document.getElementById(elementId);
+  var id = parameters[0];
+
+  var video = await fetchLatest(id);
+  if (!video) return;
+
+  var { duration, published, title, thumbnail, url, views, author } = video;
+  var { name, url: author_url, thumbnail: author_thumbnail } = author;
+  createVideoElement(element, {
+    duration,
+    published,
+    title,
+    thumbnail,
+    url,
+    views,
+    name,
+    author_url,
+    author_thumbnail,
+  });
+}
+
 function youtube_yt_embed(elementId, ...parameters) {
   var element = document.getElementById(elementId);
   var videoId = parameters[0];
+  var video = document.createElement("iframe");
+
+  video.width = "100%";
+  video.height = "100%";
+
+  video.src = `https://www.youtube.com/embed/${videoId}`;
+  video.classList.add("youtube_video_embed");
+  video.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; webshare";
+  video.allowFullscreen = true;
+  video.frameBorder = 0;
+  element.append(video);
+}
+
+async function youtube_yt_latest_embed(elementId, ...parameters) {
+  var element = document.getElementById(elementId);
+  var channelId = parameters[0];
+
+  var videoData = await fetchLatest(channelId);
+  if (!videoData) return;
+
+  var { id: videoId } = videoData;
+
   var video = document.createElement("iframe");
 
   video.width = "100%";

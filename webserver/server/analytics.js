@@ -1,4 +1,4 @@
-import { DOMAINREGEXP, getUserFromApiKey, getWidget, getWidgets } from "./accounts.js";
+import { DOMAINREGEXP, addIntroPoint, getUser, getUserFromApiKey, getWidget, getWidgets } from "./accounts.js";
 import { Widget, Analytics, Access, User } from "./database.js";
 import { ORIGINS, accessGranted, canAccess } from "./router/widgets.js";
 import cors from "cors";
@@ -19,13 +19,14 @@ export async function isAnalyticsEnabled(userId) {
   });
 }
 
-export async function enableAnalytics(userId, enable) {
+export async function enableAnalytics(User, enable) {
   return new Promise(async (resolve) => {
-    var analytics = await Analytics.findOne({ userId });
-    if (!analytics) analytics = new Analytics({ userId });
+    var analytics = await Analytics.findOne({ userId: User.uuid });
+    if (!analytics) analytics = new Analytics({ userId: User.uuid });
     analytics.enabled = enable;
     await analytics.save();
     resolve();
+    if (enable) addIntroPoint(User, 2);
   });
 }
 
@@ -70,11 +71,11 @@ function getLocation(ip) {
   }
 }
 
-export async function getAccessAnalytics(userId){
-  return new Promise( async (resolve)=>{
-    var access = await Access.findOne({userId})
+export async function getAccessAnalytics(userId) {
+  return new Promise(async (resolve) => {
+    var access = await Access.findOne({ userId });
     resolve(access.usage.overview);
-  })
+  });
 }
 
 // async function Analysis() {
@@ -189,7 +190,6 @@ var userAnalytics = [
   },
 ];
 
-
 function AnalyzeUser(pageCollected, UserObject) {
   userAnalytics.forEach((analytic) => {
     var events = pageCollected.filter((event) => event.name == analytic.name);
@@ -217,7 +217,7 @@ function AnalyzeUser(pageCollected, UserObject) {
       if (analytic.analyzePath) {
         var path = event.headers.origin.path;
         if (!UserObject.overview[name].path) UserObject.overview[name].path = {};
-        
+
         if (!UserObject.overview[name].path[domain]) UserObject.overview[name].path[domain] = {};
         if (!UserObject.overview[name].path[domain][path]) UserObject.overview[name].path[domain][path] = {};
         if (!UserObject.overview[name].path[domain][path][date]) UserObject.overview[name].path[domain][path][date] = 0;
@@ -253,11 +253,11 @@ function AnalyzeAccess(pageLoaded, AccessObject) {
     var date = timestamp.getFullYear() + "/" + (timestamp.getMonth() + 1) + "/" + timestamp.getDate();
 
     if (load.authorized) {
-      if(!AccessObject.usage.overview.authorized) AccessObject.usage.overview.authorized = {};
+      if (!AccessObject.usage.overview.authorized) AccessObject.usage.overview.authorized = {};
       if (!AccessObject.usage.overview.authorized[date]) AccessObject.usage.overview.authorized[date] = 0;
       AccessObject.usage.overview.authorized[date] += 1;
     } else {
-      if(!AccessObject.usage.overview.restricted) AccessObject.usage.overview.restricted = {};
+      if (!AccessObject.usage.overview.restricted) AccessObject.usage.overview.restricted = {};
       if (!AccessObject.usage.overview.restricted[date]) AccessObject.usage.overview.restricted[date] = 0;
       AccessObject.usage.overview.restricted[date] += 1;
     }

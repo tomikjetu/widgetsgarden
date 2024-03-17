@@ -20,6 +20,7 @@ async function fetchVideo(videoId) {
     try {
       var info = await ytdl.getInfo(videoId);
       resolve({
+        id: info.videoDetails.videoId,
         title: info.videoDetails.title,
         thumbnail: info.videoDetails.thumbnails[info.videoDetails.thumbnails.length - 1].url,
         url: info.videoDetails.video_url,
@@ -53,4 +54,15 @@ export default function YoutubeWidgetEndpoint(app) {
     var video = await fetchVideo(videoId);
     res.json(video);
   });
+
+  app.get("/api/widgetapi/youtube/latest", async (req, res) => {
+    var { channelId } = req.query;
+    if (!channelId) return res.json(null);
+    var videos = await fetchChannel(channelId, 1);
+
+    if(!videos) return res.json(null);
+    var video = videos[0];
+    res.json(video);
+  });
+
 }

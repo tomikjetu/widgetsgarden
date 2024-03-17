@@ -10,7 +10,7 @@
   success:"Message"
 */
 
-import { createLocalAccount, localLogIn, getUserSerialization, getUser, isLogged, getProfilePicture } from "../accounts.js";
+import { createLocalAccount, localLogIn, getUserSerialization, getUser, isLogged, getProfilePicture, getUserGuide, skipIntroduction } from "../accounts.js";
 import { hashPassword } from "../passport.js";
 import * as fs from 'fs'
 
@@ -70,8 +70,15 @@ export default function (app, passport) {
       authenticationMethod: User.authenticationMethod,
       email: User.email,
       admin: User.admin ?? false,
-      picture: getProfilePicture(User)
+      picture: getProfilePicture(User),
+      guide: await getUserGuide(User)
     });
+  });
+
+  app.post("/api/skipIntro", async (req, res) => {
+    const User = await getUser(req);
+    skipIntroduction(User);
+    res.send(true);
   });
 
   app.get("/api/assets/profile/:ID", async (req,res)=>{

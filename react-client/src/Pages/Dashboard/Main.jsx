@@ -66,7 +66,7 @@ export default function Main({ profile }) {
           }}
           className="dashboard-grid dashboard-collumns"
         >
-          <IntroductionBlock />
+          <IntroductionBlock guide={profile.guide}/>
 
           <div className="dashboard-container analytics">
             <h3>Quick Stats</h3>

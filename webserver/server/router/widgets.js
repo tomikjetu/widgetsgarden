@@ -99,6 +99,7 @@ export default function (app) {
     script = script.replace("SERVER_PLACEHOLDER", process.env.API_URL);
     res.setHeader("Content-type", "text/javascript");
     res.send(script);
+    
   });
 
   app.get("/api/widgetsgarden.css", async (req, res) => {

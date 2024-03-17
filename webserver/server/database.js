@@ -25,8 +25,8 @@ const AccessSchema = new Schema({
     stored: [],
     overview: {
       authorized: {},
-      restricted: {}
-    }
+      restricted: {},
+    },
   },
 });
 
@@ -36,13 +36,15 @@ const UserSchema = new Schema({
   uuid: String,
   email: String,
   username: String,
-  
+
+  guide: Object,
+
   admin: Boolean,
   plan: String,
-  
+
   password: String,
   registerIP: String,
-  userSince: Date
+  userSince: Date,
 });
 
 const MessagesSchema = new Schema({
@@ -114,7 +116,7 @@ const AssetsSchema = new Schema({
 var PluginsSchema = new Schema({ plugins: [] });
 
 var LibrarySchema = new Schema({
-  widgets: []
+  widgets: [],
 });
 
 export var User = accounts.model("User", UserSchema, "users");

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import introductionStyles from "../../../../Styles/Dashboard/guide.module.css";
 import Confetti from "react-confetti";
 import { Button } from "./Buttons";
+import axios from "axios";
 
 function Checkbox({ link, checked, label, id }) {
   return (
@@ -19,20 +20,20 @@ function Checkbox({ link, checked, label, id }) {
   );
 }
 
-export function IntroductionBlock() {
-  var [visible, setVisible] = useState(true);
+export function IntroductionBlock({ guide }) {
+  axios.defaults.withCredentials = true;
 
-  function finish() {
-    setVisible(false);
-  }
-
+  
+  var [values, setValues] = useState(guide.introduction);
+  var [isChecked, setChecked] = useState([false, false, false]);
+  var [visible, setVisible] = useState(!guide.skippedIntro);
+  var [isFinished, setFinished] = useState(false);
+  
   function skip() {
     setVisible(false);
+    axios.post(`${process.env.REACT_APP_SERVER_URL}/skipIntro`);
   }
 
-  var [values, setValues] = useState([true, true, true]);
-  var [isChecked, setChecked] = useState([false, false, false]);
-  var [isFinished, setFinished] = useState(false);
   useEffect(() => {
     isChecked.forEach((c, i) => {
       setTimeout(() => {
@@ -65,17 +66,9 @@ export function IntroductionBlock() {
           <Checkbox checked={isChecked} link="/dashboard/access" label={"Setup your website"} id={1} />
           <Checkbox checked={isChecked} link="/dashboard/analytics" label={"Enable Analytics"} id={2} />
         </div>
-        {/*  confetti effect on clicked Finish*/}
-        {!isFinished && (
-          <Button onClick={skip} background={"#a0998e"}>
-            Skip Introduction
-          </Button>
-        )}
-        {isFinished && (
-          <Button onClick={finish} background={"#daad60"}>
-            Finish
-          </Button>
-        )}
+        <Button onClick={skip} background={isFinished ? "#daad60" : "#a0998e"}>
+          {isFinished ? "Finish" : "Skip Introduction"}
+        </Button>
       </div>
     </div>
   );

@@ -41,11 +41,12 @@ export default function Settings() {
       setWidgetId(res.data.widgetId);
       setDisplayName(res.data.displayName);
       setDescription(res.data.description || "");
-    });
-
-    axios.get(`${process.env.REACT_APP_SERVER_URL}/dashboard/library/widget?id=${searchParams.get("id")}`).then((res) => {
       setPublished(res.data.published);
     });
+
+    // axios.get(`${process.env.REACT_APP_SERVER_URL}/dashboard/library/widget?id=${searchParams.get("id")}`).then((res) => {
+    //   setPublished(res.data.published);
+    // });
   }, []);
 
   function closeSettings() {

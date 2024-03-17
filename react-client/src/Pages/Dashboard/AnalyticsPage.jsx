@@ -8,6 +8,7 @@ import MapChart from "./Components/Elements/Charts/MapChart";
 import { GridSettings, TimeSettings, getDashboardSetting } from "../Dashboard";
 import BarChartSeries from "./Components/Elements/Charts/BarChartSeries";
 import BarChart from "./Components/Elements/Charts/BarChart";
+import { Button } from "./Components/Elements/Buttons";
 
 export default function AnalyticsPage() {
   axios.defaults.withCredentials = true;
@@ -115,9 +116,9 @@ export default function AnalyticsPage() {
               ) : (
                 <p>Enable analytics to see performance of your website and widgets</p>
               )}
-              <button className="btn" onClick={() => enableAnalytics()}>
+              <Button onClick={() => enableAnalytics()}>
                 {analytics.enabled ? "Disable" : "Enable"}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

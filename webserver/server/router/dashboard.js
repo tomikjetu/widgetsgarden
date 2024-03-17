@@ -56,28 +56,33 @@ export default function (app) {
   app.get("/api/dashboard/widget", isLogged, async (req, res) => {
     var id = req.query.id;
     const User = getUserSerialization(req);
-    var widget = await getWidget(id, User.uuid);
-    if(widget) widget.analytics = {};
+    var widget = JSON.parse(JSON.stringify(await getWidget(id, User.uuid)));
+    if (widget) {
+      widget.analytics = {};
+      widget.published = await LibraryHasWidget(widget.widgetId);
+    }
     if (!req.query.data) widget.data = {};
     res.json(widget);
   });
 
   app.get("/api/dashboard/widgets", isLogged, async (req, res) => {
     const User = getUserSerialization(req);
-    var widgets = await getWidgets(User.uuid);
-    widgets.forEach((element) => {
-      element.analytics = {}; // TODO load widget analytics, once added
-      element.data = {};
-    });
+    var widgets = JSON.parse(JSON.stringify(await getWidgets(User.uuid)));
+
+    for(var widget of widgets){
+      widget.analytics = {}; // TODO load widget analytics, once added
+      widget.data = {};
+      widget.published = await LibraryHasWidget(widget.widgetId);
+    }
 
     res.json(widgets);
   });
 
   app.put("/api/dashboard/widget", isLogged, async (req, res) => {
-    const User = getUserSerialization(req);
+    const User = await getUser(req);
     var data = [{ type: "Widget", width: 100, height: 100, x: 0, y: 0, backgroundColor: "white", zIndex: 0 }];
     var displayName = req.body.displayName;
-    var widget = await createWidget(User.uuid, data, displayName);
+    var widget = await createWidget(User, data, displayName);
     res.json({ id: widget.widgetId });
   });
 
@@ -112,12 +117,13 @@ export default function (app) {
   });
 
   app.get("/api/dashboard/library/copy", isLogged, async (req, res) => {
-    const User = getUserSerialization(req);
+    const User = await getUser(req);
     var widgetId = req.query.id;
-    var response = await CopyWidget(widgetId, User.uuid);
+    var response = await CopyWidget(widgetId, User);
     res.json({ success: response });
   });
 
+  /* NOT USED IN THE SETTINGS ANYMORE */
   app.get("/api/dashboard/library/widget", isLogged, async (req, res) => {
     const User = getUserSerialization(req);
     var widgetId = req.query.id;
@@ -170,9 +176,9 @@ export default function (app) {
   });
 
   app.post("/api/dashboard/enableAnalytics", isLogged, async (req, res) => {
-    const User = getUserSerialization(req);
+    const User = await getUser(req);
     var enable = req.body.enable;
-    await enableAnalytics(User.uuid, enable);
+    await enableAnalytics(User, enable);
     res.sendStatus(200);
   });
 

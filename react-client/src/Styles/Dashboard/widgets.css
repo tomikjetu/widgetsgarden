@@ -112,8 +112,8 @@
 
   .stats {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-items: center;
+    grid-template-columns: repeat(auto-fit, 1fr);
+    justify-items: start;
   }
 
   .stat {
@@ -255,6 +255,7 @@ header.navigation {
   color: black;
   flex-direction: column;
   overflow: hidden;
+  box-shadow: 1px 1px 10px black;
 
   & .context-menu-item {
     display: flex;
