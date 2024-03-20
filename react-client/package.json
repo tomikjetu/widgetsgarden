@@ -24,7 +24,8 @@
     "react-scripts": "5.0.1",
     "react-simple-maps": "^3.0.0",
     "react-toastify": "^10.0.4",
-    "react-tooltip": "^5.26.3"
+    "react-tooltip": "^5.26.3",
+    "react-visibility-sensor": "^5.1.1"
   },
   "scripts": {
     "serve": "serve -s build -p 3100",

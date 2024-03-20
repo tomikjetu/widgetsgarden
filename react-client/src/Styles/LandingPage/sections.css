@@ -26,7 +26,7 @@
   font-size: 1.2rem;
 }
 
-.landing-page #intro .heading-wrapper{
+.landing-page #intro .heading-wrapper {
   display: flex;
   align-items: center;
 }
@@ -37,38 +37,37 @@
   transition: transform 0.5s;
 }
 
-@media screen and (max-width: 750px){
+@media screen and (max-width: 750px) {
   .landing-page #intro h1 {
     font-size: 2.5rem;
   }
-  .landing-page .heading-subtitle{
-    font-size: .95rem;
+  .landing-page .heading-subtitle {
+    font-size: 0.95rem;
   }
 
-  .landing-page nav{
+  .landing-page nav {
     gap: 1rem;
   }
 
-  .landing-page .link{
+  .landing-page .link {
     font-size: 1rem;
   }
 
-  .landing-page .btn{
+  .landing-page .btn {
     font-size: 1rem;
   }
-
 }
 
-@media screen and (max-width: 600px){
-  .landing-page #intro .center{
+@media screen and (max-width: 600px) {
+  .landing-page #intro .center {
     align-items: flex-start !important;
-  } 
-  .landing-page .heading-wrapper{
+  }
+  .landing-page .heading-wrapper {
     flex-direction: column;
     align-items: flex-start !important;
     margin-left: 1.5rem;
   }
-  .landing-page .heading-subtitle{
+  .landing-page .heading-subtitle {
     margin-top: 6rem !important;
     align-self: center;
     margin: 0 2rem;
@@ -78,27 +77,26 @@
   .landing-page #intro h1 {
     font-size: 3rem;
   }
-  .landing-page .heading-subtitle{
-    font-size: .8rem;
+  .landing-page .heading-subtitle {
+    font-size: 0.8rem;
   }
 }
 
-.landing-page .brand-logo{
+.landing-page .brand-logo {
   display: none;
 }
 
-@media screen and (max-width: 500px){
-  .landing-page .brand-logo{
+@media screen and (max-width: 500px) {
+  .landing-page .brand-logo {
     display: block;
     width: 64px;
     aspect-ratio: 1;
   }
-  
-  .landing-page .brand-title{
+
+  .landing-page .brand-title {
     display: none;
   }
 }
-
 
 .landing-page #intro h1:hover {
   transform: translateY(-6px);
@@ -190,6 +188,7 @@
   }
 
   .analytics-display {
+    height: 100%;
     max-width: 450px;
     & .graph {
       stroke-dasharray: 1000;
@@ -199,6 +198,10 @@
         stroke-dashoffset: 0;
       }
     }
+  }
+  &#analytics {
+    display: flex;
+    align-items: center;
   }
 }
 
@@ -254,7 +257,7 @@
     flex-direction: column;
     gap: 3rem;
     margin: 5rem 2rem;
-    
+
     & .editor-wrapper {
       display: flex;
       justify-content: center;
