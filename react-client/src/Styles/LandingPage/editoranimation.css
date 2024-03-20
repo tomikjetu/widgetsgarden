@@ -1,0 +1,260 @@
+.landing-page .editor-display.visible #Mouse {
+  animation: MouseAnimation 10s infinite ease-in-out;
+}
+
+.landing-page .editor-display.visible #ColorPicker {
+  animation: ColorPickerAnimation 10s infinite ease-in-out;
+  opacity: 0;
+}
+
+.landing-page .editor-display.visible #TitleTextContainer {
+  animation: TitleTextContainerAnimation 10s infinite ease-in-out;
+}
+
+.landing-page .editor-display.visible #TitleText {
+  translate: -50px 20px;
+  transform-origin: 50% 35%;
+  animation: TitleTextAnimation 10s infinite ease-in-out;
+}
+
+.landing-page .editor-display.visible #TimeTextContainer {
+  animation: TimeTextContainerAnimation 10s infinite ease-in-out;
+}
+
+.landing-page .editor-display.visible #TimeText {
+  animation: TimeTextAnimation 10s infinite ease-in-out;
+}
+
+.landing-page .editor-display.visible #PluginIcon {
+  animation: PluginIconAnimation 10s infinite ease-in-out;
+  opacity: 0;
+}
+
+.landing-page .editor-display.visible #PluginPicker {
+  animation: PluginPickerAnimation 10s infinite ease-in-out;
+  translate: -20px 5px;
+  opacity: 0;
+}
+
+.landing-page .editor-display.visible #SaleTextContainer {
+  animation: SaleTextContainerAnimation 10s infinite ease-in-out;
+}
+
+.landing-page .editor-display.visible #SaleText path {
+  animation: SaleTextAnimation 10s infinite ease-in-out;
+}
+
+@keyframes MouseAnimation {
+  0% {
+    translate: 0px 0px;
+  }
+  10% {
+    translate: -180px -145px;
+  }
+  20% {
+    translate: -130px -165px;
+  }
+  25% {
+    translate: -105px -160px;
+  }
+  32% {
+    translate: -80px -158px;
+  }
+  36% {
+    translate: -130px -120px;
+  }
+  44% {
+    translate: -100px -130px;
+  }
+  52% {
+    translate: -150px -20px;
+  }
+  58% {
+    translate: -50px -90px;
+  }
+  64% {
+    translate: -80px -140px;
+  }
+  70% {
+    translate: -110px -70px;
+  }
+  75% {
+    translate: 0px 0px;
+  }
+  100% {
+    translate: 0px 0px;
+  }
+}
+
+@keyframes ColorPickerAnimation {
+  0% {
+    opacity: 0;
+  }
+  51% {
+    opacity: 0;
+  }
+  52% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  76% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes TitleTextContainerAnimation {
+  0% {
+    opacity: 0;
+  }
+  9% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 1;
+  }
+  36% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes TitleTextAnimation {
+  0% {
+    translate: -50px 20px;
+    scale: 0.8;
+  }
+  10% {
+    translate: -50px 20px;
+  }
+  20% {
+    translate: 0px 0px;
+  }
+  25% {
+    scale: 0.8;
+  }
+  32% {
+    scale: 1;
+  }
+  100% {
+    translate: 0px 0px;
+    scale: 1;
+  }
+}
+
+@keyframes TimeTextContainerAnimation {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 0;
+  }
+  36% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  51% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes TimeTextAnimation {
+}
+
+@keyframes PluginIconAnimation {
+  0% {
+    opacity: 0;
+  }
+  43% {
+    opacity: 0;
+  }
+  44% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes PluginPickerAnimation {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 0;
+  }
+  36% {
+    opacity: 1;
+  }
+  43% {
+    opacity: 1;
+  }
+  44% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes SaleTextContainerAnimation {
+  0% {
+    opacity: 0;
+  }
+  51% {
+    opacity: 0;
+  }
+  52% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  76% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes SaleTextAnimation {
+  0% {
+    fill: white;
+  }
+  57% {
+    fill: white;
+  }
+  58% {
+    fill: #c43b3b;
+  }
+  63% {
+    fill: #c43b3b;
+  }
+  64% {
+    fill: #563bc4;
+  }
+  69% {
+    fill: #563bc4;
+  }
+  70% {
+    fill: #56c43b;
+  }
+  100% {
+    fill: #56c43b;
+  }
+}
