@@ -60,6 +60,9 @@ function createVideoElement(element, data) {
   if (data == null) return;
 
   var videoElement = document.createElement("div");
+  videoElement.addEventListener("click", () => {
+    AnalyticUse("view-video")
+  })
   videoElement.classList.add("youtube_video");
 
   /*THUMBNAIL */

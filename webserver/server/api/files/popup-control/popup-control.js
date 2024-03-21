@@ -10,7 +10,6 @@ function popup_control_click_to_close(elementId, ...parameters) {
   element.style.cursor = "pointer";
   element.addEventListener("click", () => {
     AnalyticUse("close");
-    console.log(sendMessage);
     sendMessage(
       {
         event: "widgetEvent",

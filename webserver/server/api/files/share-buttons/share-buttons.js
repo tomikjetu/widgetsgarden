@@ -7,7 +7,7 @@ function share_buttons_facebook(elementId, ...parameters) {
   var shareLink = `https://www.facebook.com/sharer.php?u=${encodeURIComponent(link)}`;
 
   element.addEventListener("click", () => {
-    AnalyticUse("share");
+    AnalyticUse("share-facebook");
     if (current == "false") return window.open(shareLink);
 
     sendMessage(
@@ -32,7 +32,7 @@ function share_buttons_reddit(elementId, ...parameters) {
   var shareLink = `https://reddit.com/submit?url=${encodeURIComponent(link)}&title=${encodeURIComponent(title)}`;
 
   element.addEventListener("click", () => {
-    AnalyticUse("share");
+    AnalyticUse("share-reddit");
     if (current == "false") return window.open(shareLink);
 
     sendMessage(
@@ -59,7 +59,7 @@ function share_buttons_twitter(elementId, ...parameters) {
   var shareLink = `https://twitter.com/intent/tweet?url=${encodeURIComponent(link)}&text=${encodeURIComponent(title)}&hashtags=${encodeURIComponent(hashtags)}`;
 
   element.addEventListener("click", () => {
-    AnalyticUse("share");
+    AnalyticUse("share-twitter");
     if (current == "false") return window.open(shareLink);
 
     sendMessage(
@@ -85,7 +85,7 @@ function share_buttons_linkedin(elementId, ...parameters) {
   var shareLink = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(link)}`;
 
   element.addEventListener("click", () => {
-    AnalyticUse("share");
+    AnalyticUse("share-linkedin");
     if (current == "false") return window.open(shareLink);
 
     sendMessage(
@@ -110,7 +110,7 @@ function share_buttons_whatsapp(elementId, ...parameters) {
   var shareLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(title)}%20${encodeURIComponent(link)}`;
 
   element.addEventListener("click", () => {
-    AnalyticUse("share");
+    AnalyticUse("share-whatsapp");
     if (current == "false") return window.open(shareLink);
 
     sendMessage(
@@ -138,7 +138,7 @@ function share_buttons_pinterest(elementId, ...parameters) {
   var shareLink = `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&media=${encodeURIComponent(image)}&description=${encodeURIComponent(description)}`;
 
   element.addEventListener("click", () => {
-    AnalyticUse("share");
+    AnalyticUse("share-pinterest");
     if (current == "false") return window.open(shareLink);
 
     sendMessage(
