@@ -63,13 +63,8 @@ export default function ImagePicker({ value, setValue }) {
 
   return (
     <div className={styles.ImagePicker}>
-      <Modal title={"Images"} maxWidth={"100%"} width={"80%"} className="changeimage-modal" display={isModalOpen} setDisplay={setModalOpen}
-      buttons={[
-
-        <Button onClick={() => setModalOpen(false)}>Close</Button>
-      ]}>
-        <div className={styles.Header}>
-        </div>
+      <Modal title={"Images"} maxWidth={"100%"} width={"80%"} className="changeimage-modal" display={isModalOpen} setDisplay={setModalOpen} buttons={[<Button onClick={() => setModalOpen(false)}>Close</Button>]}>
+        <div className={styles.Header}></div>
 
         <div className={styles.tabs}>
           <Button className={`${styles.tab} ${tabOpen == 0 ? styles.selected : ""}`} onClick={() => setTabOpen(0)}>
@@ -94,19 +89,19 @@ export default function ImagePicker({ value, setValue }) {
             {Object.keys(assets).length > 0 &&
               assets.user.map((asset) => {
                 return (
-                  <div
-                    className={styles.Image}
-                    onClick={() => {
-                      setValue(`${process.env.REACT_APP_SERVER_URL}/assets/image/${asset.assetId}`);
-                      setModalOpen(false);
-                    }}
-                    key={asset.assetId}
-                  >
+                  <div className={styles.Image} key={asset.assetId}>
                     <span className={styles.Remove} onClick={() => removeAsset(asset.assetId)}>
                       <BinIcon />
                     </span>
-                    <img src={`${process.env.REACT_APP_SERVER_URL}/assets/thumbnail/${asset.assetId}`} />
-                    <p>{asset.name}</p>
+                    <div
+                      onClick={() => {
+                        setValue(`${process.env.REACT_APP_SERVER_URL}/assets/image/${asset.assetId}`);
+                        setModalOpen(false);
+                      }}
+                    >
+                      <img src={`${process.env.REACT_APP_SERVER_URL}/assets/thumbnail/${asset.assetId}`} />
+                      <p>{asset.name}</p>
+                    </div>
                   </div>
                 );
               })}

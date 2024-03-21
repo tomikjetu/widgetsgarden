@@ -304,7 +304,7 @@ export default function (app) {
     var asset = await getAsset(ID);
     if (!asset) return res.sendStatus(404);
     var type = asset.mimetype.split("/")[1];
-    var fileUrl = `server/assets/files/${ID}.${type}`;
+    var fileUrl = `server/assets/files/${ID}.${type.replace("svg+xml", "svg")}`;
     var exists = fs.existsSync(fileUrl);
     if (!exists) return res.sendStatus(404);
 
@@ -326,7 +326,7 @@ export default function (app) {
     var asset = await getAsset(ID);
     if (!asset) return res.sendStatus(404);
     var type = asset.mimetype.split("/")[1];
-    var fileUrl = `server/assets/thumbnails/${ID}.${type}`;
+    var fileUrl = `server/assets/thumbnails/${ID}.${type.replace("svg+xml", "svg")}`;
     var exists = fs.existsSync(fileUrl);
     if (!exists) return res.sendStatus(404);
 

@@ -559,13 +559,15 @@ export async function uploadAsset(asset, userId) {
       assetId: uuid,
     });
 
-    var filename = `${uuid}.${mimetype.split("/")[1].replace("svg+xml", "svg")}`;
+    var filename = `${uuid}.${ mimetype.split("/")[1].replace("svg+xml", "svg")}`;
+    console.log(filename);
     let uploadPath = "./server/assets/files/" + filename;
     let thumbnailPath = "./server/assets/thumbnails/" + filename;
     asset.mv(uploadPath, function (err) {
       console.log(`Asset Upload Successful ${filename}`);
       Assets.save();
       resolve(uuid);
+      console.log(mimetype.split("/")[1] != "svg+xml");
       if(mimetype.split("/")[1] != "svg+xml") sharp(uploadPath).resize(128, 128).toFile(thumbnailPath);
       else fs.copyFileSync(uploadPath, thumbnailPath);
     });
@@ -600,7 +602,9 @@ export async function removeAsset(userId, assetId) {
     var Assets;
     if (process.env.ENVIRONMENT == "production") Assets = await ProductionAssets.findOne({ userId });
     else Assets = await DevelopmentAssets.findOne({ userId });
-    var { mimetype } = Assets.assets.find((asset) => asset.assetId == assetId);
+    var asset = Assets.assets.find((asset) => asset.assetId == assetId);
+    if(!asset) return resolve();
+    var { mimetype } = asset;
     Assets.assets = Assets.assets.filter((asset) => asset.assetId != assetId);
     await Assets.save();
     resolve();
