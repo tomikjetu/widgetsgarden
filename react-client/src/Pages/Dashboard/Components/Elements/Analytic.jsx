@@ -2,7 +2,7 @@ export default function Analytic({ label, value, link }) {
   return (
     <a href={link} className="analytics-list-item analytics-item-with-stats">
       <span>{label}</span>
-      <span className="number"> {value || "Loading..."}</span>
+      <span className="number"> {value ?? "Loading..."}</span>
     </a>
   );
 }

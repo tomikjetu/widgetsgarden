@@ -78,108 +78,6 @@ export async function getAccessAnalytics(userId) {
   });
 }
 
-// async function Analysis() {
-//   console.log("Starting Analysis");
-//   var docs = await Analytics.find({}).lean().exec();
-//   for (var i = 0; i < docs.length; i++) {
-//     var enabled = docs[i].enabled;
-//     if (!enabled) continue;
-//     var userId = docs[i].userId;
-//     console.log(`User: ${userId}`);
-
-//     var pageCollected = docs[i].collected;
-
-//     var widgets = await getWidgets(userId);
-//     for (var i = 0; i < widgets.length; i++) {
-//       var widgetReferrence = widgets[i];
-//       var widget = await getWidget(widgetReferrence.widgetId, widgetReferrence.userId);
-//       var widgetAnalytics = widget.analytics.overview || {};
-//       var widgetCollected = widget.analytics.collected;
-//       var widgetCollectedAmount = widgetCollected.length;
-//       console.log(`Widget: ${widget.widgetId}[${widget.userId}] (${widgetCollectedAmount})`);
-
-//       if (widgetCollectedAmount == 0) continue;
-
-//       // var sessions = {};
-//       var validatedEvents = [];
-//       // Validate
-//       for (var collectedEvent of widgetCollected) {
-//         var session = collectedEvent.headers.session;
-//         var name = collectedEvent.name;
-//         var value = collectedEvent.value;
-//         var time = new Date(collectedEvent.headers.timestamp);
-
-//         var repetetionPrevention = validatedEvents.filter((event) => event.headers.session == session && event.name == name && JSON.stringify(event.value) == JSON.stringify(value));
-
-//         let maxTime = new Date(0); // Previous event
-//         for (var event of repetetionPrevention) {
-//           var t = new Date(event.headers.timestamp);
-//           if (maxTime.getTime() < t.getTime()) maxTime = t;
-//         }
-
-//         var diff = time.getTime() - maxTime.getTime();
-//         var repeated = diff < 1000 * 60 * 10; // 10 Minutes
-//         if (!repeated) {
-//           collectedEvent.headers.country = await getLocation(collectedEvent.headers.ip);
-//           validatedEvents.push(collectedEvent);
-//         }
-//       }
-
-//       // TODO count every posibility into widgetAnalytics
-
-//       // in the current widget count event occurences for each day
-//       console.log(validatedEvents);
-//       var DAYS = widgetAnalytics.day || {}; // COUNT ALL EVENTS IN DAYS
-//       var COUNTRY = widgetAnalytics.country || {}; // COUNT ALL EVENTS FROM A COUNTRY IN DAYS
-//       var ORIGIN = widgetAnalytics.origin || {}; // COUNT ALL EVENTS FROM AN ORIGIN IN DAYS
-
-//       validatedEvents.forEach((event) => {
-//         var timestamp = new Date(event.headers.timestamp);
-//         var country = event.headers.country;
-//         var origin = event.headers.origin.referrer;
-//         var name = event.name;
-//         var date = timestamp.getMonth() + 1 + "/" + timestamp.getDate();
-
-//         if (!DAYS[date]) DAYS[date] = {};
-//         if (!COUNTRY[country]) COUNTRY[country] = {};
-//         if (!ORIGIN[origin]) ORIGIN[origin] = {};
-
-//         if (!COUNTRY[country][date]) COUNTRY[country][date] = {};
-//         if (!ORIGIN[origin][date]) ORIGIN[origin][date] = {};
-
-//         if (!DAYS[date][name]) DAYS[date][name] = 0;
-//         if (!COUNTRY[country][date][name]) COUNTRY[country][date][name] = 0;
-//         if (!ORIGIN[origin][date][name]) ORIGIN[origin][date][name] = 0;
-
-//         DAYS[date][name] += 1;
-//         COUNTRY[country][name] += 1;
-//         ORIGIN[origin][name] += 1;
-//       });
-
-//       widgetAnalytics.day = DAYS;
-//       widgetAnalytics.country = COUNTRY;
-//       widgetAnalytics.origin = ORIGIN;
-//       // widgetCollected = [];
-
-//       widget.analytics.overview = widgetAnalytics;
-//       // widget.analytics.collected = widgetCollected;
-
-//       widget.save();
-
-//       // Save every day as a request
-//       // Every 7 days update **7 DAY** overview for the widget
-//       // Every 30 days update **30 DAY** overview for the widget
-//       // Every 90 days update **90 DAY** overview for the widget
-//       /// save the last updated time and if amount of days passes do it again
-//     }
-
-//     //generate overview from collected;
-//     // origin and path
-//     // include all page collected and every widget sums
-//     // docs[i].overview;
-//   }
-// }
-
 var userAnalytics = [
   {
     name: "visit",
@@ -331,6 +229,44 @@ async function Analysis() {
     await AnalyticsObject.save();
   }
   console.log(`Registered Users (${registeredUsers}), Enabled Analytics (${enabledUsers}). ${activeUsers} active websites in last 1 hour`);
+}
+
+export async function getDashboardAnalytics(userId, timespan) {
+  var AnalyticsObject = await Analytics.findOne({ userId });
+  var AccessObject = await Access.findOne({ userId });
+
+  var enabled = AnalyticsObject?.enabled || false;
+
+  var endDate = new Date();
+  var startDate = new Date();
+  startDate.setDate(startDate.getDate() - timespan);
+  
+  function getSum(source) {
+    var timeSelectedData = {};
+    Object.keys(source).forEach((entry) => {
+      timeSelectedData[entry] = Object.fromEntries(
+        Object.entries(source[entry]).filter(([key]) => {
+          var current = new Date(key).getTime();
+          return current >= startDate && current <= endDate;
+        })
+      );
+    });
+    
+    var tempTotalValue = 0;
+    Object.keys(timeSelectedData).forEach(function (key, index) {
+      tempTotalValue += Object.values(timeSelectedData[key] ?? []).reduce((a, b) => a + b, 0);
+    });
+
+    return tempTotalValue;
+  }
+
+  return {
+    enabled: enabled,
+    overview: {
+      analytics:  getSum(AnalyticsObject.overview['visit'].country),
+      access: getSum(AccessObject.usage.overview),
+    },
+  };
 }
 
 export default function analytics(app) {

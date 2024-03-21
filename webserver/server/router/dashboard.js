@@ -9,7 +9,7 @@ import fs from "fs";
 
 import { isLogged, isAdmin, getUserSerialization, getAccess, getDomains, getApiKey, removeRestrictedDomain, addAllowedDomain, removeAllowedDomain, getMessages, readMessage, sendMessage, getWidgets, createWidget, deleteWidget, editWidgetData, editWidgetInfo, getWidget, deleteMessage, getUser } from "../accounts.js";
 import { User, Access, Message, Analytics } from "../database.js";
-import { enableAnalytics, getAccessAnalytics, isAnalyticsEnabled } from "../analytics.js";
+import { enableAnalytics, getAccessAnalytics, getDashboardAnalytics, isAnalyticsEnabled } from "../analytics.js";
 import { CopyWidget, GetLibrary, LibraryAddWidget, LibraryHasWidget, LibraryRemoveWidget } from "../library.js";
 
 export default function (app) {
@@ -69,7 +69,7 @@ export default function (app) {
     const User = getUserSerialization(req);
     var widgets = JSON.parse(JSON.stringify(await getWidgets(User.uuid)));
 
-    for(var widget of widgets){
+    for (var widget of widgets) {
       widget.analytics = {}; // TODO load widget analytics, once added
       widget.data = {};
       widget.published = await LibraryHasWidget(widget.widgetId);
@@ -151,6 +151,7 @@ export default function (app) {
     var data = {
       user: {
         widgets: widgetsCount,
+        analytics: await getDashboardAnalytics(User.uuid, 7),
       },
     };
 

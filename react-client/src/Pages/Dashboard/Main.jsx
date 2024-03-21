@@ -72,12 +72,12 @@ export default function Main({ profile }) {
             <h3>Quick Stats</h3>
             <div className="analytics-list">
               <Analytic label="Widgets Created" value={overview?.user.widgets} link="/dashboard/widgets" />
-              <Analytic label="Last 7 Days Visits" value={"Unknown"} link="/dashboard/analytics" />
-              <Analytic label="Last 7 Days Usage" value={"Unknown"} link="/dashboard/access" />
+              <Analytic label="Last 7 Days Visits" value={overview?.user.analytics.overview.analytics ?? "Disabled"} link="/dashboard/analytics" />
+              <Analytic label="Last 7 Days Usage" value={overview?.user.analytics.overview.access} link="/dashboard/access" />
             </div>
             <h3>WidgetsGarden</h3>
             <div className="analytics-list">
-              <Analytic label="Library" value={"Unknown"} link="/dashboard/library" />
+              <Analytic label="Library" value={"3 New Widgets"} link="/dashboard/library" />
             </div>
           </div>
 
