@@ -18,5 +18,8 @@ window.addEventListener("widgetEvent", function (event) {
     case "whatsapp":
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(body.data.title)}%20${encodeURIComponent(window.location.href)}`);
       break;
+    case "pinterest":
+    window.open(`https://pinterest.com/pin/create/button/?url=${encodeURIComponent(window.location.href)}&media=${encodeURIComponent(body.data.image)}&description=${encodeURIComponent(body.data.description)}`)  
+    break;
   }
 });

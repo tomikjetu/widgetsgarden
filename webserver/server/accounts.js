@@ -560,7 +560,6 @@ export async function uploadAsset(asset, userId) {
     });
 
     var filename = `${uuid}.${ mimetype.split("/")[1].replace("svg+xml", "svg")}`;
-    console.log(filename);
     let uploadPath = "./server/assets/files/" + filename;
     let thumbnailPath = "./server/assets/thumbnails/" + filename;
     asset.mv(uploadPath, function (err) {
