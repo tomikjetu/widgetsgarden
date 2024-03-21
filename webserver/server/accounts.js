@@ -566,7 +566,7 @@ export async function uploadAsset(asset, userId) {
       console.log(`Asset Upload Successful ${filename}`);
       Assets.save();
       resolve(uuid);
-      if(mimetype.split("/")[1] != "svg") sharp(uploadPath).resize(128, 128).toFile(thumbnailPath);
+      if(mimetype.split("/")[1] != "svg+xml") sharp(uploadPath).resize(128, 128).toFile(thumbnailPath);
       else fs.copyFileSync(uploadPath, thumbnailPath);
     });
   });
