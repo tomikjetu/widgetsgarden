@@ -98,8 +98,6 @@ export default function AnalyticsPage() {
             <>
               <BarChartSeries source={analytics?.overview?.user?.visit?.path} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"Websites"} id={"visits-path-main"} startDate={startDate} endDate={endDate} />
               <MapChart source={analytics?.overview?.user?.visit?.country} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"World Map"} id={"map-country-main"} fromColor={getComputedStyle(document.querySelector("*")).getPropertyValue(`--dashboard-container`)} toColor={"#daad60"} border={"#eee"} borderSize={".5px"} startDate={startDate} endDate={endDate} />
-              {/* DON'T FORGET TO REMOVE FROM BACKEND AND DATABASE ENTRIES  */}
-              <BarChart source={analytics?.overview?.user?.visit?.origin} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"To remove"} id={"visits-path-main"} startDate={startDate} endDate={endDate} />
             </>
           ) : null}
 

@@ -183,7 +183,6 @@ export async function getAccessAnalytics(userId) {
 var userAnalytics = [
   {
     name: "visit",
-    analyzeOrigin: true,
     analyzePath: true,
     analyzeCountry: true,
     analyzeValue: false,
@@ -204,15 +203,6 @@ function AnalyzeUser(pageCollected, UserObject) {
 
       // TODO remove this and the chart from dashboard in a week of testing if the measure is correct
       // path and origin chart is the same
-
-      if (analytic.analyzeOrigin) {
-        var origin = event.headers.origin.referrer;
-        var domain = origin.match(DOMAINREGEXP)[0];
-        if (!UserObject.overview[name].origin) UserObject.overview[name].origin = {};
-        if (!UserObject.overview[name].origin[domain]) UserObject.overview[name].origin[domain] = {};
-        if (!UserObject.overview[name].origin[domain][date]) UserObject.overview[name].origin[domain][date] = 0;
-        UserObject.overview[name].origin[domain][date] += 1;
-      }
 
       if (analytic.analyzePath) {
         var path = event.headers.origin.path;
