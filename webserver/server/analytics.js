@@ -99,10 +99,9 @@ function AnalyzeUser(pageCollected, UserObject) {
       if (!UserObject.overview[name]) UserObject.overview[name] = {};
       var ip = event.headers.ip;
 
-      // TODO remove this and the chart from dashboard in a week of testing if the measure is correct
-      // path and origin chart is the same
-
       if (analytic.analyzePath) {
+        var origin = event.headers.origin.referrer;
+        var domain = origin.match(DOMAINREGEXP)[0];
         var path = event.headers.origin.path;
         if (!UserObject.overview[name].path) UserObject.overview[name].path = {};
 
@@ -128,6 +127,90 @@ function AnalyzeUser(pageCollected, UserObject) {
         if (!UserObject.overview[name].value[value]) UserObject.overview[name].value[value] = {};
         if (!UserObject.overview[name].value[value][date]) UserObject.overview[name].value[value][date] = 0;
         UserObject.overview[name].value[value][date] += 1;
+      }
+    });
+  });
+}
+
+
+var widgetAnalytics = [
+  {
+    name: "loadWidget",
+    analyzeTimestamp: true,
+    analyzePath: true,
+    analyzeValue: false,
+  },
+  {
+    name: "hover",
+    analyzeTimestamp: true,
+    analyzePath: false,
+    analyzeValue: false,
+  },
+  {
+    name: "click",
+    analyzeTimestamp: true,
+    analyzePath: false,
+    analyzeValue: true,
+    valueGetter: (data) => {
+      return `${data.x}:${data.y}`;
+    },
+  },
+  {
+    name: "use",
+    values: ["close", "scroll", "view-video", "share-[X]"],
+    analyzeTimestamp: false,
+    analyzePath: false,
+    analyzeValue: true,
+  },
+  {
+    name: "submit",
+    analyzeTimestamp: true,
+    analyzePath: false,
+    analyzeValue: false,
+  },
+  {
+    name: "scrollInView",
+    analyzeTimestamp: true,
+    analyzePath: false,
+    analyzeValue: false,
+  },
+];
+
+function AnalyzeWidget(pageCollected, WidgetObject) {
+  widgetAnalytics.forEach((analytic) => {
+    var events = pageCollected.filter((event) => event.name == analytic.name);
+    events.forEach((event) => {
+      var timestamp = new Date(event.headers.timestamp);
+      var date = timestamp.getFullYear() + "/" + (timestamp.getMonth() + 1) + "/" + timestamp.getDate();
+
+      var name = event.name;
+      if (!WidgetObject.overview[name]) WidgetObject.overview[name] = {};
+
+      if (analytic.analyzeTimestamp) {
+        if (!WidgetObject.overview[name].timestamp) WidgetObject.overview[name].timestamp = {};
+        if (!WidgetObject.overview[name].timestamp[date]) WidgetObject.overview[name].timestamp[date] = 0;
+        WidgetObject.overview[name].timestamp[date] += 1;
+      }
+
+      if (analytic.analyzePath) {
+        var origin = event.headers.origin.referrer;
+        var domain = origin.match(DOMAINREGEXP)[0];
+        var path = event.headers.origin.path;
+        if (!WidgetObject.overview[name].path) WidgetObject.overview[name].path = {};
+
+        if (!WidgetObject.overview[name].path[domain]) WidgetObject.overview[name].path[domain] = {};
+        if (!WidgetObject.overview[name].path[domain][path]) WidgetObject.overview[name].path[domain][path] = {};
+        if (!WidgetObject.overview[name].path[domain][path][date]) WidgetObject.overview[name].path[domain][path][date] = 0;
+        WidgetObject.overview[name].path[domain][path][date] += 1;
+      }
+
+      if (analytic.analyzeValue) {
+        var value = event.value;
+        if (analytic.valueGetter) value = analytic.valueGetter(event.value);
+        if (!WidgetObject.overview[name].value) WidgetObject.overview[name].value = {};
+        if (!WidgetObject.overview[name].value[value]) WidgetObject.overview[name].value[value] = {};
+        if (!WidgetObject.overview[name].value[value][date]) WidgetObject.overview[name].value[value][date] = 0;
+        WidgetObject.overview[name].value[value][date] += 1;
       }
     });
   });
@@ -227,15 +310,7 @@ async function Analysis() {
     AnalyticsObject.collected = [];
     AnalyticsObject.lastAnalysis = Date.now();
     await AnalyticsObject.save();
-  }
-  console.log(`Registered Users (${registeredUsers}), Enabled Analytics (${enabledUsers}). ${activeUsers} active websites in last 1 hour`);
-}
-(async () => {
-  var docs = await User.find({}).lean().exec();
 
-  for (var i = 0; i < docs.length; i++) {
-    // Code here (will be moved to analytics later)
-    var userId = docs[i].uuid;
     var widgets = await getWidgets(userId);
     for (var i = 0; i < widgets.length; i++) {
       var widget = widgets[i];
@@ -245,24 +320,17 @@ async function Analysis() {
       var validatedEvents = ValidateEvents(pageCollected);
       if (validatedEvents.length == 0) continue;
 
+      console.log(`Analyzing Widget ${widget.displayName} (${widget.widgetId}) (${validatedEvents.length} validated / ${pageCollected.length} collected events)`);
       AnalyzeWidget(validatedEvents, widget.analytics);
+
+      widget.markModified(`analytics`);
+
+      widget.analytics.collected = [];
+      await widget.save();
     }
+
   }
-})();
-
-
-
-var widgetAnalytics = [
-  {
-    name: "visit",
-    analyzePath: true,
-    analyzeCountry: true,
-    analyzeValue: false,
-  },
-];
-
-function AnalyzeWidget(pageCollected, WidgetObject){
-
+  console.log(`Registered Users (${registeredUsers}), Enabled Analytics (${enabledUsers}). ${activeUsers} active websites in last 1 hour`);
 }
 
 export async function getDashboardAnalytics(userId, timespan) {
