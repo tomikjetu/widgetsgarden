@@ -10,7 +10,7 @@ export default function TextOptions({ id, defaultValue, options, onChange, dashb
   const OptionsComponent = useRef(null);
   const DropdownOptions = useRef(null);
   const [open, setOpen] = useState(false);
-  const [tempValue, setTempValue] = useState(defaultValue);
+  const [tempValue, setTempValue] = useState(defaultValue || options[0].value);
 
   useEffect(() => {
     window.addEventListener("click", (e) => {

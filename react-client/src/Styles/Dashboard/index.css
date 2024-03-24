@@ -21,7 +21,7 @@
 
 .dashboard.extended .dashboard-content {
   padding-left: 6rem;
-  width: calc(100vw - 7rem);
+  width: calc(100vw - 8rem);
 }
 
 .dashboard-status {

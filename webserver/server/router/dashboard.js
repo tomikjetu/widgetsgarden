@@ -167,11 +167,20 @@ export default function (app) {
     if (!enabled) return res.json({ enabled: false });
 
     var UserObject = await Analytics.findOne({ userId: User.uuid });
+    var WidgetsOverview = [];
+    var Widgets = await getWidgets(User.uuid);
+    for (var widget of Widgets)
+      WidgetsOverview.push({
+        id: widget.widgetId,
+        displayName: widget.displayName,
+        data: widget.analytics.overview,
+      });
 
     res.json({
       enabled: true,
       overview: {
         user: UserObject.overview,
+        widgets: WidgetsOverview,
       },
     });
   });
