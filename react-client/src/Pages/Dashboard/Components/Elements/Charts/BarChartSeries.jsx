@@ -22,6 +22,8 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
 
     var tempTotalValue = 0;
     var tempCategoryTotals = {};
+    var tempAvailableCategories = [];
+
 
     // Filter the data to only include entries in the selected time range
     Object.keys(source).forEach((category) => {
@@ -35,6 +37,8 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
         );
       });
     });
+
+
 
     // Remove series with no data
     Object.keys(timeSelectedData).forEach((category) => {
@@ -61,11 +65,14 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
       });
     });
 
+
+    tempAvailableCategories = Object.keys(timeSelectedData).map((value) => ({ label: labels ? labels[Object.keys(timeSelectedData).indexOf(value)] ?? value : value, value }));
+
     // Create data for each category
     var tempSeries = {};
-    availableCategories
+    tempAvailableCategories
       .filter((category) => selectedCategories?.includes(category.value))
-      .forEach((category, i) => {
+            .forEach((category, i) => {
         Object.keys(realData[category.value]).forEach((series) => {
           if (!tempSeries[series]) tempSeries[series] = [];
           tempSeries[series][i] = realData[category.value][series];
@@ -85,13 +92,14 @@ export default function BarChartSeries({ title, id, setTimespan, timespan, start
 
     setAxisCategories(Object.keys(realData));
     if (selectedCategories == null) setSelectedCategories(Object.keys(timeSelectedData));
-    setAvailableCategories(Object.keys(timeSelectedData).map((value) => ({ label: labels ? labels[Object.keys(timeSelectedData).indexOf(value)] ?? value : value, value })));
+    setAvailableCategories(tempAvailableCategories);
 
     setChartData(tempChartData);
 
     setTotalValue(tempTotalValue);
     setAvailableCategoriesTotals(tempCategoryTotals);
   }, [startDate, endDate, source, selectedCategories]);
+
 
   if (!source)
     return (

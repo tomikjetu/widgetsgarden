@@ -350,9 +350,24 @@ export default function (app) {
   app.get("/api/assets/library/plugin/:ID", async (req, res) => {
     const ID = req.params.ID;
 
-    var fileUrl = `server/assets/plugins/${ID}.png`;
+    var fileUrl = `server/assets/editor/plugins/${ID}.png`;
     var exists = fs.existsSync(fileUrl);
-    if (!exists) fileUrl = "server/assets/plugins/missing.png";
+    if (!exists) fileUrl = "server/assets/editor/plugins/missing.png";
+
+    exists = fs.existsSync(fileUrl);
+    if (!exists) return res.sendStatus(404);
+
+    var file = fs.readFileSync(fileUrl, "Base64");
+    res.setHeader("Content-type", "image/png");
+    return res.end(file, "Base64");
+  });
+
+  app.get("/api/assets/library/function/:ID", async (req, res) => {
+    const ID = req.params.ID;
+
+    var fileUrl = `server/assets/editor/containers/${ID}.png`;
+    var exists = fs.existsSync(fileUrl);
+    if (!exists) fileUrl = "server/assets/editor/containers/missing.png";
 
     exists = fs.existsSync(fileUrl);
     if (!exists) return res.sendStatus(404);

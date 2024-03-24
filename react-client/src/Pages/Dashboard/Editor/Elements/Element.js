@@ -29,6 +29,9 @@ export class Element {
       this.locked = lockedPaths;
     }
 
+    this.pluginIconImage = new Image();
+    this.pluginIconImage.src = `${process.env.REACT_APP_WEBSITE_URL}/editor/plugin-icon.svg`;
+
     this.settings = [
       {
         title: "Layer",
@@ -36,8 +39,8 @@ export class Element {
         type: "range",
         preset: {
           min: 0,
-          max: 30
-        }
+          max: 30,
+        },
       },
       {
         title: "Width",
@@ -150,11 +153,17 @@ export class Element {
     this.drawSize();
   }
 
+  drawPluginOverlay() {
+    if (this.pluginfunctions.length == 0) return;
+    var pos = worldToScreen(this.ctx, this.x + this.width * 0.9, this.y);
+    this.ctx.drawImage(this.pluginIconImage, pos.x, pos.y - 12.5 * this.ctx.zoom, 20 * this.ctx.zoom, 25 * this.ctx.zoom);
+  }
+
   drawSize() {
     let padding = 15;
     let radius = 7;
 
-    if(this.ctx.zoom < .5) return
+    if (this.ctx.zoom < 0.5) return;
 
     this.sizeChange();
     this.ctx.font = "20px serif";

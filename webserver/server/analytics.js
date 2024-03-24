@@ -227,6 +227,20 @@ async function Analysis() {
     AnalyticsObject.collected = [];
     AnalyticsObject.lastAnalysis = Date.now();
     await AnalyticsObject.save();
+
+
+    // var widgets = await getWidgets(userId);
+    // for (var i = 0; i < widgets.length; i++) {
+    //   var widget = widgets[i];
+
+    //   if(!widget.analytics.overview) widget.analytics.overview = {};
+    //   var pageCollected = widget.analytics.collected;
+    //   var validatedEvents = ValidateEvents(pageCollected);
+    //   if (validatedEvents.length == 0) continue;
+
+    //   AnalyzeWidget(validatedEvents, widget.analytics);
+    // }
+
   }
   console.log(`Registered Users (${registeredUsers}), Enabled Analytics (${enabledUsers}). ${activeUsers} active websites in last 1 hour`);
 }

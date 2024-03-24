@@ -15,13 +15,14 @@ export const fonts = [
 export class Text extends Element {
   constructor(props) {
     props.type = "Text";
+    super(props);
+    
     // Measure text
     props.ctx.font = props.data.font.size + "px " + props.data.font.family;
-    var { width } = props.ctx.measureText(props.data.text);
-    props.width = width;
-    props.height = parseInt(props.data.font.size);
+    var { width } = props.ctx.measureText(this.getText());
+    this.width = width;
+    this.height = parseInt(props.data.font.size);
 
-    super(props);
     this.sizeDisplayed = props.data.font.size;
     this.sizeText = props.data.font.size + "px";
     this.addSettings([

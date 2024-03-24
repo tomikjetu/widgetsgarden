@@ -29,8 +29,8 @@ export default function InputSwitch({ type, value, setValue, preset }) {
       return (
         <>
           <p>{tempValue}</p>
-          {preset?.mouseUp && <input className={InputStyle.Input} type="range" min={preset.min} max={preset.max} defaultValue={tempValue} onMouseUp={(e) => changeValue(e.target.value)} />}
-          {!preset?.mouseUp && <input className={InputStyle.Input} type="range" min={preset.min} max={preset.max} defaultValue={tempValue} onChange={(e) => changeValue(e.target.value)} />}
+          {preset?.mouseUp && <input className={InputStyle.Input} type="range" step={preset.step || 1} min={preset.min} max={preset.max} defaultValue={tempValue} onMouseUp={(e) => changeValue(e.target.value)} />}
+          {!preset?.mouseUp && <input className={InputStyle.Input} type="range" step={preset.step || 1} min={preset.min} max={preset.max} defaultValue={tempValue} onChange={(e) => changeValue(e.target.value)} />}
         </>
       );
     case "dropdown":

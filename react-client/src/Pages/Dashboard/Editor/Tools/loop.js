@@ -16,7 +16,10 @@ function animate() {
   ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
   elements.forEach((element) => element.draw());
-  elements.forEach((element) => element.drawSelection());
+  elements.forEach((element) => {
+    element.drawSelection();
+    element.drawPluginOverlay();
+  });
 
   requestAnimationFrame(animate);
 }
