@@ -227,22 +227,42 @@ async function Analysis() {
     AnalyticsObject.collected = [];
     AnalyticsObject.lastAnalysis = Date.now();
     await AnalyticsObject.save();
-
-
-    // var widgets = await getWidgets(userId);
-    // for (var i = 0; i < widgets.length; i++) {
-    //   var widget = widgets[i];
-
-    //   if(!widget.analytics.overview) widget.analytics.overview = {};
-    //   var pageCollected = widget.analytics.collected;
-    //   var validatedEvents = ValidateEvents(pageCollected);
-    //   if (validatedEvents.length == 0) continue;
-
-    //   AnalyzeWidget(validatedEvents, widget.analytics);
-    // }
-
   }
   console.log(`Registered Users (${registeredUsers}), Enabled Analytics (${enabledUsers}). ${activeUsers} active websites in last 1 hour`);
+}
+(async () => {
+  var docs = await User.find({}).lean().exec();
+
+  for (var i = 0; i < docs.length; i++) {
+    // Code here (will be moved to analytics later)
+    var userId = docs[i].uuid;
+    var widgets = await getWidgets(userId);
+    for (var i = 0; i < widgets.length; i++) {
+      var widget = widgets[i];
+
+      if (!widget.analytics.overview) widget.analytics.overview = {};
+      var pageCollected = widget.analytics.collected;
+      var validatedEvents = ValidateEvents(pageCollected);
+      if (validatedEvents.length == 0) continue;
+
+      AnalyzeWidget(validatedEvents, widget.analytics);
+    }
+  }
+})();
+
+
+
+var widgetAnalytics = [
+  {
+    name: "visit",
+    analyzePath: true,
+    analyzeCountry: true,
+    analyzeValue: false,
+  },
+];
+
+function AnalyzeWidget(pageCollected, WidgetObject){
+
 }
 
 export async function getDashboardAnalytics(userId, timespan) {
@@ -254,7 +274,7 @@ export async function getDashboardAnalytics(userId, timespan) {
   var endDate = new Date();
   var startDate = new Date();
   startDate.setDate(startDate.getDate() - timespan);
-  
+
   function getSum(source) {
     var timeSelectedData = {};
     Object.keys(source).forEach((entry) => {
@@ -265,7 +285,7 @@ export async function getDashboardAnalytics(userId, timespan) {
         })
       );
     });
-    
+
     var tempTotalValue = 0;
     Object.keys(timeSelectedData).forEach(function (key, index) {
       tempTotalValue += Object.values(timeSelectedData[key] ?? []).reduce((a, b) => a + b, 0);
@@ -277,7 +297,7 @@ export async function getDashboardAnalytics(userId, timespan) {
   return {
     enabled: enabled,
     overview: {
-      analytics:  getSum(AnalyticsObject.overview['visit'].country),
+      analytics: getSum(AnalyticsObject.overview["visit"].country),
       access: getSum(AccessObject.usage.overview),
     },
   };
