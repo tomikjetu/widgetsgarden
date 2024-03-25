@@ -18,7 +18,7 @@ import { default as PassportRouter } from "./passport.js";
 import { default as DashboardRouter } from "./router/dashboard.js";
 import { default as AuthenticationRouter } from "./router/authentication.js";
 import { default as WidgetsRouter } from "./router/widgets.js";
-import analytics from "./analytics.js";
+import analytics from "./modules/analytics/analytics.js";
 import YoutubeWidgetEndpoint from "./widget-endpoints/youtube.js";
 import AiWidgetEndpoint from "./widget-endpoints/assistant.js";
 

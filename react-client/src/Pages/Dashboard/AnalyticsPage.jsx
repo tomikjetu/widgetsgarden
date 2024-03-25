@@ -139,6 +139,7 @@ export default function AnalyticsPage() {
                   <>
                     <TimeLine source={widgetAnalytics?.loadWidget?.timestamp} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"Total Loads"} id={"widget-load-time"} startDate={startDate} endDate={endDate} />
                     <BarChartSeries source={widgetAnalytics?.loadWidget?.path} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"Websites"} id={"widget-visits-path"} startDate={startDate} endDate={endDate} />
+                    {/* Funnel chart: load > scroll > hover > click */}
                   </>
                 ) : null
               }

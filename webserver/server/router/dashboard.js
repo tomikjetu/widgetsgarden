@@ -9,7 +9,7 @@ import fs from "fs";
 
 import { isLogged, isAdmin, getUserSerialization, getAccess, getDomains, getApiKey, removeRestrictedDomain, addAllowedDomain, removeAllowedDomain, getMessages, readMessage, sendMessage, getWidgets, createWidget, deleteWidget, editWidgetData, editWidgetInfo, getWidget, deleteMessage, getUser } from "../accounts.js";
 import { User, Access, Message, Analytics } from "../database.js";
-import { enableAnalytics, getAccessAnalytics, getDashboardAnalytics, isAnalyticsEnabled } from "../analytics.js";
+import { enableAnalytics, getAccessAnalytics, getDashboardAnalytics, isAnalyticsEnabled } from "../modules/analytics/Misc.js";
 import { CopyWidget, GetLibrary, LibraryAddWidget, LibraryHasWidget, LibraryRemoveWidget } from "../library.js";
 
 export default function (app) {

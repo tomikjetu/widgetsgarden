@@ -8,8 +8,8 @@
 import fs from "fs";
 import { Message, WidgetPluginsDevelopment, WidgetPluginsProduction } from "../database.js";
 import { verifyApiKey, verifyAccess, getUserFromApiKey, isRestrictedDomain, addRestrictedDomain, sendMessage, onLoad, DOMAINREGEXP, getWidget, getUserSerialization, uploadAsset, getAssets, getAsset, isLogged, removeAsset, getWidgetPreview } from "../accounts.js";
-import { isAnalyticsEnabled, AnalyticRecieved } from "../analytics.js";
 import { getAssetsLibrary } from "../library.js";
+import { AnalyticRecieved,isAnalyticsEnabled } from "../modules/analytics/Misc.js";
 
 // Checks if a api key is present
 export async function isVerified(req) {
