@@ -84,7 +84,7 @@ export default function Email({ baseUrl, confirmationLink, name }) {
   return (
     <Html>
       <Head />
-      <Preview>Welcome to WidgetsGarden {name}!</Preview>
+      <Preview>Confirm your email address.</Preview>
 
       <Body style={main}>
         <Container style={container}>

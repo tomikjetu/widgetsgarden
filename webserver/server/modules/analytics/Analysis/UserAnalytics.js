@@ -1,3 +1,6 @@
+import { DOMAINREGEXP } from "../../../accounts.js";
+import { getLocation } from "../Misc.js";
+
 var userAnalytics = [
   {
     name: "visit",
@@ -19,8 +22,8 @@ export function AnalyzeUser(pageCollected, UserObject) {
       if (!UserObject.overview[name]) UserObject.overview[name] = {};
       var ip = event.headers.ip;
 
-      if (analytic.analyzePath) {
-        var origin = event.headers.origin.referrer;
+      var origin = event.headers.origin.referrer;
+      if (analytic.analyzePath && origin) {
         var domain = origin.match(DOMAINREGEXP)[0];
         var path = event.headers.origin.path;
         if (!UserObject.overview[name].path) UserObject.overview[name].path = {};

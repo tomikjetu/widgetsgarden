@@ -2,6 +2,7 @@ import { getUserFromApiKey } from "../../accounts.js";
 import { ORIGINS, accessGranted, canAccess } from "../../routers/widgets.js";
 import cors from "cors";
 import { Analysis } from "./Analysis/Analyze.js";
+import { AnalyticRecieved } from "./Misc.js";
 
 if (process.env.ENVIRONMENT == "production") setInterval(Analysis, 60 * 60 * 1000);
 
