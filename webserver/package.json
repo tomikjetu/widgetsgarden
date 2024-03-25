@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "email:dev": "email dev -d ./emails/src",
-    "email:build": "tsup-node ./emails/src/* --format esm -d emails"
+    "email:dev": "email dev -d ./server/modules/mailer/emails/src",
+    "email:build": "tsup-node ./server/modules/mailer/emails/src/* --format esm -d ./server/modules/mailer/emails"
   },
   "keywords": [],
   "author": "",

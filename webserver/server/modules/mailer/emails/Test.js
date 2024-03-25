@@ -1,4 +1,4 @@
-// emails/src/Test.jsx
+// server/modules/mailer/emails/src/Test.jsx
 import { Button, Html } from "@react-email/components";
 import * as React from "react";
 function Email({ name }) {

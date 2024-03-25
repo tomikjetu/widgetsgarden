@@ -15,9 +15,9 @@ import cors from "cors";
 import flash from "connect-flash";
 
 import { default as PassportRouter } from "./passport.js";
-import { default as DashboardRouter } from "./router/dashboard.js";
-import { default as AuthenticationRouter } from "./router/authentication.js";
-import { default as WidgetsRouter } from "./router/widgets.js";
+import { default as DashboardRouter } from "./routers/dashboard.js";
+import { default as AuthenticationRouter } from "./routers/authentication.js";
+import { default as WidgetsRouter } from "./routers/widgets.js";
 import analytics from "./modules/analytics/analytics.js";
 import YoutubeWidgetEndpoint from "./widget-endpoints/youtube.js";
 import AiWidgetEndpoint from "./widget-endpoints/assistant.js";

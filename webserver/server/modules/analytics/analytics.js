@@ -1,5 +1,5 @@
 import { getUserFromApiKey } from "../../accounts.js";
-import { ORIGINS, accessGranted, canAccess } from "../../router/widgets.js";
+import { ORIGINS, accessGranted, canAccess } from "../../routers/widgets.js";
 import cors from "cors";
 import { Analysis } from "./Analysis/Analyze.js";
 
