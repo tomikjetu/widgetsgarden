@@ -44,11 +44,15 @@ export async function UpdateScreenshots() {
 
       if (new Date(dateScreenshoted) > new Date(dateModified)) continue;
 
-      console.log(`Taking Screenshot for ${widget.widgetId}`);
-      await takeLibraryScreenshot(widget.widgetId);
-      updateWatermark(widget.widgetId);
+      await UpdateScreenshot(widget.widgetId);
     }
   });
+}
+
+export async function UpdateScreenshot(widgetId) {
+  console.log(`Taking Screenshot for ${widget.widgetId}`);
+  await takeLibraryScreenshot(widgetId);
+  updateWatermark(widgetId);
 }
 
 async function updateWatermark(widgetId) {
@@ -58,7 +62,7 @@ async function updateWatermark(widgetId) {
   sharp(path)
     .raw()
     .toBuffer(async (err, data, info) => {
-      if (err) return;
+      if (err) return console.log("ERROR Capturing Watermark ", err);
       var { width, height, channels } = info;
       if (channels < 3) return;
 
@@ -79,15 +83,14 @@ async function updateWatermark(widgetId) {
         }
       }
       var avg = [Math.floor(sum[0] / amount), Math.floor(sum[1] / amount), Math.floor(sum[2] / amount)];
-      var shade = (avg[0] + avg[1] + avg[2]) / 3
+      var shade = (avg[0] + avg[1] + avg[2]) / 3;
 
       var textColor = shade > 128 ? "#000000" : "#FFFFFF";
-   
+
       var widget = await getWidgetPreview(widgetId);
       widget.watermarkColor = textColor;
       widget.dateScreenshoted = new Date();
       widget.save();
-      
     });
 }
 

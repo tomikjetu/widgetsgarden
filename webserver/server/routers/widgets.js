@@ -183,7 +183,7 @@ export default function (app) {
 
     res.render("widget", {
       data: widget.data || {},
-      watermarkColor: widget.watermarkColor,
+      watermarkColor: widget.watermarkColor || "black",
       apiKey,
       widgetId,
       secret,

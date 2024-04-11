@@ -11,29 +11,32 @@ export function hasScreenshot(widgetId) {
 }
 
 export async function takeLibraryScreenshot(widgetId) {
-  // no sandbox for linux
-  const browser = await puppeteer.launch({args: ['--no-sandbox']});
-  const page = await browser.newPage();
-  await page.goto(`${process.env.API_URL}/widget?widgetId=${widgetId}&previewSecret=${getWidgetPreviewSecret()}`);
-  // listen to width and height from console
-  var Matcher = new RegExp("Loaded (?<width>.+)x(?<height>.+)", "g");
-  page.on("console", (msg) => {
-    if (msg.text().includes("Loaded")) {
-      var match = Matcher.exec(msg.text());
-      var width = parseInt(match.groups.width);
-      var height = parseInt(match.groups.height);
-      setTimeout(async () => {
-        await page.screenshot({
-          path: `./server/assets/screenshots/${widgetId}.png`,
-          clip: {
-            x: 0,
-            y: 0,
-            width,
-            height,
-          },
-        });
-        await browser.close();
-      }, 5000);
-    }
+  return new Promise(async (resolve) => {
+    // no sandbox for linux
+    const browser = await puppeteer.launch({ args: ["--no-sandbox"] });
+    const page = await browser.newPage();
+    await page.goto(`${process.env.API_URL}/widget?widgetId=${widgetId}&previewSecret=${getWidgetPreviewSecret()}`);
+    // listen to width and height from console
+    var Matcher = new RegExp("Loaded (?<width>.+)x(?<height>.+)", "g");
+    page.on("console", (msg) => {
+      if (msg.text().includes("Loaded")) {
+        var match = Matcher.exec(msg.text());
+        var width = parseInt(match.groups.width);
+        var height = parseInt(match.groups.height);
+        setTimeout(async () => {
+          await page.screenshot({
+            path: `./server/assets/screenshots/${widgetId}.png`,
+            clip: {
+              x: 0,
+              y: 0,
+              width,
+              height,
+            },
+          });
+          await browser.close();
+          resolve();
+        }, 5000);
+      }
+    });
   });
 }
