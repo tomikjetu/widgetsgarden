@@ -1,11 +1,11 @@
 import { Modal } from "../../../Components/Elements/Modals";
 export default function InstallPluginModal({ isOpenPluginsModal, setOpenPluginsModal, PLUGINS, addPlugin }) {
   return (
-    <Modal title={"Install Plugin"} display={isOpenPluginsModal} setDisplay={setOpenPluginsModal}>
+    <Modal title={"Install Plugin"} width={'70vw'} maxWidth={'none'} display={isOpenPluginsModal} setDisplay={setOpenPluginsModal}>
       <div
         className="buttons"
         style={{
-          width: "500px",
+          width: "100%",
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
           gap: "1rem",

@@ -12,7 +12,7 @@ export class ButtonElement extends Element {
     this.url = "";
 
     this.brokenImage = new Image();
-    this.brokenImage.src = `${process.env.REACT_APP_WEBSITE_URL}/broken-image.png`;
+    this.brokenImage.src = `${process.env.REACT_APP_WEBSITE_URL}/editor/broken-image.png`;
 
     this.fetchImage();
     this.broken = false;

@@ -11,10 +11,10 @@ export class ImageElement extends Element {
     this.url = "";
 
     this.lockedImage = new Image();
-    this.lockedImage.src = `${process.env.REACT_APP_WEBSITE_URL}/locked-image.png`;
+    this.lockedImage.src = `${process.env.REACT_APP_WEBSITE_URL}/editor/locked-image.png`;
 
     this.brokenImage = new Image();
-    this.brokenImage.src = `${process.env.REACT_APP_WEBSITE_URL}/broken-image.png`;
+    this.brokenImage.src = `${process.env.REACT_APP_WEBSITE_URL}/editor/broken-image.png`;
 
     this.fetchImage();
     this.broken = false;

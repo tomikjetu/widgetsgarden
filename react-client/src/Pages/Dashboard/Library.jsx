@@ -2,6 +2,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { BackIcon, CopyIcon } from "../../Styles/Svg";
 import { Link } from "react-router-dom";
+import { Tooltip } from "react-tooltip";
+import { PreviewIcon } from "../../Styles/Svg";
+
 export default function Library() {
   axios.defaults.withCredentials = true;
 
@@ -51,7 +54,9 @@ export default function Library() {
         </Link>
         <h1>Library</h1>
       </header>
+
       <div className="dashboard-content">
+        <Tooltip id="screenshots-tooltip" place="bottom" style={{ zIndex: 5000 }} />
         <div className="widgets">
           {widgets.map((widget, index) => {
             return (
@@ -75,6 +80,9 @@ export default function Library() {
                     <div className="actionsgroup">
                       <span onClick={() => copyWidget(widget)}>
                         <CopyIcon />
+                      </span>
+                      <span data-tooltip-html={`<img src='${process.env.REACT_APP_SERVER_URL}/assets/screenshots/${widget.widgetId}'/>`} data-tooltip-id="screenshots-tooltip" data-tooltip-place="bottom">
+                        <PreviewIcon />
                       </span>
                     </div>
                   </div>

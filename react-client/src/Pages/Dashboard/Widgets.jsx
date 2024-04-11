@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "../../Styles/Dashboard/widgets.css";
 import { Link, useSearchParams } from "react-router-dom";
-import { AnalyticsIcon, BinIcon, DocumentIcon, EmbedIcon, EyeIcon, GearIcon, HomeIcon, PenIcon, SortAIcon, SortLastModifiedIcon, SortNewestCreatedIcon, SortOldestCreatedIcon, SortZIcon, TouchIcon, WidgetsIcon } from "../../Styles/Svg";
+import { AnalyticsIcon, BinIcon, DocumentIcon, EmbedIcon, EyeIcon, GearIcon, HomeIcon, PenIcon, PreviewIcon, SortAIcon, SortLastModifiedIcon, SortNewestCreatedIcon, SortOldestCreatedIcon, SortZIcon, TouchIcon, WidgetsIcon } from "../../Styles/Svg";
 import TextOptions from "./Components/WidgetsEditor/Components/Options";
 import { setCookie } from "../../Misc/Cookies";
-import { GridSettings, getDashboardSetting } from "../Dashboard";
+import { DESKTOP_BREAK, GridSettings, getDashboardSetting } from "../Dashboard";
 import { Tooltip } from "react-tooltip";
 import { ModalDelete } from "./Components/Elements/Modals";
 import { EmbedModal } from "./Editor/Components/Modals/EmbedModal";
@@ -45,10 +45,19 @@ export default function Widgets() {
   var [widgets, setWidgets] = useState(null);
 
   var [sort, setSort] = useState(getDashboardSetting("dashboard-sort"));
+  var [isDesktop, setDesktop] = useState(window.innerWidth > DESKTOP_BREAK);
 
   useEffect(() => {
     setGridCollumns(getDashboardSetting("dashboard-collumns"));
     getWidgets();
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < DESKTOP_BREAK) {
+        setGridCollumns(1);
+        setDesktop(false);
+      } else {
+        setDesktop(true);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -153,7 +162,7 @@ export default function Widgets() {
           style={{
             display: "flex",
             gap: "1rem",
-            alignItems: "flex-end",
+            alignItems: "center",
           }}
         >
           <Link to="/dashboard">
@@ -169,13 +178,17 @@ export default function Widgets() {
           }}
           className="dashboard-settings"
         >
-          <Tooltip id="header-links-toolip" />
-          <Link data-tooltip-content={"Analytics"} data-tooltip-id="header-links-toolip" data-tooltip-place="bottom" className="dashboard-container button" style={{ fontSize: "2rem" }} to="/dashboard/analytics">
-            <AnalyticsIcon />
-          </Link>
-          <Link data-tooltip-content={"Library"} data-tooltip-id="header-links-toolip" data-tooltip-place="bottom" className="dashboard-container button" style={{ fontSize: "2rem" }} to="/dashboard/library">
-            <WidgetsIcon />
-          </Link>
+          {isDesktop && (
+            <>
+              <Tooltip id="header-links-toolip" />
+              <Link data-tooltip-content={"Analytics"} data-tooltip-id="header-links-toolip" data-tooltip-place="bottom" className="dashboard-container button" style={{ fontSize: "2rem" }} to="/dashboard/analytics">
+                <AnalyticsIcon />
+              </Link>
+              <Link data-tooltip-content={"Library"} data-tooltip-id="header-links-toolip" data-tooltip-place="bottom" className="dashboard-container button" style={{ fontSize: "2rem" }} to="/dashboard/library">
+                <WidgetsIcon />
+              </Link>
+            </>
+          )}
         </div>
 
         <div
@@ -203,13 +216,25 @@ export default function Widgets() {
         </div>
       </header>
       <div className="dashboard-content">
-        <Tooltip id="widgets-tooltip" place="bottom"  style={{ zIndex: 99 }}/>
+        {!isDesktop && (
+          <div className="dashboard-status">
+            <Tooltip id="mobile-links-toolip" />
+            <Link data-tooltip-content={"Analytics"} data-tooltip-id="mobile-links-toolip" data-tooltip-place="bottom" className="dashboard-container button" style={{ fontSize: "2rem" }} to="/dashboard/analytics">
+              <AnalyticsIcon />
+            </Link>
+            <Link data-tooltip-content={"Library"} data-tooltip-id="mobile-links-toolip" data-tooltip-place="bottom" className="dashboard-container button" style={{ fontSize: "2rem" }} to="/dashboard/library">
+              <WidgetsIcon />
+            </Link>
+          </div>
+        )}
+        <Tooltip id="widgets-tooltip" place="bottom" style={{ zIndex: 99 }} />
         <EmbedModal embedId={embedId} codeEmbedModal={codeEmbedModal} setCodeEmbedModal={setCodeEmbedModal} />
 
         <ModalDelete title={deleteWidgetName} display={deleteWidgetModal} setDisplay={setDeleteWidgetModal} onClose={() => setDeleteWidgetModal(false)} onDelete={() => deleteWidgetConfirmed()}>
           <p>Are you sure you want to delete this widget? All widget data will be permanently deleted from your account and the library. This action cannot be undone.</p>
         </ModalDelete>
 
+        <Tooltip id="screenshots-tooltip" place="bottom" style={{ zIndex: 5000 }} />
         <div className={`widgets ${GridCollumns == 1 ? "list" : ""}`}>
           {widgets == null && (
             <>
@@ -278,6 +303,9 @@ export default function Widgets() {
                           </span>
                           <span onClick={() => widgetSettings(widget.widgetId)} data-tooltip-content={"Settings"} data-tooltip-id="widgets-tooltip">
                             <GearIcon />
+                          </span>
+                          <span data-tooltip-html={`<img src='${process.env.REACT_APP_SERVER_URL}/assets/screenshots/${widget.widgetId}'/>`} data-tooltip-id="screenshots-tooltip" data-tooltip-place="bottom">
+                            <PreviewIcon />
                           </span>
                         </div>
                         <div style={{ marginLeft: "auto" }}>

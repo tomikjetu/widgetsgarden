@@ -22,12 +22,13 @@ import Admin from "./Dashboard/Admin";
 import { getCookie, setCookie } from "../Misc/Cookies";
 import { Tooltip } from "react-tooltip";
 
-export const NO_SIDEBAR_BREAK = 650;
+export const NO_SIDEBAR_BREAK = 900; /* sidebar.css media-break */
+export const DESKTOP_BREAK = 1100;
 export const dashboardDefaultSettings = {
   "dashboard-collumns": 2,
   "dashboard-timespan": 30,
   "dashboard-sort": "lastModified",
-  "sidebar-extended": "true"
+  "sidebar-extended": "true",
 };
 
 export function getDashboardSetting(name) {
@@ -43,7 +44,21 @@ export function GridSettings({ setGridCollumns, GridCollumns }) {
     justifyContent: "center",
     alignItems: "center",
   };
-  return (
+
+  const [isDesktop, setDesktop] = useState(window.innerWidth > DESKTOP_BREAK);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < DESKTOP_BREAK) {
+        setGridCollumns(1);
+        setDesktop(false);
+      }else{
+        setDesktop(true);
+      }
+    });
+  }, []);
+
+  return isDesktop && (
     <div className="dashboard-settings-group">
       <Tooltip id="tooltip-group-grid-settings" />
       <span
@@ -100,17 +115,17 @@ export default function Dashboard({ profile, notifications }) {
   const [sidebarExtended, setSidebarExtended] = useState(window.innerWidth < NO_SIDEBAR_BREAK || getDashboardSetting("sidebar-extended") == "true");
   const ToggleSidebar = () => setSidebarToggle(!sidebarToggle);
 
-  useEffect(()=>{
-    window.addEventListener(("resize"), ()=>{
+  useEffect(() => {
+    window.addEventListener("resize", () => {
       var width = window.innerWidth;
-      if(width < NO_SIDEBAR_BREAK) setSidebarExtended(true);
+      if (width < NO_SIDEBAR_BREAK) setSidebarExtended(true);
     });
-  }, [])
+  }, []);
 
-  useEffect(()=>{
-    if(sidebarExtended == null) return;
+  useEffect(() => {
+    if (sidebarExtended == null) return;
     setCookie("sidebar-extended", sidebarExtended, null, "/dashboard");
-  }, [sidebarExtended])
+  }, [sidebarExtended]);
 
   return (
     <div className={`dashboard ${!sidebarExtended ? "extended" : ""}`}>

@@ -72,8 +72,20 @@ export class Text extends Element {
   }
 
   getText() {
-    if (typeof this.locked == 'object' && this.locked.includes('data.text')) return "PLUGIN";
-    return this.data.text;
+    var text = this.data.text;
+    if (typeof this.locked == 'object' && this.locked.includes('data.text')) text = "Plugin";
+    switch(this.data.font.transform) {
+      case "capitalize":
+        text = text.charAt(0).toUpperCase() + text.slice(1);
+        break;
+      case "uppercase":
+        text = text.toUpperCase();
+        break;
+      case "lowercase":
+        text = text.toLowerCase();
+        break;
+    }
+    return text;
   }
 
   draw() {

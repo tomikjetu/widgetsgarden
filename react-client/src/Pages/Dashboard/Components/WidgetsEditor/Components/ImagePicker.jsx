@@ -132,7 +132,7 @@ export default function ImagePicker({ value, setValue }) {
       </Modal>
 
       <div className={styles.PickerPreview} onClick={editImage}>
-        <img src={value || "/missing-image.png"}></img>
+        <img src={value || "/editor/missing-image.png"}></img>
         <p>Change Image</p>
       </div>
     </div>

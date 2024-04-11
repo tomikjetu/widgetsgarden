@@ -15,7 +15,7 @@ export function updateLoopElements(_elements) {
 function animate() {
   ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
-  elements.forEach((element) => element.draw());
+  elements.sort((a, b) => a.zIndex - b.zIndex).forEach((element) => element.draw());
   elements.forEach((element) => {
     element.drawSelection();
     element.drawPluginOverlay();

@@ -88,7 +88,7 @@
 }
 
 .widget.list{
-  --height: 75px;
+  --height: auto;
   margin: 5px 10px;
 
   &:hover {
@@ -236,12 +236,6 @@ header.navigation {
   transition: width 500ms ease, margin 500ms ease;
 }
 
-@media (max-width: 650px) {
-  .editor header {
-    width: calc(100% - 1em * 2);
-    margin: 3em 0em 0em 0em;
-  }
-}
 
 /* There's always enough padding from children elements */
 /* .editor header ~ .dashboard-content {

@@ -98,15 +98,17 @@ function Load() {
 
 async function LoadScripts() {
   var widgetData = data.filter((e) => e.type == "Widget")[0];
-  widgetData.data.plugins.forEach((pluginid) => {
-    var PL = PLUGINS.filter((pl) => pl.id == pluginid)[0];
-    PL.scripts.widget.forEach((script) => {
-      loadScriptWidget(script);
+  if (widgetData.data) {
+    widgetData.data.plugins.forEach((pluginid) => {
+      var PL = PLUGINS.filter((pl) => pl.id == pluginid)[0];
+      PL.scripts.widget.forEach((script) => {
+        loadScriptWidget(script);
+      });
+      PL.scripts.website.forEach((script) => {
+        sendMessage({ event: "loadScript", data: { script } });
+      });
     });
-    PL.scripts.website.forEach((script) => {
-      sendMessage({ event: "loadScript", data: { script } });
-    });
-  });
+  }
 
   let checkInterval = setInterval(() => {
     if (WidgetLoadScript.length == ScriptsLength) {
@@ -157,6 +159,7 @@ async function loadFunctionScripts(scripts) {
 function LoadPluginFunctions(element, pluginfunctions) {
   var ElementId = element.id || "element-" + Math.floor(Math.random() * 999999);
   element.id = ElementId;
+  if (pluginfunctions == null) return;
   pluginfunctions.forEach((pluginfunction) => {
     var { plugin, id, parameters } = pluginfunction;
 
@@ -182,12 +185,14 @@ function LoadElements() {
   var widgetData = data.filter((e) => e.type == "Widget")[0];
   // Watermark
   const watermark = document.getElementById("watermark");
-  if (widgetData.width < 100) watermark.style.display = "none";
-  else {
-    var watermarkColor = textColor(widgetData.backgroundColor);
-    watermark.style.color = watermarkColor;
-    var width = Math.min(24, parseInt(widgetData.width) / 8);
-    watermark.style.fontSize = `${width}px`;
+  if (watermark) {
+    if (widgetData.width < 100) watermark.style.display = "none";
+    else {
+      var watermarkColor = textColor(widgetData.backgroundColor);
+      watermark.style.color = watermarkColor;
+      var width = Math.min(24, parseInt(widgetData.width) / 8);
+      watermark.style.fontSize = `${width}px`;
+    }
   }
 
   var WidgetElement = document.getElementById("widget");
@@ -195,7 +200,7 @@ function LoadElements() {
 
   WidgetElement.style.backgroundColor = widgetData.backgroundColor;
   // WidgetElement.style.borderRadius = `${widgetData.data.borderRadius ?? 0}px`;
-  watermark.style.marginRight = `${widgetData.data.borderRadius / 2}px`;
+  if (watermark) watermark.style.marginRight = `${widgetData.data.borderRadius / 2}px`;
 
   data.forEach((element) => {
     var NewElement;
@@ -287,6 +292,7 @@ function LoadElements() {
   //   document.getElementById("watermark").style.marginRight = `${styles.borderRadius.value / 5}px`;
   //   document.getElementById("watermark").style.marginBottom = `${styles.borderRadius.value / 5}px`;
   // }
+  if (screenshotPreview) console.log(`Loaded ${widgetData.width}x${widgetData.height}`);
 }
 
 function receiveMessage(messageEvent) {

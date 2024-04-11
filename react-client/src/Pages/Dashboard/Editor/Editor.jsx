@@ -35,6 +35,7 @@ export default function Editor() {
   var canvas = useRef(null);
   var backgroundCanvas = useRef(null);
   var [ctx, setCtx] = useState(null);
+  var [canvasFocused, setCanvasFocused] = useState(null);
 
   var [elements, setElements] = useState([]);
 
@@ -56,6 +57,9 @@ export default function Editor() {
 
   var [clickElement, setClickElement] = useState(null);
   var [selectedElement, setSelectedElement] = useState(null);
+
+  var [copiedElement, setCopiedElement] = useState(null);
+
   function selectElement(element) {
     setPluginSettingsSeed(Math.random());
     setSettingsSeed(Math.random());
@@ -86,7 +90,21 @@ export default function Editor() {
     setCtx(canvas.current.getContext("2d"));
 
     canvas.current.addEventListener("mousewheel", handleScroll);
+
+    return () => {
+      canvas.current.removeEventListener("mousewheel", handleScroll);
+    };
   }, []);
+
+  useEffect(() => {
+    window.addEventListener("mousedown", handleKeyFocusEvent);
+    window.addEventListener("keydown", handleKeyEvent);
+
+    return () => {
+      window.removeEventListener("mousedown", handleKeyFocusEvent);
+      window.removeEventListener("keydown", handleKeyEvent);
+    };
+  }, [selectedElement, copiedElement]);
 
   // INIT
 
@@ -302,7 +320,6 @@ export default function Editor() {
     var path = `element['${setting.path.split(".").join("']['")}']`;
     if (setting.path == "zIndex")
       setElements((elements) => {
-        elements.sort((a, b) => (a.zIndex > b.zIndex ? 1 : -1));
         return elements;
       });
     switch (setting.type) {
@@ -475,6 +492,115 @@ export default function Editor() {
     }
   }
 
+  function handleKeyEvent(e) {
+    if (!canvas.current.canvasFocused) return;
+    if (e.code == "KeyC" && e.ctrlKey) {
+      if (selectedElement && selectedElement.type != "Widget") copyElement();
+    }
+    if (e.code == "KeyV" && e.ctrlKey) {
+      if (copiedElement) pasteElement();
+    }
+    if(e.code == "Delete") {
+      if (selectedElement && selectedElement.type != "Widget") deleteSelectedElement()
+    }
+    if(e.code == "NumpadAdd" || e.code == "Plus"){
+      var oldZoom = canvas.current.getContext("2d").zoom;
+      var newZoom = oldZoom + 0.05;
+      canvas.current.getContext("2d").zoom = newZoom;
+    }
+    if(e.code == "NumpadSubtract"  || e.code == "Minus"){
+      var oldZoom = canvas.current.getContext("2d").zoom;
+      var newZoom = oldZoom - 0.05;
+      if (newZoom < 0.1) newZoom = 0.1;
+      canvas.current.getContext("2d").zoom = newZoom;
+    }
+    if(e.code == "Numpad0" || e.code == "Digit0" || e.code == "Equal"){
+      canvas.current.getContext("2d").zoom = 1;
+    }
+    console.log(e.code);
+  }
+
+  function copyElement(){
+    setEditElementContextMenu(false);
+    setCopiedElement(selectedElement);
+  }
+
+  function pasteElement() {
+    setContextMenu(false);
+
+    var position = canvas.current.getContext("2d").mousePos;
+    position = screenToWorld(ctx, position.x, position.y);
+
+    switch (copiedElement.type) {
+      case "Text":
+        addElement(
+          new Text({
+            ctx,
+            x: position.x,
+            y: position.y,
+            zIndex: copiedElement.zIndex,
+            isDraggable: true,
+            data: copiedElement.data,
+            pluginfunctions: copiedElement.pluginfunctions,
+          })
+        );
+        break;
+      case "Button":
+        addElement(
+          new ButtonElement({
+            ctx,
+            x: position.x,
+            y: position.y,
+            width: copiedElement.width,
+            height: copiedElement.height,
+            zIndex: copiedElement.zIndex,
+            backgroundColor: copiedElement.backgroundColor,
+            data: copiedElement.data,
+            pluginfunctions: copiedElement.pluginfunctions,
+          })
+        );
+        break;
+      case "Image":
+        addElement(
+          new ImageElement({
+            ctx,
+            x: position.x,
+            y: position.y,
+            width: copiedElement.width,
+            height: copiedElement.height,
+            zIndex: copiedElement.zIndex,
+            data: copiedElement.data,
+            pluginfunctions: copiedElement.pluginfunctions,
+          })
+        );
+        break;
+      case "Container":
+        addElement(
+          new Container({
+            ctx,
+            x: position.x,
+            y: position.y,
+            width: copiedElement.width,
+            height: copiedElement.height,
+            zIndex: copiedElement.zIndex,
+            backgroundColor: copiedElement.backgroundColor,
+            data: copiedElement.data,
+            pluginfunctions: copiedElement.pluginfunctions,
+          })
+        );
+        break;
+    }
+  }
+
+  useEffect(() => {
+    if (copiedElement == null) return;
+    toast("Copied!", { autoClose: 500 });
+  }, [copiedElement]);
+
+  function handleKeyFocusEvent(e) {
+    canvas.current.canvasFocused = e.target == canvas.current;
+  }
+
   function getCursor() {
     if (isDragging) return "move";
     if (isMoving) return "grab";
@@ -590,7 +716,7 @@ export default function Editor() {
         zIndex: 1,
         isDraggable: true,
         data: {
-          url: `${process.env.REACT_APP_WEBSITE_URL}/missing-image.png`,
+          url: `${process.env.REACT_APP_WEBSITE_URL}/editor/missing-image.png`,
         },
       })
     );
@@ -599,6 +725,7 @@ export default function Editor() {
 
   function deleteSelectedElement() {
     removeElement(selectedElement);
+    setSelectedElement(null);
     setEditElementContextMenu(false);
   }
 
@@ -1044,6 +1171,11 @@ export default function Editor() {
             left: contextMenuPosition.left + "px",
           }}
         >
+          {copiedElement && (
+            <div className="context-menu-item" onClick={() => pasteElement()}>
+              Paste Element
+            </div>
+          )}
           <div className="context-menu-item" onClick={() => addElementContextMenu()}>
             Add Element
           </div>
@@ -1092,6 +1224,9 @@ export default function Editor() {
           </div>
           {selectedElement?.type != "Widget" && (
             <>
+              <div className="context-menu-item" onClick={() => copyElement()}>
+                Copy
+              </div>
               {selectedElement?.hasLink() ? (
                 <div className="context-menu-item" onClick={() => removeLinkFromSelectedElement()}>
                   Remove Link

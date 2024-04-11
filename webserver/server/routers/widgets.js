@@ -9,7 +9,7 @@ import fs from "fs";
 import { Message, WidgetPluginsDevelopment, WidgetPluginsProduction } from "../database.js";
 import { verifyApiKey, verifyAccess, getUserFromApiKey, isRestrictedDomain, addRestrictedDomain, sendMessage, onLoad, DOMAINREGEXP, getWidget, getUserSerialization, uploadAsset, getAssets, getAsset, isLogged, removeAsset, getWidgetPreview } from "../accounts.js";
 import { getAssetsLibrary } from "../library.js";
-import { AnalyticRecieved,isAnalyticsEnabled } from "../modules/analytics/Misc.js";
+import { AnalyticRecieved, isAnalyticsEnabled } from "../modules/analytics/Misc.js";
 
 // Checks if a api key is present
 export async function isVerified(req) {
@@ -25,17 +25,32 @@ export async function isVerifiedMiddleware(req, res, next) {
   next();
 }
 
+// Internal session for widget preview
+var previewSecret = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString("16");
+export function getWidgetPreviewSecret() {
+  return previewSecret;
+}
+function generateWidgetSecret(req, widgetId) {
+  var secret = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString("16");
+  SECRETS[secret] = widgetId;
+  ORIGINS[secret] = {
+    referrer: req.get("referer"),
+    path: req.query.path,
+  };
+  return secret;
+}
+
 // Checks if referrer is in access list
 export async function accessGranted(req) {
   const apiKey = req.query.apiKey;
   if (!apiKey) return false;
   // Referrer has to be localhost or a domain
-  // file:// is not valid referrer, it's never sent 
+  // file:// is not valid referrer, it's never sent
   var Referrer = req.get("referrer") || "";
 
   if (!Referrer) return false;
 
-  var Domain = Referrer.match(DOMAINREGEXP);  
+  var Domain = Referrer.match(DOMAINREGEXP);
   if (Domain == null) return false;
   Domain = Domain[0];
 
@@ -99,7 +114,6 @@ export default function (app) {
     script = script.replace("SERVER_PLACEHOLDER", process.env.API_URL);
     res.setHeader("Content-type", "text/javascript");
     res.send(script);
-    
   });
 
   app.get("/api/widgetsgarden.css", async (req, res) => {
@@ -119,6 +133,22 @@ export default function (app) {
   app.get("/api/widget", async (req, res) => {
     const apiKey = req.query.apiKey;
     const widgetId = req.query.widgetId;
+    const previewSecret = req.query.previewSecret;
+
+    if (previewSecret == getWidgetPreviewSecret()) {
+      var widget = await getWidgetPreview(widgetId);
+      if (!widget) return res.render("404", { apiKey });
+      var secret = generateWidgetSecret(req, widgetId);
+      return res.render("widget", {
+        data: widget.data || {},
+        widgetId,
+        apiKey: previewSecret,
+        secret: secret,
+        premium: true,
+        screenshotPreview: true,
+        WEBSITE_URL: process.env.WEBSITE_URL,
+      });
+    }
 
     var verified = await isVerified(req);
     var access = await accessGranted(req);
@@ -134,6 +164,7 @@ export default function (app) {
 
     var widget;
     var userId;
+    var premium = false;
 
     if (apiKey == "preview") {
       widget = await getWidgetPreview(widgetId);
@@ -148,18 +179,14 @@ export default function (app) {
     }
     // Widget sucessfully loaded
 
-    var secret = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString("16");
-    SECRETS[secret] = widgetId;
-    ORIGINS[secret] = {
-      referrer: req.get("referer"),
-      path: req.query.path,
-    };
+    var secret = generateWidgetSecret(req, widgetId);
 
     res.render("widget", {
       data: widget.data || {},
       apiKey,
       widgetId,
       secret,
+      premium,
       WEBSITE_URL: process.env.WEBSITE_URL,
     });
 
@@ -187,7 +214,13 @@ export default function (app) {
     var userId;
 
     if (apiKey == "preview") widget = await getWidgetPreview(widgetId);
-    else {
+    else if (apiKey == getWidgetPreviewSecret()) {
+      widget = await getWidgetPreview(widgetId);
+      widget = JSON.parse(JSON.stringify(widget));
+      widget.analytics = false;
+      widget.authorized = true;
+      return res.send(widget);
+    } else {
       const user = await getUserFromApiKey(apiKey);
       if (!user) return res.send({ authorized: false, widgetId });
       userId = user.uuid;
@@ -376,4 +409,16 @@ export default function (app) {
     res.setHeader("Content-type", "image/png");
     return res.end(file, "Base64");
   });
+
+  app.get("/api/assets/screenshots/:ID", async (req, res) => {
+    const ID = req.params.ID;
+
+    var fileUrl = `server/assets/screenshots/${ID}.png`;
+    var exists = fs.existsSync(fileUrl);
+    if (!exists) fileUrl = "server/assets/screenshots/broken.png";
+
+    var file = fs.readFileSync(fileUrl, "Base64");
+    res.setHeader("Content-type", "image/png");
+    return res.end(file, "Base64");
+  })
 }

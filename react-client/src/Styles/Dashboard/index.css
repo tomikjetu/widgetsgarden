@@ -212,3 +212,11 @@
     }
   }
 }
+
+
+@media screen and (max-width: 800px){
+  .dashboard-settings-group span{
+    font-size: 0.8rem;
+    padding: .4rem .4rem;
+  }
+}

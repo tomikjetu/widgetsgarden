@@ -15,6 +15,7 @@ var textColor = function (backgroundColor) {
 export class Widget extends Element {
   constructor(props) {
     props.type = "Widget";
+    props.zIndex = -1;
 
     if (props.data == null) {
       props.data = {};
@@ -112,6 +113,7 @@ export class Widget extends Element {
         },
       },
     ]);
+    this.removeSettings("zIndex");
   }
   draw() {
     var zoom = this.ctx.zoom;

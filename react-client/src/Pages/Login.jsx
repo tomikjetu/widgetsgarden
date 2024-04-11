@@ -235,7 +235,7 @@ function LoginForm({ setRegister, navigate }) {
 function OtherMethods() {
   return <div className="login-methods">
     <a href={`${process.env.REACT_APP_SERVER_URL}/auth/google`}>
-      <img className="login-method" src="google-login.png" alt="" />
+      <img className="login-method" src="auth/google-login.png" alt="" />
     </a>
   </div>
 }

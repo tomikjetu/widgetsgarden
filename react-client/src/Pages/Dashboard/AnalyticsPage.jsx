@@ -70,7 +70,7 @@ export default function AnalyticsPage() {
         enable,
       })
       .then(() => {
-        loadAnalytics();
+        if(enable) loadAnalytics();
       });
   }
 
@@ -78,7 +78,7 @@ export default function AnalyticsPage() {
     return (
       <div className="dashboard-content">
         <div className="dashboard-status">
-          <div className="dashboard-container">Your analytics are preparing...</div>
+          <div className="dashboard-container">Analytics enabled, please wait for data.</div>
         </div>
       </div>
     );

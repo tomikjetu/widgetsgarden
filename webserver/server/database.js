@@ -85,6 +85,9 @@ const WidgetSchema = new Schema({
 
   dateCreated: Date,
   dateModified: Date,
+  dateScreenshoted: Date,
+
+  watermarkColor: String,
 
   data: {},
   analytics: {

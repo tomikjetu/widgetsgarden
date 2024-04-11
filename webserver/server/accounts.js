@@ -596,6 +596,36 @@ export async function getAsset(assetId) {
   });
 }
 
+export async function copyAsset(userId, assetId){
+  return new Promise(async (resolve, reject) => {
+    var UserAssets;
+    if (process.env.ENVIRONMENT == "production") UserAssets = await ProductionAssets.findOne({ userId });
+    else UserAssets = await DevelopmentAssets.findOne({ userId });
+
+    var OriginalAsset = await getAsset(assetId);
+
+    if(!OriginalAsset) return resolve(false);
+    var { name, size, mimetype } = OriginalAsset;
+    var uuid = generateAssetId();
+    UserAssets.assets.push({
+      name,
+      size,
+      mimetype,
+      assetId: uuid,
+    });
+    await UserAssets.save();
+
+    var filename = `${uuid}.${ mimetype.split("/")[1].replace("svg+xml", "svg")}`;
+    let uploadPath = "./server/assets/files/" + filename;
+    let thumbnailPath = "./server/assets/thumbnails/" + filename;
+
+    fs.copyFileSync(`./server/assets/files/${assetId}.${mimetype.split("/")[1].replace("svg+xml", "svg")}`, uploadPath);
+    fs.copyFileSync(`./server/assets/thumbnails/${assetId}.${mimetype.split("/")[1].replace("svg+xml", "svg")}`, thumbnailPath);
+    resolve(uuid);
+  });
+
+}
+
 export async function removeAsset(userId, assetId) {
   return new Promise(async (resolve) => {
     var Assets;

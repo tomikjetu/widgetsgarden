@@ -19,6 +19,7 @@
     var widgetId = "{{widgetId}}";
     var apiKey = "{{apiKey}}";
     var secret = "{{secret}}"
+    var screenshotPreview = "{{screenshotPreview}}";
   </script>
 
 </head>
@@ -27,11 +28,13 @@
   <div id="content">
     {{{body}}}
   </div>
-  <div class="watermark" style="color: white;">
-    <a target="_blank" href="{{WEBSITE_URL}}">
-      <p id="watermark">WidgetsGarden</p>
-    </a>
-  </div>
+  {{#unless premium}}
+    <div class="watermark" style="color: white;">
+      <a target="_blank" href="{{WEBSITE_URL}}">
+        <p id="watermark">WidgetsGarden</p>
+      </a>
+    </div>
+  {{/unless}}
 </body>
 
 </html>
