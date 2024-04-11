@@ -11,7 +11,8 @@ export function hasScreenshot(widgetId) {
 }
 
 export async function takeLibraryScreenshot(widgetId) {
-  const browser = await puppeteer.launch();
+  // no sandbox for linux
+  const browser = await puppeteer.launch({args: ['--no-sandbox']});
   const page = await browser.newPage();
   await page.goto(`${process.env.API_URL}/widget?widgetId=${widgetId}&previewSecret=${getWidgetPreviewSecret()}`);
   // listen to width and height from console
