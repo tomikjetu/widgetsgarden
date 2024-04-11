@@ -6,7 +6,7 @@ import { hasScreenshot, takeLibraryScreenshot } from "./modules/library/Screensh
 import sharp from "sharp";
 
 if (process.env.ENVIRONMENT == "production") setInterval(UpdateLibrary, 10 * 60 * 1000);
-setInterval(UpdateScreenshots, 10 * 60 * 1000);
+setInterval(UpdateScreenshots, 1* 60 * 1000);
 
 export async function LibraryHasWidget(widgetId) {
   return new Promise((resolve) => {
@@ -50,7 +50,7 @@ export async function UpdateScreenshots() {
 }
 
 export async function UpdateScreenshot(widgetId) {
-  console.log(`Taking Screenshot for ${widget.widgetId}`);
+  console.log(`Taking Screenshot for ${widgetId}`);
   await takeLibraryScreenshot(widgetId);
   updateWatermark(widgetId);
 }
