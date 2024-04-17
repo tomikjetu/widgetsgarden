@@ -1,9 +1,10 @@
 .label {
-    position: relative;
-    width: 50px;
-    height: 30px;
-    margin: 0.5em;
-    cursor: pointer;
+  display: block;
+  position: relative;
+  width: 50px;
+  height: 30px;
+  margin: 0.5em;
+  cursor: pointer;
 }
 
 .input {

@@ -7,13 +7,13 @@ import { LibraryRemoveWidget } from "./library.js";
 
 export function isLogged(req, res, next) {
   const User = getUserSerialization(req);
-  if (!User) return res.redirect("/auth"); // TODO this path doesn't even exist / CORS Doesn't support anything outside /api
+  if (!User) return res.json({ error: "Unauthorized" });
   next();
 }
 
 export async function isAdmin(req, res, next) {
   const User = await getUser(req);
-  if (!User || !User.admin) return res.redirect("/"); // TODO RETURN ERROR CODE
+  if (!User || !User.admin) return res.json({ error: "Unauthorized" });
   next();
 }
 
@@ -64,7 +64,7 @@ export async function onLoad(req, apiKey) {
 ██║░░██║╚██████╔╝░░░██║░░░██║░░██║███████╗██║░╚███║░░░██║░░░██║╚█████╔╝██║░░██║░░░██║░░░██║╚█████╔╝██║░╚███║
 ╚═╝░░╚═╝░╚═════╝░░░░╚═╝░░░╚═╝░░╚═╝╚══════╝╚═╝░░╚══╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝*/
 
-function generateAPIKEY() {
+export function generateAPIKEY() {
   var d = new Date().getTime();
 
   var uuid = "wgxxxxxxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -225,6 +225,7 @@ export async function verifyAccess(req, apiKey) {
   return new Promise((resolve, reject) => {
     Access.findOne({ apiKey }).then(async (access) => {
       if (access) {
+        if (access.allowAll) return resolve(true);
         var url = req.get("referrer");
         if (!url) return resolve(false);
         var domain = url.match(DOMAINREGEXP);
@@ -276,26 +277,34 @@ export async function addAllowedDomain(userID, url) {
 //remove allowed domain
 //add it to restricted
 export async function removeAllowedDomain(userID, domain) {
-  return new Promise(async (resolve, reject) => {
-    var access = await getAccess(userID);
-    if (!access.allowedReferrers) access.allowedReferrers = [];
-    var index = access.allowedReferrers.indexOf(domain);
-    if (index !== -1) {
-      access.allowedReferrers.splice(index, 1);
-      await access.save();
-      await addRestrictedDomain(userID, domain);
-      resolve(true);
-    } else resolve(false);
-  });
+  try{
+    return new Promise(async (resolve, reject) => {
+      var access = await getAccess(userID);
+      if (!access.allowedReferrers) access.allowedReferrers = [];
+      var index = access.allowedReferrers.indexOf(domain);
+      if (index !== -1) {
+        access.allowedReferrers.splice(index, 1);
+        await access.save();
+        await addRestrictedDomain(userID, domain);
+        resolve(true);
+      } else resolve(false);
+    });
+  }catch{
+    console.log("Error removing allowed domain");
+  }
 }
 
 //add restricted domain
 export async function addRestrictedDomain(userID, domain) {
-  var access = await getAccess(userID);
-  if (!access.restrictedReferrers) access.restrictedReferrers = [];
-  if (!access.restrictedReferrers.includes(domain)) {
-    access.restrictedReferrers.push(domain);
-    await access.save();
+  try{
+    var access = await getAccess(userID);
+    if (!access.restrictedReferrers) access.restrictedReferrers = [];
+    if (!access.restrictedReferrers.includes(domain)) {
+      access.restrictedReferrers.push(domain);
+      await access.save();
+    }
+  }catch{
+    console.log("Error adding restricted domain");
   }
 }
 
@@ -559,7 +568,7 @@ export async function uploadAsset(asset, userId) {
       assetId: uuid,
     });
 
-    var filename = `${uuid}.${ mimetype.split("/")[1].replace("svg+xml", "svg")}`;
+    var filename = `${uuid}.${mimetype.split("/")[1].replace("svg+xml", "svg")}`;
     let uploadPath = "./server/assets/files/" + filename;
     let thumbnailPath = "./server/assets/thumbnails/" + filename;
     asset.mv(uploadPath, function (err) {
@@ -567,7 +576,7 @@ export async function uploadAsset(asset, userId) {
       Assets.save();
       resolve(uuid);
       console.log(mimetype.split("/")[1] != "svg+xml");
-      if(mimetype.split("/")[1] != "svg+xml") sharp(uploadPath).resize(128, 128).toFile(thumbnailPath);
+      if (mimetype.split("/")[1] != "svg+xml") sharp(uploadPath).resize(128, 128).toFile(thumbnailPath);
       else fs.copyFileSync(uploadPath, thumbnailPath);
     });
   });
@@ -596,7 +605,7 @@ export async function getAsset(assetId) {
   });
 }
 
-export async function copyAsset(userId, assetId){
+export async function copyAsset(userId, assetId) {
   return new Promise(async (resolve, reject) => {
     var UserAssets;
     if (process.env.ENVIRONMENT == "production") UserAssets = await ProductionAssets.findOne({ userId });
@@ -604,7 +613,7 @@ export async function copyAsset(userId, assetId){
 
     var OriginalAsset = await getAsset(assetId);
 
-    if(!OriginalAsset) return resolve(false);
+    if (!OriginalAsset) return resolve(false);
     var { name, size, mimetype } = OriginalAsset;
     var uuid = generateAssetId();
     UserAssets.assets.push({
@@ -615,7 +624,7 @@ export async function copyAsset(userId, assetId){
     });
     await UserAssets.save();
 
-    var filename = `${uuid}.${ mimetype.split("/")[1].replace("svg+xml", "svg")}`;
+    var filename = `${uuid}.${mimetype.split("/")[1].replace("svg+xml", "svg")}`;
     let uploadPath = "./server/assets/files/" + filename;
     let thumbnailPath = "./server/assets/thumbnails/" + filename;
 
@@ -623,7 +632,6 @@ export async function copyAsset(userId, assetId){
     fs.copyFileSync(`./server/assets/thumbnails/${assetId}.${mimetype.split("/")[1].replace("svg+xml", "svg")}`, thumbnailPath);
     resolve(uuid);
   });
-
 }
 
 export async function removeAsset(userId, assetId) {
@@ -632,7 +640,7 @@ export async function removeAsset(userId, assetId) {
     if (process.env.ENVIRONMENT == "production") Assets = await ProductionAssets.findOne({ userId });
     else Assets = await DevelopmentAssets.findOne({ userId });
     var asset = Assets.assets.find((asset) => asset.assetId == assetId);
-    if(!asset) return resolve();
+    if (!asset) return resolve();
     var { mimetype } = asset;
     Assets.assets = Assets.assets.filter((asset) => asset.assetId != assetId);
     await Assets.save();

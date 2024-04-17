@@ -63,6 +63,7 @@ export default function Admin() {
 
   async function LoadOverview() {
     var adminResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/admin/html`);
+    if(adminResponse.data.error) return console.log(adminResponse.data.error);
     setAdminData(adminResponse.data);
   }
 

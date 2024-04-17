@@ -36,6 +36,7 @@ export function PluginInfoModal({ isOpenPluginMenuModal, setOpenPluginMenuModal,
       >
         <p>{pluginMenuModalData.description}</p>
         {pluginMenuModalData.functions.map((pluginfunction) => {
+          console.log(pluginfunction, pluginfunction.parameters);
           return (
             <div
               style={{

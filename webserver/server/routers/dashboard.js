@@ -7,7 +7,7 @@
 
 import fs from "fs";
 
-import { isLogged, isAdmin, getUserSerialization, getAccess, getDomains, getApiKey, removeRestrictedDomain, addAllowedDomain, removeAllowedDomain, getMessages, readMessage, sendMessage, getWidgets, createWidget, deleteWidget, editWidgetData, editWidgetInfo, getWidget, deleteMessage, getUser } from "../accounts.js";
+import { isLogged, isAdmin, getUserSerialization, getAccess, getDomains, getApiKey, removeRestrictedDomain, addAllowedDomain, removeAllowedDomain, getMessages, readMessage, sendMessage, getWidgets, createWidget, deleteWidget, editWidgetData, editWidgetInfo, getWidget, deleteMessage, getUser, generateAPIKEY } from "../accounts.js";
 import { User, Access, Message, Analytics } from "../database.js";
 import { enableAnalytics, getAccessAnalytics, getDashboardAnalytics, isAnalyticsEnabled } from "../modules/analytics/Misc.js";
 import { CopyWidget, GetLibrary, LibraryAddWidget, LibraryHasWidget, LibraryRemoveWidget } from "../library.js";
@@ -17,8 +17,16 @@ export default function (app) {
 
   app.get("/api/dashboard/apikey", isLogged, async (req, res) => {
     const User = getUserSerialization(req);
-    const apiKey = await getApiKey(User.uuid);
-    res.send(apiKey);
+    const access = await getAccess(User.uuid);
+    res.send({ apiKey: access.apiKey, allowAll: access.allowAll });
+  });
+
+  app.put("/api/dashboard/regenerateApiKey", isLogged, async (req, res) => {
+    const User = getUserSerialization(req);
+    const access = await getAccess(User.uuid);
+    access.apiKey = generateAPIKEY();
+    await access.save();
+    res.send({ apiKey: access.apiKey });
   });
 
   app.get("/api/dashboard/domains", isLogged, async (req, res) => {
@@ -48,6 +56,12 @@ export default function (app) {
   app.delete("/api/dashboard/domains/restricted", isLogged, async (req, res) => {
     const User = getUserSerialization(req);
     await removeRestrictedDomain(User.uuid, req.body.domain);
+    res.sendStatus(200);
+  });
+
+  app.put("/api/dashboard/access/allowall", isLogged, async (req, res) => {
+    const User = getUserSerialization(req);
+    await Access.updateOne({ userId: User.uuid }, { allowAll: req.body.allowAll });
     res.sendStatus(200);
   });
 

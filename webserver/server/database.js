@@ -20,6 +20,7 @@ const AccessSchema = new Schema({
   apiKey: String,
   allowedReferrers: ["http://localhost:5050"],
   restrictedReferrers: [],
+  allowAll: Boolean,
   usage: {
     loaded: [],
     stored: [],

@@ -1,0 +1,101 @@
+.weather-forecast {
+  display: flex;
+}
+
+.weather-forecast.vertical {
+  flex-direction: row;
+  overflow-y: auto !important;
+  justify-content: space-around;
+}
+
+.weather-forecast.horizontal {
+  flex-direction: column;
+  overflow-x: auto !important;
+  align-items: center;
+}
+
+.vertical .weather-forecast-day {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
+}
+
+.horizontal .weather-forecast-day {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 1rem;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.weather-forecast-day .icon {
+  width: 5em;
+  height: 5em;
+  margin: 0.5rem 0;
+}
+
+.weather-forecast-day .date {
+  text-transform: uppercase;
+  font-size: 1.3em;
+}
+
+.vertical .weather-forecast-day .temperatures {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+}
+
+.weather-forecast-day .maxTemperature {
+  font-size: 1.5em;
+}
+
+.weather-forecast-day .minTemperature {
+  font-size: 0.8em;
+  margin-left: auto;
+}
+
+.vertical .weather-forecast-day .rain,
+.vertical .weather-forecast-day .sunrise,
+.vertical .weather-forecast-day .sunset {
+  width: 100%;
+}
+.weather-forecast-day .rain,
+.weather-forecast-day .sunrise,
+.weather-forecast-day .sunset {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.weather-forecast-day .rain::before,
+.weather-forecast-day .sunrise::before,
+.weather-forecast-day .sunset::before {
+  display: block;
+  content: "";
+  width: 1.2rem;
+  aspect-ratio: 1;
+  mask-size: cover;
+  background-color: white;
+}
+
+.weather-forecast-day .sunrise::before {
+  -webkit-mask: url("/api/files/weather/icons/default/sunrise.svg") no-repeat 50% 50%;
+  mask: url("/api/files/weather/icons/default/sunrise.svg") no-repeat 50% 50%;
+  -webkit-mask-size: cover;
+}
+.weather-forecast-day .sunset::before {
+  -webkit-mask: url("/api/files/weather/icons/default/sunset.svg") no-repeat 50% 50%;
+  mask: url("/api/files/weather/icons/default/sunset.svg") no-repeat 50% 50%;
+  -webkit-mask-size: cover;
+}
+
+.weather-forecast-day .rain::before {
+  -webkit-mask: url("/api/files/weather/icons/default/rain.svg") no-repeat 50% 50%;
+  mask: url("/api/files/weather/icons/default/rain.svg") no-repeat 50% 50%;
+  -webkit-mask-size: cover;
+}

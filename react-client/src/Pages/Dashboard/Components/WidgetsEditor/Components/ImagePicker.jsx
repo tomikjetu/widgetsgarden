@@ -29,6 +29,7 @@ export default function ImagePicker({ value, setValue }) {
   }
 
   async function getAssets() {
+    // Returns an error on Not logged in - but the user is logged in, so we don't need to hande lit
     var response = await fetch(`${process.env.REACT_APP_SERVER_URL}/assets`, {
       method: "GET",
       credentials: "include",
@@ -38,6 +39,7 @@ export default function ImagePicker({ value, setValue }) {
   }
 
   async function removeAsset(assetId) {
+    // Returns an error on Not logged in - but the user is logged in, so we don't need to hande lit
     await fetch(`${process.env.REACT_APP_SERVER_URL}/assets/${assetId}`, {
       method: "DELETE",
       credentials: "include",
@@ -52,6 +54,8 @@ export default function ImagePicker({ value, setValue }) {
     formData.append("asset", photo);
 
     // Couldn't send formData with axios
+    // Returns an error on Not logged in - but the user is logged in, so we don't need to hande lit
+
     await fetch(`${process.env.REACT_APP_SERVER_URL}/assets`, {
       method: "POST",
       body: formData,

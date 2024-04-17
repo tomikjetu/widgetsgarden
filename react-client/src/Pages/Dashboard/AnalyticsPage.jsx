@@ -12,12 +12,14 @@ import { Button } from "./Components/Elements/Buttons";
 import TextOptions from "./Components/WidgetsEditor/Components/Options";
 import TimeLineSeries from "./Components/Elements/Charts/TimeLineSeries";
 import TimeLine from "./Components/Elements/Charts/TimeLine";
+import ClickHeatMap from "./Components/Elements/Charts/ClickHeatMap";
 
 export default function AnalyticsPage() {
   axios.defaults.withCredentials = true;
 
   const [analytics, setAnalytics] = useState(null);
   const [widgetAnalytics, setWidgetAnalytics] = useState(null);
+  const [widgetAnalyticsId, setWidgetAnalyticsId] = useState(null);
 
   var [GridCollumns, setGridCollumns] = useState(2);
   var [timespan, setTimespan] = useState(30);
@@ -56,8 +58,8 @@ export default function AnalyticsPage() {
   function loadWidgetAnalytics(id) {
     if (!id) return;
     var data = analytics?.overview.widgets.filter((widget) => widget.id == id)[0]?.data;
-    console.log(data);
     setWidgetAnalytics(data);
+    setWidgetAnalyticsId(id);
   }
 
   function enableAnalytics() {
@@ -139,9 +141,10 @@ export default function AnalyticsPage() {
                   <>
                     <TimeLine source={widgetAnalytics?.loadWidget?.timestamp} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"Total Loads"} id={"widget-load-time"} startDate={startDate} endDate={endDate} />
                     <BarChartSeries source={widgetAnalytics?.loadWidget?.path} noData={"No data collected yet"} setTimespan={setTimespan} timespan={timespan} title={"Websites"} id={"widget-visits-path"} startDate={startDate} endDate={endDate} />
+                    <ClickHeatMap source={widgetAnalytics?.click?.value} imgSource={`${process.env.REACT_APP_SERVER_URL}/assets/screenshots/${widgetAnalyticsId}`} noData={"No data collected yet"} title={"Widget Click Heat Map"} timespan={timespan} id={`widget-click-heatmap-${widgetAnalyticsId}`} startDate={startDate} endDate={endDate}/>
                     {/* Funnel chart: load > scroll > hover > click */}
                   </>
-                ) : null
+                ) : <div className="dashboard-container analytics"> No data collected yet for selected Widget.</div>
               }
             </div>
           </>

@@ -8,12 +8,14 @@ export function ButtonDanger({ children, onClick }) {
   );
 }
 
-export function Button({ children, className, onClick, style, background }) {
+export function Button({ children, className, onClick, style, background,foreground, shadow }) {
   return (
     <button
       style={{
         ...style,
         backgroundColor: background,
+        color: foreground,
+        textShadow: shadow ? "var(--dashboard-shadow)" : "none",
       }}
       className={`${styles.button} ${className || ""}`}
       onClick={onClick}

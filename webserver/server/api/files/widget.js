@@ -188,7 +188,6 @@ function LoadElements() {
   if (watermark) {
     if (widgetData.width < 100) watermark.style.display = "none";
     else {
-      console.log(watermarkColor)
       watermark.style.color = watermarkColor;
       var width = Math.min(24, parseInt(widgetData.width) / 8);
       watermark.style.fontSize = `${width}px`;

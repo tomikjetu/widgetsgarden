@@ -517,7 +517,6 @@ export default function Editor() {
     if(e.code == "Numpad0" || e.code == "Digit0" || e.code == "Equal"){
       canvas.current.getContext("2d").zoom = 1;
     }
-    console.log(e.code);
   }
 
   function copyElement(){
