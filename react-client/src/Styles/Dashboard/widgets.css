@@ -25,7 +25,7 @@
   max-height:  var(--height);
   min-height:  var(--height);
 
-  padding: 0.5rem 1rem;
+  /* padding: 0.5rem 1rem; */
   margin: 10px;
   border-radius: 10px;
 
@@ -88,7 +88,7 @@
 }
 
 .widget.list{
-  --height: auto;
+  --height: 250px;
   margin: 5px 10px;
 
   &:hover {

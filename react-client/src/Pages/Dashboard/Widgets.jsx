@@ -136,25 +136,6 @@ export default function Widgets() {
     setCodeEmbedModal(true);
   }
 
-  function widgetMouseOver(event, index) {
-    if (GridCollumns == 1) return;
-    var target = document.getElementsByClassName("widget")[index + 1];
-    var width = target.clientWidth;
-    var height = target.clientHeight;
-    var x = event.pageX - target.offsetLeft;
-    var y = event.pageY - target.offsetTop;
-
-    var content = target.childNodes[0];
-
-    content.style.translate = `${(x / width) * 10 - 5}px ${(y / height) * 10 - 5}px`;
-  }
-
-  function widgetMouseLeave(index) {
-    var target = document.getElementsByClassName("widget")[index + 1];
-    var content = target.childNodes[0];
-    content.style.translate = `0px 0px`;
-  }
-
   return (
     <div className="editor">
       <header>
@@ -252,38 +233,46 @@ export default function Widgets() {
                 return (
                   <div
                     className={`widget ${GridCollumns == 1 ? "list" : ""}`}
+                    style={{
+                      backgroundImage: `url(${process.env.REACT_APP_SERVER_URL}/assets/screenshots/${widget.widgetId})`,
+                      backgroundSize: "cover",
+                    }}
                     key={widget.widgetId}
-                    onMouseMove={(e) => {
-                      widgetMouseOver(e, index);
-                    }}
-                    onMouseLeave={(e) => {
-                      widgetMouseLeave(index);
-                    }}
                   >
                     <div className="widgetcontent">
-                      <h4
-                        onClick={() => {
-                          editWidget(widget.widgetId);
+                      <div
+                        style={{
+                          padding: ".5rem 1rem",
+                          backgroundColor: "rgba(0,0,0,.5)",
                         }}
                       >
-                        {widget.displayName}
-                      </h4>
+                        <h4
+                          onClick={() => {
+                            editWidget(widget.widgetId);
+                          }}
+                        >
+                          {widget.displayName}
+                        </h4>
 
-                      <div className="stats">
-                        {/* <div className="stat">
-                          <EyeIcon />
-                          <p className="number">{700}</p>
-                        </div> */}
-                        <div className="stat">
-                          {widget.published && (
-                            <span data-tooltip-content={"Published to library"} data-tooltip-id="widgets-tooltip">
-                              <WidgetsIcon />
-                            </span>
-                          )}
+                        <div className="stats">
+                          <div className="stat">
+                            {widget.published && (
+                              <span data-tooltip-content={"Published to library"} data-tooltip-id="widgets-tooltip">
+                                <WidgetsIcon />
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
 
-                      <div className="actions">
+                      <div
+                        className="actions"
+                        style={{
+                          padding: ".5rem 1rem",
+                          backgroundColor: "rgba(0,0,0,.5)",
+                          width: "calc(100% - 2rem)",
+                        }}
+                      >
                         <div className="actionsgroup">
                           <span
                             style={{

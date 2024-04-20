@@ -12,6 +12,7 @@ export default function Library() {
   // todo load all items from library / paginated
   // copy widget from library
 
+  var [GridCollumns, setGridCollumns] = useState(2);
   var [widgets, setWidgets] = useState([]);
 
   useEffect(() => {
@@ -26,24 +27,6 @@ export default function Library() {
       if (!widgetId) window.location.href = "/dashboard/library";
       else window.location.href = `/dashboard/editor?id=${widgetId}`;
     });
-  }
-
-  function widgetMouseOver(event, index) {
-    var target = document.getElementsByClassName("widget")[index];
-    var width = target.clientWidth;
-    var height = target.clientHeight;
-    var x = event.pageX - target.offsetLeft;
-    var y = event.pageY - target.offsetTop;
-
-    var content = target.childNodes[0];
-
-    content.style.translate = `${(x / width) * 10 - 5}px ${(y / height) * 10 - 5}px`;
-  }
-
-  function widgetMouseLeave(index) {
-    var target = document.getElementsByClassName("widget")[index];
-    var content = target.childNodes[0];
-    content.style.translate = `0px 0px`;
   }
 
   return (
@@ -61,22 +44,26 @@ export default function Library() {
           {widgets.map((widget, index) => {
             return (
               <div
-                className="widget"
+                className={`widget ${GridCollumns == 1 ? "list" : ""}`}
+                style={{
+                  backgroundImage: `url(${process.env.REACT_APP_SERVER_URL}/assets/screenshots/${widget.widgetId})`,
+                  backgroundSize: "cover",
+                }}
                 key={index}
-                onMouseMove={(e) => {
-                  widgetMouseOver(e, index);
-                }}
-                onMouseLeave={(e) => {
-                  widgetMouseLeave(index);
-                }}
               >
                 <div className="widgetcontent">
-                  <h4 onClick={() => copyWidget(widget)}>{widget.displayName}</h4>
-                  <h3>By: {widget.userName}</h3>
+                  <div
+                    style={{
+                      padding: ".5rem 1rem",
+                      backgroundColor: "rgba(0,0,0,.5)",
+                    }}
+                  >
+                    <h4 onClick={() => copyWidget(widget)}>{widget.displayName}</h4>
+                    <h3>By: {widget.userName}</h3>
 
-                  <p>{widget.description}</p>
-
-                  <div className="actions">
+                    <p>{widget.description}</p>
+                  </div>
+                  <div style={{ padding: ".5rem 1rem", backgroundColor: "rgba(0,0,0,.5)", width: "calc(100% - 2rem)" }} className="actions">
                     <div className="actionsgroup">
                       <span onClick={() => copyWidget(widget)}>
                         <CopyIcon />
