@@ -1,0 +1,1 @@
+mongoexport --uri "mongodb+srv://localhost:27017/widgets?retryWrites=true&w=majority" --out ./plugins.json --collection production

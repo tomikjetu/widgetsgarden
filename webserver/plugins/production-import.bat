@@ -1,0 +1,1 @@
+mongoimport --uri "mongodb+srv://localhost:27017/widgets?retryWrites=true&w=majority" --drop --file ./plugins.json --collection production

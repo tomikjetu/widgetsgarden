@@ -1,0 +1,1 @@
+mongoexport --uri "mongodb+srv://tomikjetu:jbbdGYcW1PoJH5ft@users.ilrblek.mongodb.net/widgets?retryWrites=true&w=majority" --out ./plugins.json --collection development

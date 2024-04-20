@@ -1,0 +1,1 @@
+mongoimport --uri "mongodb+srv://tomikjetu:jbbdGYcW1PoJH5ft@users.ilrblek.mongodb.net/widgets?retryWrites=true&w=majority" --drop --file ./plugins.json --collection development
