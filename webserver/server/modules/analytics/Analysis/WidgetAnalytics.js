@@ -1,3 +1,4 @@
+import { DOMAINREGEXP } from "../../../accounts.js";
 var widgetAnalytics = [
   {
     name: "loadWidget",
