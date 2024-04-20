@@ -16,7 +16,7 @@ export async function takeLibraryScreenshot(widgetId) {
       try{
         const browser = await puppeteer.launch({ args: ["--no-sandbox"] });
         const page = await browser.newPage();
-        await page.goto(`${process.env.API_URL}/widget?widgetId=${widgetId}&previewSecret=${getWidgetPreviewSecret()}`);
+        await page.goto(`${process.env.API_URL}/widget?widgetId=${widgetId}&previewSecret=${getWidgetPreviewSecret()}`, {timeout: 0});
         // listen to width and height from console
         var Matcher = new RegExp("Loaded (?<width>.+)x(?<height>.+)", "g");
         page.on("console", (msg) => {
